@@ -1,25 +1,32 @@
-import logo from './logo.svg';
 import './App.css';
+import {Admin, EditGuesser, Resource} from 'react-admin';
+import {Location} from "./page/location/Location";
+import customRequest from "./customRequest";
+import DashBoard from "./DashBoard";
+import authProvider from "./authProvider";
+import {LocationEdit} from "./page/location/LocaitonEdit";
+import {LocationCreate} from "./page/location/LocationCreate";
+import TheaterList from "./page/theater/TheaterList";
+import EditTheater from "./page/theater/EditTheater";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+// const dataProvider = jsonServerProvider('https://jsonplaceholder.typicode.com');
+
+
+
+
+const dataProvider = customRequest(`http://localhost:8080/api/v1`);
+
+
+const App = () => {
+
+    return (
+        <Admin dataProvider={dataProvider} dashboard={DashBoard} authProvider={authProvider}>
+            <Resource name="locations" list={Location} edit={LocationEdit} create={LocationCreate}/>
+            <Resource name="theaters" list={TheaterList} edit={EditTheater} />
+        </Admin>
+    );
 }
+
 
 export default App;
