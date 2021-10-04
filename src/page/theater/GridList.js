@@ -4,7 +4,6 @@ import MuiGridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import { makeStyles } from '@material-ui/core/styles';
-import withWidth, { WithWidth } from '@material-ui/core/withWidth';
 import {
     linkToRecord,
     NumberField,
@@ -13,8 +12,6 @@ import {
     Identifier,
 } from 'react-admin';
 import { Link } from 'react-router-dom';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-
 
 
 
@@ -75,16 +72,6 @@ const LoadedGridList = (props) => {
                         subtitle={
                             <span>
                                 {data[id].locationName}
-                                {/*<NumberField*/}
-                                {/*    className={classes.price}*/}
-                                {/*    source="price"*/}
-                                {/*    record={data[id]}*/}
-                                {/*    color="inherit"*/}
-                                {/*    options={{*/}
-                                {/*        style: 'currency',*/}
-                                {/*        currency: 'USD',*/}
-                                {/*    }}*/}
-                                {/*/>*/}
                             </span>
                         }
                     />

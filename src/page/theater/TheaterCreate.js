@@ -1,30 +1,21 @@
-
-import * as React from 'react';
+import {makeStyles} from "@material-ui/core/styles";
 import {
     Datagrid,
-    DateField,
-    Edit,
-    EditButton,
-    EditProps,
-    FormTab,
-    NumberInput,
+    Edit, EditButton,
+    FormTab, NumberInput,
     Pagination,
     ReferenceInput,
-    ReferenceManyField,
-    required,
+    ReferenceManyField, required,
     SelectInput,
-    TabbedForm,
-    TextField,
-    TextInput,
-} from 'react-admin';
-import { InputAdornment } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import RichTextInput from 'ra-input-rich-text';
+    TabbedForm, TextField,
+    TextInput, Create
+} from "react-admin";
+import * as React from "react";
 import ImageTheater from "./Image";
-import { GMapInput, GMapField } from '@fusionworks/ra-google-maps-input';
+import {InputAdornment} from "@material-ui/core";
 
 
-const ProductTitle = ({ record }) =>
+const TheaterTitle = ({ record }) =>
     record ? <span>Theater #{record.name}</span> : null;
 
 const useStyles = makeStyles({
@@ -42,17 +33,17 @@ const useStyles = makeStyles({
     },
 });
 
-const EditTheater = (props) =>{
+const TheaterCreate = (props) =>{
     const classes = useStyles();
 
     return(
-        <Edit {...props} title={<ProductTitle />}>
+        <Create {...props} >
             <TabbedForm>
                 <FormTab
                     label="image"
                     contentClassName={classes.tab}
                 >
-                    <ImageTheater />
+
                     <TextInput
                         source="image"
                         fullWidth
@@ -91,31 +82,23 @@ const EditTheater = (props) =>{
                     {/*    googleKey="<YOUR_GOOGLE_APP_KEY>"*/}
                     {/*/>*/}
                 </FormTab>
-                <FormTab label="rooms" path="rooms">
-                    <ReferenceManyField
-                        reference="rooms"
-                        target="theater_id"
-                        addLabel={false}
-                        pagination={<Pagination />}
-                        fullWidth
-                    >
-                        <Datagrid>
-                            <TextField
-                                source="name"
-                            />
-                            <TextField
-                                source="code"
-                            />
-                            <TextField source="type" />
-                            <EditButton />
-                        </Datagrid>
-                    </ReferenceManyField>
-                </FormTab>
+
             </TabbedForm>
-        </Edit>
+        </Create>
     )
 };
 const requiredValidate = [required()];
 
-export default EditTheater;
+export default TheaterCreate;
 
+// <GMapField
+//     source=""
+//     googleKey=""
+//     searchable={true}
+// />
+//
+// <GMapInput
+//     source="longitude"
+//     multipleMarkers
+//     googleKey="<YOUR_GOOGLE_APP_KEY>"
+// />

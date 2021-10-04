@@ -59,6 +59,8 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
      */
     const convertDataRequestToHTTP = (type, resource, params) => {
         let url = "";
+        console.log(type)
+
         const options = {};
         switch (type) {
             case GET_LIST: {
@@ -74,18 +76,14 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
             case GET_ONE:
                 url = `${apiUrl}/${resource}/${params.id}`;
                 break;
-            case GET_MANY: {
-                const query = {
-                    filter: JSON.stringify({ id: params.ids })
-                };
-                let idStr = "";
-                const queryString = params.ids.map(id => idStr + `id=${id}`);
-                url = `${apiUrl}/${resource}?${idStr}}`;
-                break;
-            }
             case GET_MANY_REFERENCE: {
-                const { page, perPage } = params.pagination;
-                url = `${apiUrl}/${resource}?page=${page}&pageSize=${perPage}`;
+                const query = {
+                    ...getFilterQuery(params.filter),
+                    ...getPaginationQuery(params.pagination),
+                    ...getOrderingQuery(params.sort),
+                    [params.target]: params.id,
+                };
+                 url = `${apiUrl}/${resource}/?${stringify(query)}`;
                 break;
             }
             case UPDATE:
@@ -162,6 +160,18 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                 params.ids.map(id =>
                     httpClient(`${apiUrl}/${resource}/${id}`, {
                         method: "DELETE"
+                    })
+                )
+            ).then(responses => ({
+                data: responses.map(response => response.json)
+            }));
+        }
+
+        if (type === GET_MANY) {
+            return Promise.all(
+                params.ids.map(id =>
+                    httpClient(`${apiUrl}/${resource}/${id}`, {
+                        method: "GET"
                     })
                 )
             ).then(responses => ({
