@@ -27,9 +27,5 @@ const FullNameField = (props) => {
     ) : null;
 };
 
-FullNameField.defaultProps = {
-    source: 'last_name',
-    label: 'resources.customers.fields.name',
-};
 
 export default memo(FullNameField);

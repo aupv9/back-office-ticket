@@ -45,57 +45,57 @@ const MobileGrid = ({ ids, data, basePath }) => {
 
     return (
         <div className={classes.root}>
-            {ids.map(id => (
-                <Card key={id} className={classes.card}>
-                    <CardHeader
-                        title={
-                            <div className={classes.cardTitleContent}>
-                                <h2>{`${data[id].first_name} ${data[id].last_name}`}</h2>
-                                <EditButton
-                                    resource="visitors"
-                                    basePath={basePath}
-                                    record={data[id]}
-                                />
-                            </div>
-                        }
-                    />
-                    <CardContent className={classes.cardContent}>
-                        <div>
-                            {translate(
-                                'resources.customers.fields.last_seen_gte'
-                            )}
-                            &nbsp;
-                            <DateField record={data[id]} source="last_seen" />
-                        </div>
-                        <div>
-                            {translate(
-                                'resources.commands.name',
-                                data[id].nb_commands || 1
-                            )}
-                            &nbsp;:&nbsp;
-                            <NumberField
-                                record={data[id]}
-                                source="nb_commands"
-                                label="resources.customers.fields.commands"
-                            />
-                        </div>
-                        <div>
-                            {translate(
-                                'resources.customers.fields.total_spent'
-                            )}
-                            &nbsp; :{' '}
-                                record={data[id]}
-                                source="total_spent"
-                                options={{ style: 'currency', currency: 'USD' }}
-                            />
-                        </div>
-                    </CardContent>
-                    {data[id].groups && data[id].groups.length > 0 && (
-                        <CardContent className={classes.cardContent}>
-                        </CardContent>
-                    )}
-                </Card>
-            ))}
+            {/*{ids.map(id => (*/}
+            {/*    <Card key={id} className={classes.card}>*/}
+            {/*        <CardHeader*/}
+            {/*            title={*/}
+            {/*                <div className={classes.cardTitleContent}>*/}
+            {/*                    <h2>{`${data[id].first_name} ${data[id].last_name}`}</h2>*/}
+            {/*                    <EditButton*/}
+            {/*                        resource="visitors"*/}
+            {/*                        basePath={basePath}*/}
+            {/*                        record={data[id]}*/}
+            {/*                    />*/}
+            {/*                </div>*/}
+            {/*            }*/}
+            {/*        />*/}
+            {/*        <CardContent className={classes.cardContent}>*/}
+            {/*            <div>*/}
+            {/*                {translate(*/}
+            {/*                    'resources.customers.fields.last_seen_gte'*/}
+            {/*                )}*/}
+            {/*                &nbsp;*/}
+            {/*                <DateField record={data[id]} source="last_seen" />*/}
+            {/*            </div>*/}
+            {/*            <div>*/}
+            {/*                {translate(*/}
+            {/*                    'resources.commands.name',*/}
+            {/*                    data[id].nb_commands || 1*/}
+            {/*                )}*/}
+            {/*                &nbsp;:&nbsp;*/}
+            {/*                <NumberField*/}
+            {/*                    record={data[id]}*/}
+            {/*                    source="nb_commands"*/}
+            {/*                    label="resources.customers.fields.commands"*/}
+            {/*                />*/}
+            {/*            </div>*/}
+            {/*            <div>*/}
+            {/*                {translate(*/}
+            {/*                    'resources.customers.fields.total_spent'*/}
+            {/*                )}*/}
+            {/*                &nbsp; :{' '}*/}
+            {/*                    record={data[id]}*/}
+            {/*                    source="total_spent"*/}
+            {/*                    options={{ style: 'currency', currency: 'USD' }}*/}
+            {/*                />*/}
+            {/*            </div>*/}
+            {/*        </CardContent>*/}
+            {/*        {data[id].groups && data[id].groups.length > 0 && (*/}
+            {/*            <CardContent className={classes.cardContent}>*/}
+            {/*            </CardContent>*/}
+            {/*        )}*/}
+            {/*    </Card>*/}
+            {/*))}*/}
         </div>
     );
 };

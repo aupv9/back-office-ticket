@@ -2,16 +2,14 @@ import * as React from 'react';
 import { Card as MuiCard, CardContent } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import MonetizationOnIcon from '@material-ui/icons/MonetizationOnOutlined';
-import MailIcon from '@material-ui/icons/MailOutline';
 import LocalOfferIcon from '@material-ui/icons/LocalOfferOutlined';
 import {FilterList, FilterListItem, FilterLiveSearch, useGetList} from 'react-admin';
 import {
-    endOfYesterday,
     startOfWeek,
     subWeeks,
     startOfMonth,
-    subMonths,
+    subMonths, startOfToday
+    ,endOfToday, endOfWeek,endOfMonth
 } from 'date-fns';
 
 
@@ -39,6 +37,79 @@ const Aside = () => {
        <Card>
         <CardContent>
             <FilterLiveSearch />
+            {/*<FilterList*/}
+            {/*    label="booking by show times"*/}
+            {/*    icon={<AccessTimeIcon />}*/}
+            {/*>*/}
+            {/*    <FilterListItem*/}
+            {/*        label="Today"*/}
+            {/*        value={{*/}
+            {/*            start: startOfToday().toISOString(),*/}
+            {/*            end: endOfToday().toISOString(),*/}
+            {/*            isToday:true*/}
+            {/*        }}*/}
+            {/*    />*/}
+            {/*    <FilterListItem*/}
+            {/*        label="This week"*/}
+            {/*        value={{*/}
+            {/*            start: startOfWeek(new Date()).toISOString(),*/}
+            {/*            end: endOfWeek(new Date()).toISOString(),*/}
+            {/*            isToday:undefined*/}
+
+            {/*        }}*/}
+            {/*    />*/}
+            {/*    <FilterListItem*/}
+            {/*        label="Last week"*/}
+            {/*        value={{*/}
+            {/*            start: subWeeks(*/}
+            {/*                startOfWeek(new Date()),*/}
+            {/*                1*/}
+            {/*            ).toISOString(),*/}
+            {/*            end: startOfWeek(new Date()).toISOString(),*/}
+            {/*            isToday:undefined*/}
+
+
+            {/*        }}*/}
+            {/*    />*/}
+            {/*    <FilterListItem*/}
+            {/*        label="This month"*/}
+            {/*        value={{*/}
+            {/*            start: startOfMonth(new Date()).toISOString(),*/}
+            {/*            end: endOfMonth(new Date()).toISOString(),*/}
+            {/*            isToday:undefined*/}
+
+
+            {/*        }}*/}
+            {/*    />*/}
+            {/*    <FilterListItem*/}
+            {/*        label="Last month"*/}
+            {/*        value={{*/}
+            {/*            start: subMonths(*/}
+            {/*                startOfMonth(new Date()),*/}
+            {/*                1*/}
+            {/*            ).toISOString(),*/}
+            {/*            end: startOfMonth(new Date()).toISOString(),*/}
+            {/*            isToday:undefined*/}
+
+
+            {/*        }}*/}
+            {/*    />*/}
+            {/*    <FilterListItem*/}
+            {/*        label="Earlier"*/}
+            {/*        value={{*/}
+            {/*            start: subMonths(*/}
+            {/*                endOfMonth(new Date()),*/}
+            {/*                1*/}
+            {/*            ).toISOString(),*/}
+            {/*            end: subMonths(*/}
+            {/*                startOfMonth(new Date()),*/}
+            {/*                1*/}
+            {/*            ).toISOString(),*/}
+            {/*            isToday:undefined*/}
+
+            {/*        }}*/}
+            {/*    />*/}
+            {/*</FilterList>*/}
             <FilterList
                 label="Theater"
                 icon={<LocalOfferIcon />}

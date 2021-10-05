@@ -43,8 +43,8 @@ const TheaterList = (props) => {
 export const productFilters = [
     <SearchInput source="q" alwaysOn />,
     <ReferenceInput
-        source="category_id"
-        reference="categories"
+        source="location_id"
+        reference="locations"
         sort={{ field: 'id', order: 'ASC' }}
     >
         <SelectInput source="name" />

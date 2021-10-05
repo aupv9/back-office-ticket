@@ -59,7 +59,6 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
      */
     const convertDataRequestToHTTP = (type, resource, params) => {
         let url = "";
-        console.log(type)
 
         const options = {};
         switch (type) {
@@ -128,6 +127,7 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                     total: parseInt(json.totalElements, 10)
                 };
             case CREATE:
+                console.log(json)
                 return { data: { ...params.data, id: json.id } };
             default:
                 return { data: json };
