@@ -7,7 +7,7 @@ import {
     ReferenceField,
     SearchInput,
     TopToolbar,
-    FilterButton, SortButton, CreateButton, ExportButton
+    FilterButton, SortButton, CreateButton, ExportButton,AutocompleteInput, ReferenceInput
 } from "react-admin";
 import TheaterNameField from "./TheaterNameField";
 import {makeStyles} from "@material-ui/core/styles";
@@ -28,15 +28,23 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const visitorFilters = [
+const roomFilters = [
     <SearchInput source="q" alwaysOn />,
-    // <DateInput source="last_seen_gte" />,
-    // <NullableBooleanInput source="has_ordered" />,
-    // <NullableBooleanInput source="has_newsletter" defaultValue />,
+    <ReferenceInput source="theater_id" reference="theaters">
+        <AutocompleteInput
+            optionText={(choice) =>
+                choice.id // the empty choice is { id: '' }
+                    ? `${choice.name}`
+                    : ''
+            }
+        />
+    </ReferenceInput>,
+
 ];
 
 const ListActions = (props) => (
     <TopToolbar>
+        <FilterButton/>
         <CreateButton/>
         <ExportButton/>
     </TopToolbar>
@@ -51,10 +59,10 @@ export const ListRoom = (props) =>{
     return (
         <List
             {...props}
-            filters={isSmall ? visitorFilters : undefined}
+            filters={roomFilters}
             sort={{ field: 'id', order: 'ACS' }}
             perPage={25}
-            aside={<Aside />}
+            // aside={<Aside />}
             actions={<ListActions/>}
         >
             {isXsmall ? (

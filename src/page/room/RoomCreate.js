@@ -36,7 +36,7 @@ const RoomCreate= (props) =>{
         { value: 'Super Vip', name: 'Super Vip'}
     ];
     return(
-        <Create {...props} title={<RoomTitle />}>
+        <Create {...props} title={<RoomTitle />} >
             <TabbedForm>
                 <FormTab
                     label="detail"
@@ -54,11 +54,7 @@ const RoomCreate= (props) =>{
 
                     {/*<SelectInput source="type" choices={choices} optionText="name" optionValue="value" />*/}
 
-                    {/*<SelectInput source="type" choices={[*/}
-                    {/*    {value:'Standard'} ,*/}
-                    {/*    {value:'Vip'},*/}
-                    {/*    {value:'Super Vip'}*/}
-                    {/*]} validate={requiredValidate} defaultValue={'Standard'} optionValue={"value"}/>*/}
+
                 </FormTab>
 
             </TabbedForm>

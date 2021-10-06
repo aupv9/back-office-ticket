@@ -1,12 +1,9 @@
 import * as React from 'react';
 import {
     Datagrid,
-    DateField,
     Edit,
     EditButton,
-    EditProps,
     FormTab,
-    NumberInput,
     Pagination,
     ReferenceInput,
     ReferenceManyField,
@@ -15,12 +12,18 @@ import {
     TabbedForm,
     TextField,
     TextInput,
+    ShowButton, CreateButton, ArrayInput, SimpleFormIterator,DateInput
 } from 'react-admin';
-import { InputAdornment } from '@material-ui/core';
+import {Button, InputAdornment} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import RichTextInput from 'ra-input-rich-text';
 import ImageTheater from "./Image";
 import { GMapInput, GMapField } from '@fusionworks/ra-google-maps-input';
+import Aside from "../room/Aside";
+import MobileGrid from "../room/MobileGrid";
+import TheaterNameField from "../room/TheaterNameField";
+import {Route} from "react-router-dom";
+import {RoomCreateDialog} from "../room/RoomCreateDialog";
 
 
 const ProductTitle = ({ record }) =>
@@ -91,23 +94,37 @@ const EditTheater = (props) =>{
                     {/*/>*/}
                 </FormTab>
                 <FormTab label="rooms" path="rooms">
+
+                    <CreateButton label={"New Room"} variant="contained" basePath={"/rooms"} title={"New Room"} />
+                    <Route path="/rooms/create">
+                        {({ match }) => <RoomCreateDialog open={!!match} />}
+                    </Route>
                     <ReferenceManyField
                         reference="rooms"
                         target="theater_id"
                         addLabel={false}
                         pagination={<Pagination />}
                         fullWidth
+                        perPage={20}
                     >
-                        <Datagrid>
-                            <TextField
-                                source="name"
-                            />
-                            <TextField
-                                source="code"
-                            />
-                            <TextField source="type" />
-                            <EditButton />
-                        </Datagrid>
+                        {/*<List*/}
+                        {/*    {...props}*/}
+                        {/*    sort={{ field: 'id', order: 'ACS' }}*/}
+                        {/*    perPage={25}*/}
+                        {/*    // actions={<ListActions/>}*/}
+                        {/*>*/}
+                            <Datagrid optimized>
+                                <TextField
+                                    source="name"
+                                />
+                                <TextField
+                                    source="code"
+                                />
+                                <TextField source="type" />
+                                <EditButton />
+                            </Datagrid>
+                        {/*</List>*/}
+
                     </ReferenceManyField>
                 </FormTab>
             </TabbedForm>

@@ -12,6 +12,8 @@ import TheaterCreate from "./page/theater/TheaterCreate";
 import {ListRoom} from "./page/room/ListRoom";
 import RoomEdit from "./page/room/RoomEdit";
 import RoomCreate from "./page/room/RoomCreate";
+import {SeatCreate} from "./page/seat/SeatCreate";
+import {Route} from "react-router-dom";
 // import jsonServerProvider from 'ra-data-json-server';
 //
 // const dataProvider = jsonServerProvider('https://jsonplaceholder.typicode.com');
@@ -24,14 +26,15 @@ import RoomCreate from "./page/room/RoomCreate";
 // const dataProvider = customNewRequest(`http://localhost:8080/api/v1`);
 
 
+
 const App = () => {
 
     return (
-        <Admin dataProvider={dataProvider} dashboard={DashBoard} authProvider={authProvider}>
+        <Admin dataProvider={dataProvider} dashboard={DashBoard} authProvider={authProvider} >
             <Resource name="locations" list={Location} edit={LocationEdit} create={LocationCreate}/>
             <Resource name="theaters" list={TheaterList} edit={EditTheater} create={TheaterCreate}/>
             <Resource name="rooms"  list={ListRoom} edit={RoomEdit} create={RoomCreate}/>
-            <Resource name="seats"  />
+            <Resource name="seats" create={SeatCreate}/>
             {/*<Resource name="users" list={ListGuesser} create={PostCreate} />*/}
 
         </Admin>
