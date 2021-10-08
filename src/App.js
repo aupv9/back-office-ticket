@@ -1,5 +1,8 @@
 import './App.css';
-import {Admin, EditGuesser, ListGuesser, Resource,Create,SimpleForm,ReferenceInput,SelectInput,TextInput} from 'react-admin';
+import {
+    Admin,
+    Resource, ShowGuesser
+} from 'react-admin';
 import {Location} from "./page/location/Location";
 import customRequest from "./customRequest";
 import DashBoard from "./DashBoard";
@@ -12,8 +15,12 @@ import TheaterCreate from "./page/theater/TheaterCreate";
 import {ListRoom} from "./page/room/ListRoom";
 import RoomEdit from "./page/room/RoomEdit";
 import RoomCreate from "./page/room/RoomCreate";
-import {SeatCreate} from "./page/seat/SeatCreate";
-import {Route} from "react-router-dom";
+import {Redirect, Route} from "react-router-dom";
+import {SeatCreateDialog} from "./page/seat/SeatCreateDialog";
+import {SeatEdit} from "./page/seat/SeatEdit";
+import {LocationList} from "./page/location/LocationList";
+import {LocationShow} from "./page/location/LocationShow";
+
 // import jsonServerProvider from 'ra-data-json-server';
 //
 // const dataProvider = jsonServerProvider('https://jsonplaceholder.typicode.com');
@@ -25,32 +32,33 @@ import {Route} from "react-router-dom";
 
 // const dataProvider = customNewRequest(`http://localhost:8080/api/v1`);
 
+const routes =  [
+    <Route exact path="/seats" >
+        {
+            localStorage.getItem("idRoom") ? <Redirect to={`rooms/${parseInt(localStorage.getItem("idRoom"))}/seats`} />
+                :
+                <Redirect to={`rooms`} />
+        }
+    </Route>
+
+
+ ]
+
 
 
 const App = () => {
-
     return (
-        <Admin dataProvider={dataProvider} dashboard={DashBoard} authProvider={authProvider} >
-            <Resource name="locations" list={Location} edit={LocationEdit} create={LocationCreate}/>
+        <Admin dataProvider={dataProvider} dashboard={DashBoard} authProvider={authProvider} customRoutes={routes}>
+            {/*<Resource name="locations" list={Location} edit={LocationEdit} create={LocationCreate}/>*/}
             <Resource name="theaters" list={TheaterList} edit={EditTheater} create={TheaterCreate}/>
             <Resource name="rooms"  list={ListRoom} edit={RoomEdit} create={RoomCreate}/>
-            <Resource name="seats" create={SeatCreate}/>
-            {/*<Resource name="users" list={ListGuesser} create={PostCreate} />*/}
+            <Resource name="seats" edit={SeatEdit} create={localStorage.getItem("idRoom") ? SeatCreateDialog :null}  />
+             <Resource name="locations" list={LocationList} show={ShowGuesser}/>
+            <Resource name="location-theater"/>
 
         </Admin>
     );
 }
 
-// export const PostCreate = props => (
-//         <Create {...props}>
-//                 <SimpleForm>
-//                     <ReferenceInput source="userId" reference="users">
-//                         <SelectInput optionText="name" />
-//                     </ReferenceInput>
-//                     <TextInput source="title" />
-//                     <TextInput multiline source="body" />
-//                 </SimpleForm>
-//             </Create>
-// );
 
 export default App;

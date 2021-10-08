@@ -23,7 +23,7 @@ import Aside from "../room/Aside";
 import MobileGrid from "../room/MobileGrid";
 import TheaterNameField from "../room/TheaterNameField";
 import {Route} from "react-router-dom";
-import {RoomCreateDialog} from "../room/RoomCreateDialog";
+import {RoomCreateDialog} from "../seat/SeatCreateDialog";
 
 
 const ProductTitle = ({ record }) =>
@@ -94,11 +94,6 @@ const EditTheater = (props) =>{
                     {/*/>*/}
                 </FormTab>
                 <FormTab label="rooms" path="rooms">
-
-                    <CreateButton label={"New Room"} variant="contained" basePath={"/rooms"} title={"New Room"} />
-                    <Route path="/rooms/create">
-                        {({ match }) => <RoomCreateDialog open={!!match} />}
-                    </Route>
                     <ReferenceManyField
                         reference="rooms"
                         target="theater_id"
@@ -107,12 +102,6 @@ const EditTheater = (props) =>{
                         fullWidth
                         perPage={20}
                     >
-                        {/*<List*/}
-                        {/*    {...props}*/}
-                        {/*    sort={{ field: 'id', order: 'ACS' }}*/}
-                        {/*    perPage={25}*/}
-                        {/*    // actions={<ListActions/>}*/}
-                        {/*>*/}
                             <Datagrid optimized>
                                 <TextField
                                     source="name"
@@ -123,7 +112,6 @@ const EditTheater = (props) =>{
                                 <TextField source="type" />
                                 <EditButton />
                             </Datagrid>
-                        {/*</List>*/}
 
                     </ReferenceManyField>
                 </FormTab>
