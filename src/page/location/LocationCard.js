@@ -92,15 +92,12 @@ export const LocationCard = ({ record } ) => {
                         />
                         <div>
                             <Typography
-                                variant="subtitle2"
+                                variant="body1"
                                 style={{ marginBottom: -8 }}
                             >
-                                {data ? data.id : 0}
-                            </Typography>
-                            <Typography variant="caption" color="textSecondary">
-                                {data && data.id > 1
-                                    ? 'theaters'
-                                    : 'theater'}
+                                {data && data.count > 1
+                                    ? `${data.count} theaters`
+                                    : '0 theater'}
                             </Typography>
                         </div>
                     </div>

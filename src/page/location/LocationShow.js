@@ -2,13 +2,12 @@ import * as React from 'react';
 import { useState, ChangeEvent } from 'react';
 import {
     ShowBase,
-    ShowProps,
     TextField,
     ReferenceManyField,
     SelectField,
     useShowContext,
     useRecordContext,
-    useListContext, useGetOne, Datagrid, useGetList,
+    useListContext, useGetOne, Datagrid, useGetList, SimpleShowLayout, Show, useShowController
 } from 'react-admin';
 import {
     Box,
@@ -28,7 +27,7 @@ import {
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {Link as RouterLink, useParams} from 'react-router-dom';
 import { formatDistance } from 'date-fns';
-import {LocationCitySharp} from "@material-ui/icons";
+import {LocationCitySharp, TheatersSharp} from "@material-ui/icons";
 import {LocationAside} from "./LocationAside";
 
 
@@ -36,7 +35,7 @@ import {LocationAside} from "./LocationAside";
 export const LocationShow = (props) =>{
     return (
         <ShowBase {...props}>
-            <LocationShowContent />
+            <LocationShowContent/>
         </ShowBase>
         )
 }
@@ -44,9 +43,9 @@ export const LocationShow = (props) =>{
 
 
 const LocationShowContent = () =>{
-    const { record , loaded } = useListContext();
+    const { record , loaded } = useShowContext();
+    const { data, loading, error } = useGetOne('location-theater', record.id);
     console.log(record)
-    // const { data, loading, error } = useGetOne('location-theater', record.id);
     const [value, setValue] = useState(0);
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -71,15 +70,15 @@ const LocationShowContent = () =>{
                             textColor="primary"
                             onChange={handleChange}
                         >
-                            {/*{data && (*/}
-                            {/*    <Tab*/}
-                            {/*        label={*/}
-                            {/*            data.id === 1*/}
-                            {/*                ? '1 Theater'*/}
-                            {/*                : `${data.id} Theaters`*/}
-                            {/*        }*/}
-                            {/*    />*/}
-                            {/*)}*/}
+                            {data && (
+                                <Tab
+                                    label={
+                                        data.count > 1
+                                            ?`${data.count} Theaters`
+                                            :  `${data.count} Theater`
+                                    }
+                                />
+                            )}
                         </Tabs>
                         <Divider />
                         <TabPanel value={value} index={0}>
@@ -88,19 +87,9 @@ const LocationShowContent = () =>{
                                 target="location_id"
                                 sort={{ field: 'id', order: 'ASC' }}
                             >
-                                <Datagrid>
-                                    <TextField source={"name"}/>
-                                </Datagrid>
+                              <TheaterIterator />
                             </ReferenceManyField>
                         </TabPanel>
-                        {/*<TabPanel value={value} index={1}>*/}
-                        {/*    <ReferenceManyField*/}
-                        {/*        reference="deals"*/}
-                        {/*        target="company_id"*/}
-                        {/*        sort={{ field: 'name', order: 'ASC' }}*/}
-                        {/*    >*/}
-                        {/*    </ReferenceManyField>*/}
-                        {/*</TabPanel>*/}
                     </CardContent>
                 </Card>
             </Box>
@@ -124,3 +113,72 @@ const TabPanel = (props) => {
         </div>
     );
 };
+
+
+const TheaterIterator = () => {
+    const { data, ids, loaded } = useListContext();
+    const record = useRecordContext();
+
+    const now = Date.now();
+    if (!loaded) return null;
+    return (
+        <Box>
+            <List>
+                {ids.map(id => {
+                    const theater = data[id];
+                    return (
+                        <ListItem
+                            button
+                            key={id}
+                            component={RouterLink}
+                            to={`/theaters/${id}/show`}
+                        >
+                            {/*<ListItemAvatar>*/}
+                            {/*    <Avatar record={contact} />*/}
+                            {/*</ListItemAvatar>*/}
+                            <ListItemText
+                                primary={`${theater.name}`}
+                            />
+                            <ListItemSecondaryAction>
+                                <Typography
+                                    variant="body2"
+                                    color="textSecondary"
+                                    component="span"
+                                >
+                                    {/*last activity{' '}*/}
+                                    {/*{formatDistance(*/}
+                                    {/*    new Date(contact.last_seen),*/}
+                                    {/*    now*/}
+                                    {/*)}{' '}*/}
+                                    {/*ago <Status status={contact.status} />*/}
+                                    {
+
+                                    }
+                                </Typography>
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    );
+                })}
+            </List>
+            <Box textAlign="center" mt={1}>
+                <CreateRelatedThaeterButton record={record} />
+            </Box>
+        </Box>
+    );
+};
+
+const CreateRelatedThaeterButton = ({ record }) => (
+    <Button
+        component={RouterLink}
+        to={{
+            pathname: '/theaters/create',
+            state: { record: { company_id: record.id } },
+        }}
+        color="primary"
+        variant="contained"
+        size="small"
+        startIcon={<TheatersSharp />}
+    >
+        Add Theater
+    </Button>
+);
