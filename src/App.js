@@ -20,6 +20,9 @@ import {SeatCreateDialog} from "./page/seat/SeatCreateDialog";
 import {SeatEdit} from "./page/seat/SeatEdit";
 import {LocationList} from "./page/location/LocationList";
 import {LocationShow} from "./page/location/LocationShow";
+import MovieList from "./page/movie/MovieList";
+import {ShowTimesList} from "./page/showtimes/ShowTimesList";
+import {ShowTimesShow} from "./page/showtimes/ShowTimesShow";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -55,6 +58,11 @@ const App = () => {
             <Resource name="seats" edit={SeatEdit} create={localStorage.getItem("idRoom") ? SeatCreateDialog :null}  />
             <Resource name="locations" list={LocationList} show={LocationShow} edit={LocationEdit} create={LocationCreate}/>
             <Resource name="location-theater"/>
+            <Resource name={"movies"} list={MovieList} />
+            <Resource name={"show-times"} list={ShowTimesList} show={ShowTimesShow}  options={{ label: 'Show Times' }}/>
+            <Resource name={"showTimesDetails"} />
+            <Resource name={"count-showTimesDetails"} />
+
         </Admin>
     );
 }

@@ -1,31 +1,18 @@
-import * as React from 'react';
+import {Box, useMediaQuery} from "@material-ui/core";
 import {
-    CreateButton,
-    ExportButton,
-    FilterButton,
-    FilterForm,
-    FilterContext,
-    InputProps,
-    ListBase,
-    ListProps,
-    NumberInput,
-    Pagination,
+    CreateButton, ExportButton,
+    FilterButton, FilterContext, FilterForm,
+    ListBase, Pagination,
     ReferenceInput,
     SearchInput,
     SelectInput,
-    SortButton,
-    Title,
-    TopToolbar,
-    useListContext,
-    useTranslate
-} from 'react-admin';
-import {Box} from "@material-ui/core";
-import Aside from "./TheaterAside";
-import GridList from "./GridList";
-const {useMediaQuery} = require("@material-ui/core");
+    SortButton, Title,
+    TopToolbar, useListContext
+} from "react-admin";
+import * as React from "react";
+import MovieGridView from "./MovieGridView";
 
-
-const TheaterList = (props) => {
+const MovieList = (props) => {
     const isSmall = useMediaQuery(theme => theme.breakpoints.down('sm'));
     return (
         <ListBase
@@ -33,7 +20,7 @@ const TheaterList = (props) => {
             sort={{ field: 'id', order: 'ASC' }}
             {...props}
         >
-            <TheaterListView isSmall={isSmall} />
+            <MovieListView isSmall={isSmall} />
         </ListBase>
     );
 };
@@ -46,40 +33,37 @@ export const productFilters = [
         sort={{ field: 'id', order: 'ASC' }}
     >
         <SelectInput source="name" />
-    </ReferenceInput>
+    </ReferenceInput>,
 ];
 
 const ListActions = ({ isSmall }) => (
     <TopToolbar>
         {isSmall && <FilterButton />}
-        <SortButton fields={['id', 'name', 'code']} />
-        <CreateButton basePath="/theaters" />
+        <SortButton fields={['id', 'name']} />
+        <CreateButton basePath="/movies" />
         <ExportButton />
     </TopToolbar>
 );
 
 
-const TheaterListView = ({ isSmall }) => {
+const MovieListView = ({ isSmall }) => {
     const { defaultTitle } = useListContext();
     return (
         <>
             <Title defaultTitle={defaultTitle} />
             <FilterContext.Provider value={productFilters}>
                 <ListActions isSmall={isSmall} />
-                {isSmall && (
                     <Box m={1}>
                         <FilterForm />
                     </Box>
-                )}
             </FilterContext.Provider>
             <Box display="flex">
-                <Aside />
                 <Box width={isSmall ? 'auto' : 'calc(100% - 16em)'}>
-                    <GridList />
+                    <MovieGridView />
                     <Pagination rowsPerPageOptions={[10, 20, 40]} />
                 </Box>
             </Box>
         </>
     );
 };
-export default TheaterList;
+export default MovieList;
