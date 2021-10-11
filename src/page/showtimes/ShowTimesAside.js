@@ -3,11 +3,11 @@ import {
     EditButton,
     ShowButton,
 } from 'react-admin';
-import { Box} from '@material-ui/core';
+import { Box, Typography, Divider, Link } from '@material-ui/core';
 
 
 
-export const LocationAside = ({record,link}) =>{
+export const ShowTimesAside = ({record,link}) =>{
 
     return(
         <Box ml={4} width={250} minWidth={250}>

@@ -3,7 +3,11 @@ import {
     List,
     SearchInput,
     TopToolbar,
-    FilterButton, CreateButton, ExportButton, DateField
+    FilterButton,
+    CreateButton,
+    ExportButton,
+    DateField,
+    TextField, ImageField, ReferenceField, ReferenceInput, DateTimeInput, AutocompleteInput
 } from "react-admin";
 import {makeStyles} from "@material-ui/core/styles";
 import {useMediaQuery} from "@material-ui/core";
@@ -22,8 +26,17 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const roomFilters = [
-    <SearchInput source="q" alwaysOn />
-
+    <SearchInput source="q" alwaysOn  />,
+    <ReferenceInput source="room_id" reference="rooms">
+        <AutocompleteInput
+            optionText={(choice) =>
+                choice.id
+                    ? `${choice.name}`
+                    : ''
+            }
+        />
+    </ReferenceInput>,
+    <DateTimeInput source="date" />
 ];
 
 const ListActions = (props) => (
@@ -45,18 +58,25 @@ export const ShowTimesList = (props) =>{
             {...props}
             filters={roomFilters}
             sort={{ field: 'id', order: 'ACS' }}
-            perPage={25}
+            perPage={10}
             // aside={<Aside />}
             actions={<ListActions/>}
         >
-            {/*{isXsmall ? (*/}
-            {/*    <MobileGrid />*/}
-            {/*) : (*/}
-                <Datagrid optimized rowClick="show">
-                    <DateField source={"startDate"} />
-                    <DateField source={"endDate"}/>
-                </Datagrid>
-            {/*)}*/}
+            <Datagrid optimized rowClick="show">
+                <ReferenceField label="Movie Name" source="movieId" reference="movies">
+                    <TextField source="name" />
+                </ReferenceField>
+                <ReferenceField label="Movie Thumbnail" source="movieId" reference="movies">
+                    <ImageField source="thumbnail" />
+                </ReferenceField>
+                <DateField source="timeStart"  locales="VN" showTime options={{ weekday: 'long',day: 'numeric', month: 'long', year: 'numeric',hour:'numeric',minute:'numeric'}}
+                title={"Day Show Times"}/>
+
+                <ReferenceField label="Room" source="roomId" reference="rooms">
+                    <TextField source="name" />
+                </ReferenceField>
+            </Datagrid>
         </List>
     );
 }
+

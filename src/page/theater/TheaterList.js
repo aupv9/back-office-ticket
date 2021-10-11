@@ -5,10 +5,7 @@ import {
     FilterButton,
     FilterForm,
     FilterContext,
-    InputProps,
     ListBase,
-    ListProps,
-    NumberInput,
     Pagination,
     ReferenceInput,
     SearchInput,
@@ -16,9 +13,7 @@ import {
     SortButton,
     Title,
     TopToolbar,
-    useListContext,
-    useTranslate
-} from 'react-admin';
+    useListContext} from 'react-admin';
 import {Box} from "@material-ui/core";
 import Aside from "./TheaterAside";
 import GridList from "./GridList";

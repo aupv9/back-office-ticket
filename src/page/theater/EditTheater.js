@@ -12,22 +12,22 @@ import {
     TabbedForm,
     TextField,
     TextInput,
-    ShowButton, CreateButton, ArrayInput, SimpleFormIterator,DateInput
 } from 'react-admin';
-import {Button, InputAdornment} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import RichTextInput from 'ra-input-rich-text';
 import ImageTheater from "./Image";
 import { GMapInput, GMapField } from '@fusionworks/ra-google-maps-input';
-import Aside from "../room/Aside";
-import MobileGrid from "../room/MobileGrid";
-import TheaterNameField from "../room/TheaterNameField";
-import {Route} from "react-router-dom";
-import {RoomCreateDialog} from "../seat/SeatCreateDialog";
-
+import DateFnsUtils from '@date-io/date-fns'; // choose your lib
+import {
+    DatePicker,
+    TimePicker,
+    DateTimePicker,
+    MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
+import {useState} from "react";
 
 const ProductTitle = ({ record }) =>
-    record ? <span>Theater #{record.name}</span> : null;
+    record ? <span>Theater #{record.name}</span> : null
 
 const useStyles = makeStyles({
     widthFormGroup: { display: 'inline-block' },
@@ -43,9 +43,28 @@ const useStyles = makeStyles({
         display: 'block',
     },
 });
-
+// const dateFormatter = v => {
+//     // v is a `Date` object
+//     if (!(v instanceof Date) || isNaN(v)) return;
+//     const pad = '00';
+//     const yy = v.getFullYear().toString();
+//     const mm = (v.getMonth() + 1).toString();
+//     const dd = v.getDate().toString();
+//     const hh = v.getHours().toString();
+//     return `${yy}-${(pad + mm).slice(-2)}-${(pad + dd).slice(-2)}`;
+// };
+//
+// const dateParser = v => {
+//     // v is a string of "YYYY-MM-DD" format
+//     const match = /(\d{4})-(\d{2})-(\d{2})/.exec(v);
+//     if (match === null) return;
+//     const d = new Date(match[1], parseInt(match[2], 10) - 1, match[3]);
+//     if (isNaN(d)) return;
+//     return d;
+// };
 const EditTheater = (props) =>{
     const classes = useStyles();
+    const [selectedDate, handleDateChange] = useState(new Date());
 
     return(
         <Edit {...props} title={<ProductTitle />}>

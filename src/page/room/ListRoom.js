@@ -33,7 +33,7 @@ const roomFilters = [
     <ReferenceInput source="theater_id" reference="theaters">
         <AutocompleteInput
             optionText={(choice) =>
-                choice.id // the empty choice is { id: '' }
+                choice.id
                     ? `${choice.name}`
                     : ''
             }

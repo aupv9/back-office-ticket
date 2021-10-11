@@ -1,6 +1,6 @@
 import './App.css';
 import {
-    Admin,
+    Admin, ListGuesser,
     Resource, ShowGuesser
 } from 'react-admin';
 import {Location} from "./page/location/Location";
@@ -59,8 +59,7 @@ const App = () => {
             <Resource name="locations" list={LocationList} show={LocationShow} edit={LocationEdit} create={LocationCreate}/>
             <Resource name="location-theater"/>
             <Resource name={"movies"} list={MovieList} />
-            <Resource name={"show-times"} list={ShowTimesList} show={ShowTimesShow}  options={{ label: 'Show Times' }}/>
-            <Resource name={"showTimesDetails"} />
+            <Resource name={"showTimesDetails"} list={ShowTimesList} show={ShowTimesShow}  options={{ label: 'Show Times' }}/>
             <Resource name={"count-showTimesDetails"} />
 
         </Admin>

@@ -7,7 +7,15 @@ import {
     SelectField,
     useShowContext,
     useRecordContext,
-    useListContext, useGetOne, Datagrid, useGetList, SimpleShowLayout, Show, useShowController, DateField
+    useListContext,
+    useGetOne,
+    Datagrid,
+    useGetList,
+    SimpleShowLayout,
+    Show,
+    useShowController,
+    DateField,
+    ReferenceField,ImageField
 } from 'react-admin';
 import {
     Box,
@@ -22,13 +30,14 @@ import {
     ListItemSecondaryAction,
     Tabs,
     Tab,
-    Divider,
+    Divider, Avatar,
 } from '@material-ui/core';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import {Link as RouterLink, useParams} from 'react-router-dom';
 import { formatDistance } from 'date-fns';
-import {LocationCitySharp, TheatersSharp} from "@material-ui/icons";
+import {LocationCitySharp, MovieCreationSharp, TheatersSharp} from "@material-ui/icons";
 import { format } from 'date-fns'
+import {ShowTimesAside} from "./ShowTimesAside";
 
 
 export const ShowTimesShow = (props) =>{
@@ -56,7 +65,7 @@ const ShowTimesShowContent = () =>{
                 <Card>
                     <CardContent>
                         <Box display="flex" mb={1}>
-                            <LocationCitySharp color={"disabled"}/>
+                            <MovieCreationSharp color={"disabled"}/>
                             <Box ml={2} flex="1">
                                 <Typography variant="h5">
                                     {record.name}
@@ -83,16 +92,28 @@ const ShowTimesShowContent = () =>{
                         <TabPanel value={value} index={0}>
                             <ReferenceManyField
                                 reference="showTimesDetails"
-                                target="id"
+                                target="showtimes_id"
                                 sort={{ field: 'id', order: 'ASC' }}
                             >
-                                <TheaterIterator />
+                                {/*<TheaterIterator />*/}
+                                <Datagrid>
+                                    <ReferenceField label="Movie Name" source="movieId" reference="movies">
+                                        <TextField source="name" />
+                                    </ReferenceField>
+                                    <ReferenceField label="Movie Thumbnail" source="movieId" reference="movies">
+                                        <ImageField source="thumbnail" />
+                                    </ReferenceField>
+                                    <DateField source="timeStart"  locales="VN" showTime />
+                                    <ReferenceField label="Room" source="roomId" reference="rooms">
+                                        <TextField source="name" />
+                                    </ReferenceField>
+                                </Datagrid>
                             </ReferenceManyField>
                         </TabPanel>
                     </CardContent>
                 </Card>
             </Box>
-            {/*<LocationAside record={record} link={"edit"}/>*/}
+            <ShowTimesAside record={record} link={"edit"}/>
         </Box>
     );
 }
@@ -122,20 +143,30 @@ const TheaterIterator = () => {
         <Box>
             <List>
                 {ids.map(id => {
-
                     const showTimes = data[id];
+                    const startDate = new Date(showTimes["timeStart"]);
+
                     return (
                         <ListItem
                             button
                             key={id}
                             component={RouterLink}
-                            // to={`/show-times/${id}/show`}
+                            to={`/showTimesDetails/${id}/show`}
                         >
-                            {/*<ListItemAvatar>*/}
-                            {/*    <Avatar record={contact} />*/}
-                            {/*</ListItemAvatar>*/}
+                            <ListItemAvatar>
+                                <ReferenceField
+                                    reference="movies"
+                                    source={showTimes["movieId"]}
+                                >
+                                    <TextField source="name" />
+                                    <ImageField source="thumbnail" title="title" />
+                                </ReferenceField>
+                            </ListItemAvatar>
                             <ListItemText
                                 primary={` ${showTimes.movieId}` }
+                                secondary={
+                                    startDate ? new Date(startDate).toLocaleString('VN') : null
+                                }
                             />
                             <ListItemSecondaryAction>
                                 <Typography
@@ -143,16 +174,7 @@ const TheaterIterator = () => {
                                     color="textSecondary"
                                     component="span"
                                 >
-                                    {/*last activity{' '}*/}
-                                    {/*{formatDistance(*/}
-                                    {/*    new Date(contact.last_seen),*/}
-                                    {/*    now*/}
-                                    {/*)}{' '}*/}
-                                    {/*ago <Status status={contact.status} />*/}
 
-                                    {
-                                         new Date(showTimes.timeStart).toTimeString()
-                                    }
                                 </Typography>
                             </ListItemSecondaryAction>
                         </ListItem>
