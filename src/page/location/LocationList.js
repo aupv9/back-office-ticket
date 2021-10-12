@@ -1,27 +1,12 @@
 import * as React from 'react';
 import {
     List as RAList,
-    ListProps,
-    SimpleListLoading,
-    ReferenceField,
-    TextField,
-    useListContext,
     ExportButton,
-    SortButton,
     TopToolbar,
     CreateButton,
     Pagination,
-    useGetIdentity, EditButton, Datagrid,
 } from 'react-admin';
-import {
-    ListItem,
-    ListItemAvatar,
-    ListItemIcon,
-    ListItemSecondaryAction,
-    ListItemText,
-    Checkbox,
-    Typography, List,
-} from '@material-ui/core';
+
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import { formatDistance } from 'date-fns';

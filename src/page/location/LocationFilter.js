@@ -8,5 +8,5 @@ export const LocationFilter = (props) =>{
         <Box width="15em" order="-1" marginRight="1em">
             <FilterLiveSearch />
         </Box>
-            )
+    );
 }
