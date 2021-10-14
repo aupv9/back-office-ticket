@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^12.1.10",
     "date-fns": "^2.8.1",
     "inflection": "^1.13.1",
+    "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
     "ra-data-json-server": "^3.17.3",
     "ra-data-simple-rest": "^3.18.2",

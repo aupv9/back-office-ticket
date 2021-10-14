@@ -1,18 +1,9 @@
 import {makeStyles} from "@material-ui/core/styles";
 import {
-    Datagrid,
-    Edit, EditButton,
-    FormTab, NumberInput,
-    Pagination,
-    ReferenceInput,
-    ReferenceManyField, required,
-    SelectInput,
-    TabbedForm, TextField,
-    TextInput, Create
+    FormTab, ReferenceInput, required, SelectInput, TabbedForm, TextInput, Create
 } from "react-admin";
 import * as React from "react";
-import ImageTheater from "./Image";
-import {InputAdornment} from "@material-ui/core";
+
 
 
 const TheaterTitle = ({ record }) =>
@@ -38,12 +29,11 @@ const TheaterCreate = (props) =>{
 
     return(
         <Create {...props} >
-            <TabbedForm>
+            <TabbedForm >
                 <FormTab
                     label="image"
                     contentClassName={classes.tab}
                 >
-
                     <TextInput
                         source="image"
                         fullWidth

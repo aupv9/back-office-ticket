@@ -45,7 +45,6 @@ export const LocationShow = (props) =>{
 const LocationShowContent = () =>{
     const { record , loaded } = useShowContext();
     const { data, loading, error } = useGetOne('location-theater', record.id);
-    console.log(record)
     const [value, setValue] = useState(0);
     const handleChange = (event, newValue) => {
         setValue(newValue);

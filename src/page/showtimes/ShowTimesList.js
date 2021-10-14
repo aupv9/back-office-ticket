@@ -17,13 +17,15 @@ import {
     TextInput,
     NullableBooleanInput,
     SelectInput,
-    ShowButton
+    ShowButton,
+    EditButton
 } from "react-admin";
 
 import {makeStyles} from "@material-ui/core/styles";
 import {Box, useMediaQuery, InputAdornment, Button} from "@material-ui/core";
 import * as React from "react";
 import {SearchSharp} from "@material-ui/icons";
+import {TimeInput} from "../../datepicker/PickerTime";
 
 
 
@@ -36,11 +38,21 @@ const useStyles = makeStyles(theme => ({
             display: 'none',
         },
     },
+    unLink:{
+        textDecoration:'none'
+    }
 }));
 
 const roomFilters = [
     <SearchInput source="q" alwaysOn  />,
     <ReferenceInput source="room_id" reference="rooms">
+        <AutocompleteInput
+            optionText={(choice) =>
+                choice.id ? `${choice.name}` : ''
+            }
+        />
+    </ReferenceInput>,
+    <ReferenceInput source="movie_id" reference="movies">
         <AutocompleteInput
             optionText={(choice) =>
                 choice.id
@@ -100,13 +112,26 @@ export const ShowTimesList = (props) =>{
                     <ImageField source="thumbnail" />
                 </ReferenceField>
 
-                <DateField source="date"  locales="VN"  options={{ weekday: 'long',day: 'numeric', month: 'long', year: 'numeric'}}
+                <DateField source="timeStart"  locales="VN" showTime options={{ weekday: 'long',day: 'numeric', month: 'long', year: 'numeric',hour:'numeric',minute:'numeric'}}
                            label={"Day Show Times"}/>
-                <TextField source="timeStart" />
+                {/*<TextField source="timeStart" />*/}
                 <ReferenceField label="Room" source="roomId" reference="rooms">
                     <TextField source="name" />
                 </ReferenceField>
+                <ReferenceField label="Theater" source="roomId" reference="rooms" sortable={false} >
+                    <ReferenceField reference="theaters" source="theaterId" link={(record, reference) => `/${reference}/${record.theaterId}`}>
+                        <TextField source="name" />
+                    </ReferenceField>
+                </ReferenceField>
+                <ReferenceField label="Location" source="roomId" reference="rooms" sortable={false} >
+                    <ReferenceField reference="theaters" source="theaterId" >
+                        <ReferenceField reference="locations" source="locationId" link={(record, reference) => `/${reference}/${record.locationId}`}>
+                            <TextField source="name" />
+                        </ReferenceField>
+                    </ReferenceField>
+                </ReferenceField>
                 <ShowButton />
+                <EditButton />
             </Datagrid>
         </List>
     );

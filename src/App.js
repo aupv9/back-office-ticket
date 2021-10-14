@@ -23,6 +23,8 @@ import {LocationShow} from "./page/location/LocationShow";
 import MovieList from "./page/movie/MovieList";
 import {ShowTimesList} from "./page/showtimes/ShowTimesList";
 import {ShowTimesShow} from "./page/showtimes/ShowTimesShow";
+import {ShowTimesCreate} from "./page/showtimes/ShowTimesCreate";
+import {ShowTimesEdit} from "./page/showtimes/ShowTimesEdit";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -59,10 +61,12 @@ const App = () => {
             <Resource name="locations" list={LocationList} show={LocationShow} edit={LocationEdit} create={LocationCreate}/>
             <Resource name="location-theater"/>
             <Resource name={"movies"} list={MovieList} />
-            <Resource name={"showTimesDetails"} list={ShowTimesList} show={ShowTimesShow}  edit={EditGuesser} options={{ label: 'Show Times' }}/>
+            <Resource name={"showTimesDetails"} list={ShowTimesList} show={ShowTimesShow}  edit={ShowTimesEdit} create={ShowTimesCreate}
+                      options={{ label: 'Show Times' }} />
             <Resource name={"count-showTimesDetails"} />
             <Resource name={"timeShowTimes"}/>
             <Resource name="seats-AvaiableInRoom" />
+            <Resource name="seats-room" />
         </Admin>
     );
 }

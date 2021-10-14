@@ -5,10 +5,12 @@ import {
     Show,
     ReferenceField,
     TextField,
-    DateField,
-    useRecordContext, useGetOne, useGetList, useShowContext
+    DateField, useGetList, useShowContext, Datagrid, Pagination,ChipField,BooleanField,NumberField,Loading
 } from 'react-admin'
 
+import {Fragment, useState} from "react";
+import keyBy from 'lodash/keyBy';
+import {Typography} from "@material-ui/core";
 
 export const ShowTimesShow = (props) => {
 
@@ -22,12 +24,11 @@ export const ShowTimesShow = (props) => {
 const ShowTimesContent = () =>{
     const { record } = useShowContext();
     console.log(record)
-    const { data, ids, total, loading, loaded, error } = useGetList("seats-AvaiableInRoom", { page: 1, perPage: 10 },
+    const props = useGetList("seats-room", {},
         { field: 'id', order: 'DESC' }, {   showTimesId:record.id,
-            room:record.roomId},{
-
-    });
+            room:record.roomId},{});
     return(
+
         <TabbedShowLayout>
             <Tab label="summary">
                 <ReferenceField
@@ -36,30 +37,87 @@ const ShowTimesContent = () =>{
                 >
                     <TextField source="name" label="Movie Name"/>
                 </ReferenceField>
+
+                <ReferenceField reference="rooms" source="roomId" label="Theater">
+                    <ReferenceField reference="theaters" source="theaterId" >
+                        <ReferenceField reference="locations" source="locationId" >
+                            <TextField source="name"/>
+                        </ReferenceField>
+                    </ReferenceField>
+                </ReferenceField>
+
+                <ReferenceField reference="rooms" source="roomId" label="Theater">
+                    <ReferenceField reference="theaters" source="theaterId" >
+                        <TextField source="name"/>
+                    </ReferenceField>
+                </ReferenceField>
+
                 <ReferenceField
                     source="roomId"
                     reference="rooms"
                 >
                     <TextField source="name" label="Room Name"/>
                 </ReferenceField>
-                <DateField label="Day Show Time" source="date"  locales="VN"  options={{ weekday: 'long',day: 'numeric', month: 'long', year: 'numeric'}}/>
-                <TextField source="timeStart" label="Time"/>
+
+                <DateField source="timeStart"  locales="VN" showTime options={{ weekday: 'long',day: 'numeric', month: 'long', year: 'numeric',hour:'numeric',minute:'numeric'}}
+                           label={"Day Show Times"}/>
             </Tab>
             <Tab label="Seat In Room" path="seats">
-                {/*<TextField label="Password (if protected post)" source="password" type="password" />*/}
-                {/*<DateField label="Publication date" source="published_at" />*/}
-                {/*<NumberField source="average_note" />*/}
-                {/*<BooleanField label="Allow comments?" source="commentable" defaultValue />*/}
-                {/*<TextField label="Nb views" source="views" />*/}
-                {/*<ReferenceField reference="seats-AvaiableInRoom" source="" >*/}
-
-                {/*</ReferenceField>*/}
+                <SeatContent {...props}/>
             </Tab>
 
         </TabbedShowLayout>
     )
 }
 
+const SeatContent = (props) =>{
+    const { data, total, loading, error ,ids}= props;
+    const [page, setPage] = useState(1);
+    const [perPage, setPerPage] = useState(25);
+    const [sort, setSort] = useState({ field: 'id', order: 'ASC' });
+    if (loading) {
+        return <Loading />
+    }
+    if (error) {
+        return <p>ERROR: {error}</p>
+    }
+    return (
+        <Fragment>
+            {
+                ids.length > 0 ?
+                    <Fragment>
+                        <Datagrid
+                            data={keyBy(data, 'id')}
+                            ids={ids}
+                            currentSort={sort}
+                            setSort={(field, order) => setSort({ field, order })}
+                        >
+                            <TextField source="tier" />
+                            <NumberField source="numbers"textAlign="left" />
+                            <ChipField source="seatType" />
+                            <BooleanField label="Available" source="isSelected" defaultValue />
+
+                            <ReferenceField reference="rooms" source="roomId" >
+                                <TextField source="name"/>
+                            </ReferenceField>
+
+                        </Datagrid>
+                        <Pagination
+                            page={page}
+                            setPage={setPage}
+                            perPage={perPage}
+                            setPerPage={setPerPage}
+                            total={total}
+                        />
+                    </Fragment>
+
+                :<Typography> No results found </Typography>
+            }
+
+
+        </Fragment>
+    )
+}
 
 
 
