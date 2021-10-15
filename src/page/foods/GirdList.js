@@ -59,13 +59,13 @@ const LoadedGridList = (props) => {
                     key={id}
                     to={linkToEdit(basePath,data[id].id)}
                 >
-                    <img src={data[id].thumbnail} alt="" />
+                    <img src={data[id].image} alt="" />
                     <GridListTileBar
                         className={classes.tileBar}
                         title={data[id].name}
                         subtitle={
                             <span>
-                                {data[id].locationName}
+                                {data[id].name}
                             </span>
                         }
                     />

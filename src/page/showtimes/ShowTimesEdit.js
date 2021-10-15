@@ -40,7 +40,7 @@ export const ShowTimesEdit = (props) =>{
     }
     return(
         <Edit {...props} >
-            <TabbedForm>
+            <TabbedForm >
                 <FormTab
                     label="summary"
                     contentClassName={classes.tab}
