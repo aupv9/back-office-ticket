@@ -13,7 +13,8 @@ import {
     SortButton,
     Title,
     TopToolbar,
-    useListContext} from 'react-admin';
+    useListContext, AutocompleteInput
+} from 'react-admin';
 import {Box} from "@material-ui/core";
 import Aside from "./TheaterAside";
 import GridList from "./GridList";
@@ -21,7 +22,7 @@ const {useMediaQuery} = require("@material-ui/core");
 
 
 const TheaterList = (props) => {
-    const isSmall = useMediaQuery(theme => theme.breakpoints.down('sm'));
+    const isSmall = useMediaQuery(theme => theme.breakpoints.down('md'));
     return (
         <ListBase
             perPage={20}
@@ -40,13 +41,19 @@ export const productFilters = [
         reference="locations"
         sort={{ field: 'id', order: 'ASC' }}
     >
-        <SelectInput source="name" />
-    </ReferenceInput>
+        <AutocompleteInput
+            optionText={(choice) =>
+                choice.id
+                    ? `${choice.name}`
+                    : ''
+            }
+        />
+    </ReferenceInput>,
 ];
 
-const ListActions = ({ isSmall }) => (
+const ListActions = () => (
     <TopToolbar>
-        {isSmall && <FilterButton />}
+       <FilterButton />
         <SortButton fields={['id', 'name', 'code']} />
         <CreateButton basePath="/theaters" />
         <ExportButton />
@@ -60,16 +67,14 @@ const TheaterListView = ({ isSmall }) => {
         <>
             <Title defaultTitle={defaultTitle} />
             <FilterContext.Provider value={productFilters}>
-                <ListActions isSmall={isSmall} />
-                {isSmall && (
+                <ListActions />
                     <Box m={1}>
                         <FilterForm />
                     </Box>
-                )}
             </FilterContext.Provider>
-            <Box display="flex">
-                <Aside />
-                <Box width={isSmall ? 'auto' : 'calc(100% - 16em)'}>
+            <Box display="flex" >
+                {/*<Aside />*/}
+                <Box width={isSmall ? 'auto' : 'calc(100% - 10em)'} style={{marginLeft:15}}>
                     <GridList />
                     <Pagination rowsPerPageOptions={[10, 20, 40]} />
                 </Box>

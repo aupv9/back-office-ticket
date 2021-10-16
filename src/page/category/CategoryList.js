@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { EditButton, List, useListContext } from 'react-admin';
+import {CreateButton, EditButton, List, useListContext} from 'react-admin';
 import inflection from 'inflection';
 import {
     Grid,
@@ -67,6 +67,11 @@ const CategoryGrid = (props) => {
     ) : null;
 };
 
+const ListAction = () =>[
+    <CreateButton />
+];
+
+
 const CategoryList = (props) => (
     <List
         {...props}
@@ -74,7 +79,7 @@ const CategoryList = (props) => (
         perPage={20}
         pagination={false}
         component="div"
-        actions={false}
+        actions={<ListAction />}
     >
         <CategoryGrid />
     </List>

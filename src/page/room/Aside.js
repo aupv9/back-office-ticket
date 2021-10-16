@@ -28,7 +28,7 @@ const Card = withStyles(theme => ({
 
 const Aside = () => {
     const { data, ids } = useGetList(
-        'theaters',
+        'categories',
         { page: 1, perPage: 100 },
         { field: 'name', order: 'ASC' },
         {}
@@ -37,81 +37,8 @@ const Aside = () => {
        <Card>
         <CardContent>
             <FilterLiveSearch />
-            {/*<FilterList*/}
-            {/*    label="booking by show times"*/}
-            {/*    icon={<AccessTimeIcon />}*/}
-            {/*>*/}
-            {/*    <FilterListItem*/}
-            {/*        label="Today"*/}
-            {/*        value={{*/}
-            {/*            start: startOfToday().toISOString(),*/}
-            {/*            end: endOfToday().toISOString(),*/}
-            {/*            isToday:true*/}
-            {/*        }}*/}
-            {/*    />*/}
-            {/*    <FilterListItem*/}
-            {/*        label="This week"*/}
-            {/*        value={{*/}
-            {/*            start: startOfWeek(new Date()).toISOString(),*/}
-            {/*            end: endOfWeek(new Date()).toISOString(),*/}
-            {/*            isToday:undefined*/}
-
-            {/*        }}*/}
-            {/*    />*/}
-            {/*    <FilterListItem*/}
-            {/*        label="Last week"*/}
-            {/*        value={{*/}
-            {/*            start: subWeeks(*/}
-            {/*                startOfWeek(new Date()),*/}
-            {/*                1*/}
-            {/*            ).toISOString(),*/}
-            {/*            end: startOfWeek(new Date()).toISOString(),*/}
-            {/*            isToday:undefined*/}
-
-
-            {/*        }}*/}
-            {/*    />*/}
-            {/*    <FilterListItem*/}
-            {/*        label="This month"*/}
-            {/*        value={{*/}
-            {/*            start: startOfMonth(new Date()).toISOString(),*/}
-            {/*            end: endOfMonth(new Date()).toISOString(),*/}
-            {/*            isToday:undefined*/}
-
-
-            {/*        }}*/}
-            {/*    />*/}
-            {/*    <FilterListItem*/}
-            {/*        label="Last month"*/}
-            {/*        value={{*/}
-            {/*            start: subMonths(*/}
-            {/*                startOfMonth(new Date()),*/}
-            {/*                1*/}
-            {/*            ).toISOString(),*/}
-            {/*            end: startOfMonth(new Date()).toISOString(),*/}
-            {/*            isToday:undefined*/}
-
-
-            {/*        }}*/}
-            {/*    />*/}
-            {/*    <FilterListItem*/}
-            {/*        label="Earlier"*/}
-            {/*        value={{*/}
-            {/*            start: subMonths(*/}
-            {/*                endOfMonth(new Date()),*/}
-            {/*                1*/}
-            {/*            ).toISOString(),*/}
-            {/*            end: subMonths(*/}
-            {/*                startOfMonth(new Date()),*/}
-            {/*                1*/}
-            {/*            ).toISOString(),*/}
-            {/*            isToday:undefined*/}
-
-            {/*        }}*/}
-            {/*    />*/}
-            {/*</FilterList>*/}
             <FilterList
-                label="Theater"
+                label="categories"
                 icon={<LocalOfferIcon />}
             >
                 {ids &&
@@ -120,7 +47,7 @@ const Aside = () => {
                     <FilterListItem
                         label={data[id].name}
                         key={data[id].id}
-                        value={{ theater_id: data[id].id }}
+                        value={{ category_id: data[id].id }}
                     />
                 ))}
             </FilterList>

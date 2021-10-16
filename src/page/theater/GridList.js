@@ -4,7 +4,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-    linkToRecord,
+    linkToRecord, NumberField,
     useListContext
 } from 'react-admin';
 import { Link } from 'react-router-dom';
@@ -59,13 +59,22 @@ const LoadedGridList = (props) => {
                     key={id}
                     to={linkToEdit(basePath,data[id].id)}
                 >
-                    <img src={data[id].thumbnail} alt="" />
+                    <img src={data[id].image} alt="" />
                     <GridListTileBar
                         className={classes.tileBar}
                         title={data[id].name}
                         subtitle={
                             <span>
-                                {data[id].locationName}
+                                <NumberField
+                                    className={classes.price}
+                                    source="price"
+                                    record={data[id]}
+                                    color="inherit"
+                                    options={{
+                                        style: 'currency',
+                                        currency: 'vnd',
+                                    }}
+                                />
                             </span>
                         }
                     />

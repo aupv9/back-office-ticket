@@ -20,7 +20,7 @@ import Aside from "../room/Aside";
 const {useMediaQuery} = require("@material-ui/core");
 
 
-const FoodsList = (props) => {
+const ConcessionList = (props) => {
     const isSmall = useMediaQuery(theme => theme.breakpoints.down('sm'));
     return (
         <ListBase
@@ -28,7 +28,7 @@ const FoodsList = (props) => {
             sort={{ field: 'id', order: 'ASC' }}
             {...props}
         >
-            <FoodsListView isSmall={isSmall} />
+            <ConcessionListView isSmall={isSmall} />
         </ListBase>
     );
 };
@@ -36,8 +36,8 @@ const FoodsList = (props) => {
 export const productFilters = [
     <SearchInput source="q" alwaysOn />,
     <ReferenceInput
-        source="location_id"
-        reference="locations"
+        source="category_id"
+        reference="concessions"
         sort={{ field: 'id', order: 'ASC' }}
     >
         <SelectInput source="name" />
@@ -47,14 +47,14 @@ export const productFilters = [
 const ListActions = ({ isSmall }) => (
     <TopToolbar>
         {isSmall && <FilterButton />}
-        <SortButton fields={['id', 'name', 'code']} />
-        <CreateButton basePath="/theaters" />
+        <SortButton fields={['id', 'name']} />
+        <CreateButton basePath="/concessions" />
         <ExportButton />
     </TopToolbar>
 );
 
 
-const FoodsListView = ({ isSmall }) => {
+const ConcessionListView = ({ isSmall }) => {
     const { defaultTitle } = useListContext();
     return (
         <>
@@ -77,4 +77,4 @@ const FoodsListView = ({ isSmall }) => {
         </>
     );
 };
-export default FoodsList;
+export default ConcessionList;

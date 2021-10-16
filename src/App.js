@@ -26,7 +26,10 @@ import {ShowTimesShow} from "./page/showtimes/ShowTimesShow";
 import {ShowTimesCreate} from "./page/showtimes/ShowTimesCreate";
 import {ShowTimesEdit} from "./page/showtimes/ShowTimesEdit";
 import CategoryList from "./page/category/CategoryList";
-import FoodsList from "./page/foods/FoodsList";
+import ConcessionList from "./page/foods/ConcessionList";
+import CategoryEdit from "./page/category/CategoryEdit";
+import {CategoryCreate} from "./page/category/CategoryCreate";
+import {ConcessionCreate} from "./page/foods/ConcessionCreate";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -69,8 +72,8 @@ const App = () => {
             <Resource name={"timeShowTimes"}/>
             <Resource name="seats-AvaiableInRoom" />
             <Resource name="seats-room" />
-            <Resource name="categories" options={{label:'Category'}} list={CategoryList}/>
-            <Resource name="foods" list={FoodsList}/>
+            <Resource name="categories" options={{label:'Category'}} list={CategoryList} edit={CategoryEdit} create={CategoryCreate}/>
+            <Resource name="concessions" list={ConcessionList} create={ConcessionCreate}   options={{label:'Concessions'}} />
 
         </Admin>
     );

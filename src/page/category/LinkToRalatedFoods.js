@@ -24,7 +24,7 @@ const LinkToRelatedFoods = (props) => {
             color="primary"
             component={Link}
             to={{
-                pathname: '/products',
+                pathname: '/concessions',
                 search: stringify({
                     filter: JSON.stringify({ category_id: record.id }),
                 }),
@@ -32,7 +32,7 @@ const LinkToRelatedFoods = (props) => {
             className={classes.link}
         >
             <ProductIcon className={classes.icon} />
-            {translate('foods')}
+            {translate('concessions')}
         </Button>
     ) : null;
 };
