@@ -19,7 +19,7 @@ import {
     TextField,
     TextInput,
     useGetList,
-    useListContext,
+    useListContext, ChipField,
 } from 'react-admin';
 import { useMediaQuery, Divider, Tabs, Tab, Theme } from '@material-ui/core';
 
@@ -53,8 +53,7 @@ const useDatagridStyles = makeStyles({
 
 const tabs = [
     { id: 'ordered', name: 'ordered' },
-    { id: 'cancelled', name: 'cancelled' },
-    { id: 'mine', name: 'creation by me' }
+    { id: 'cancelled', name: 'cancelled' }
 ];
 
 
@@ -65,22 +64,14 @@ const useGetTotals = (filterValues) => {
         { field: 'id', order: 'ASC' },
         { ...filterValues, status: 'ordered' }
     );
-    const { total: totalDelivered } = useGetList(
-        'orders',
-        { perPage: 1, page: 1 },
-        { field: 'id', order: 'ASC' },
-        { ...filterValues, creation:  }
-    );
     const { total: totalCancelled } = useGetList(
         'orders',
         { perPage: 1, page: 1 },
         { field: 'id', order: 'ASC' },
         { ...filterValues, status: 'cancelled' }
     );
-
     return {
         ordered: totalOrdered,
-        delivered: totalDelivered,
         cancelled: totalCancelled,
     };
 };
@@ -93,7 +84,6 @@ const TabbedDatagrid = (props) => {
             theme.breakpoints.down('xs')
     );
     const [ordered, setOrdered] = useState([]);
-    const [delivered, setDelivered] = useState([]);
 
     const [cancelled, setCancelled] = useState([]);
     const totals = useGetTotals(filterValues);
@@ -162,8 +152,9 @@ const TabbedDatagrid = (props) => {
                             value={{ ...listContext, ids: ordered }}
                         >
                             <Datagrid {...props} optimized rowClick="edit">
-                                <DateField source="date" showTime />
-                                <TextField source="reference" />
+                                <DateField source="createDate" showTime />
+                                <ChipField source="typeUser" />
+                                <TextField source="note"/>
                                 {/*<CustomerReferenceField />*/}
                                 {/*<ReferenceField*/}
                                 {/*    source="customer_id"*/}
@@ -174,43 +165,23 @@ const TabbedDatagrid = (props) => {
                                 {/*    <AddressField />*/}
                                 {/*</ReferenceField>*/}
                                 {/*<NbItemsField />*/}
+
+                                <NumberField
+                                    source="tax"
+                                    options={{
+                                        style: 'currency',
+                                        currency: 'VND',
+                                    }}
+                                    className={classes.total}
+                                />
                                 <NumberField
                                     source="total"
                                     options={{
                                         style: 'currency',
-                                        currency: 'USD',
+                                        currency: 'VND',
                                     }}
                                     className={classes.total}
                                 />
-                            </Datagrid>
-                        </ListContextProvider>
-                    )}
-                    {filterValues.status === 'delivered' && (
-                        <ListContextProvider
-                            value={{ ...listContext, ids: delivered }}
-                        >
-                            <Datagrid {...props} rowClick="edit">
-                                <DateField source="date" showTime />
-                                <TextField source="reference" />
-                                {/*<CustomerReferenceField />*/}
-                                {/*<ReferenceField*/}
-                                {/*    source="customer_id"*/}
-                                {/*    reference="customers"*/}
-                                {/*    link={false}*/}
-                                {/*    label="resources.commands.fields.address"*/}
-                                {/*>*/}
-                                {/*    <AddressField />*/}
-                                {/*</ReferenceField>*/}
-                                {/*<NbItemsField />*/}
-                                <NumberField
-                                    source="total"
-                                    options={{
-                                        style: 'currency',
-                                        currency: 'USD',
-                                    }}
-                                    className={classes.total}
-                                />
-                                <BooleanField source="returned" />
                             </Datagrid>
                         </ListContextProvider>
                     )}

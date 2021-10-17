@@ -30,6 +30,8 @@ import ConcessionList from "./page/foods/ConcessionList";
 import CategoryEdit from "./page/category/CategoryEdit";
 import {CategoryCreate} from "./page/category/CategoryCreate";
 import {ConcessionCreate} from "./page/foods/ConcessionCreate";
+import OrdersList from "./page/orders/OrdersList";
+import Layout from "./page/layout/Layout";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -58,7 +60,7 @@ const routes =  [
 
 const App = () => {
     return (
-        <Admin dataProvider={dataProvider} dashboard={DashBoard} authProvider={authProvider} customRoutes={routes}>
+        <Admin dataProvider={dataProvider} dashboard={DashBoard} authProvider={authProvider} customRoutes={routes} layout={Layout}>
             {/*<Resource name="locations" list={Location} edit={LocationEdit} create={LocationCreate}/>*/}
             <Resource name="theaters" list={TheaterList} edit={EditTheater} create={TheaterCreate}/>
             <Resource name="rooms"  list={ListRoom} edit={RoomEdit} create={RoomCreate}/>
@@ -74,7 +76,7 @@ const App = () => {
             <Resource name="seats-room" />
             <Resource name="categories" options={{label:'Category'}} list={CategoryList} edit={CategoryEdit} create={CategoryCreate}/>
             <Resource name="concessions" list={ConcessionList} create={ConcessionCreate}   options={{label:'Concessions'}} />
-
+            <Resource name="orders" list={OrdersList}/>
         </Admin>
     );
 }
