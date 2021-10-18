@@ -227,6 +227,7 @@ const OrderList = (props) => (
         sort={{ field: 'create_date', order: 'DESC' }}
         perPage={25}
         filters={orderFilters}
+        hasCreate={true}
     >
         <TabbedDatagrid />
     </List>

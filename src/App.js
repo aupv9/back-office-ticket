@@ -32,6 +32,7 @@ import {CategoryCreate} from "./page/category/CategoryCreate";
 import {ConcessionCreate} from "./page/foods/ConcessionCreate";
 import OrdersList from "./page/orders/OrdersList";
 import Layout from "./page/layout/Layout";
+import OrdersCreate from "./page/orders/OrdersCreate";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -76,7 +77,7 @@ const App = () => {
             <Resource name="seats-room" />
             <Resource name="categories" options={{label:'Category'}} list={CategoryList} edit={CategoryEdit} create={CategoryCreate}/>
             <Resource name="concessions" list={ConcessionList} create={ConcessionCreate}   options={{label:'Concessions'}} />
-            <Resource name="orders" list={OrdersList}/>
+            <Resource name="orders" list={OrdersList} create={OrdersCreate}/>
         </Admin>
     );
 }

@@ -56,7 +56,7 @@ export const ShowTimesCreate = (props) =>{
                         />
                     </ReferenceInput>
                     <ReferenceInput reference="theaters" source="theaterId" onChange={(event) => handleChangeTheater(event)}>
-                        <AutocompleteInput isRequired value={theater}
+                        <AutocompleteInput isRequired
                                            optionText={(choice) => choice.id ? `${choice.name}` : ''
                                                }
                         />
