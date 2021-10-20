@@ -63,14 +63,35 @@ export const UserCreate = (props) => {
                     validate={[required(), email()]}
                 />
                 <Separator />
+                <SectionTitle label="Address" />
+                <TextInput
+                    source="address"
+                    formClassName={classes.address}
+                    multiline
+                    fullWidth
+                    helperText={false}
+                />
+                <TextInput
+                    source="state"
+                    formClassName={classes.zipcode}
+                    helperText={false}
+                />
+                <TextInput
+                    source="city"
+                    formClassName={classes.city}
+                    helperText={false}
+                />
+                <Separator />
                 <SectionTitle label="Password" />
                 <PasswordInput
                     source="password"
                     formClassName={classes.password}
+                    validate={required()}
                 />
                 <PasswordInput
                     source="confirm_password"
                     formClassName={classes.confirm_password}
+                    validate={required()}
 
                 />
             </SimpleForm>
