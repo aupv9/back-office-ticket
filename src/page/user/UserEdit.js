@@ -157,7 +157,7 @@ const UserForm = (props ) => {
                                 >
                                     <Typography variant="h6" gutterBottom>
                                         {translate(
-                                            'resources.customers.fieldGroups.stats'
+                                            'Stats'
                                         )}
                                     </Typography>
 

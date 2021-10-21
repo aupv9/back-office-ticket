@@ -7,32 +7,42 @@ import {
     DateField,
     ChipField,
     BooleanField,
-    ReferenceManyField,SingleFieldList
+    ReferenceManyField, SingleFieldList, SearchInput, EditButton, AutocompleteInput, ReferenceInput
 } from 'react-admin';
+import UserLinkField from "./UserLinkField";
+import * as React from "react";
 
+const usersFilters = [
+    <SearchInput source="q" alwaysOn />,
+    <ReferenceInput source="createBy" reference="users" filter={{role:0}}>
+        <AutocompleteInput
+            optionText={(choice) =>
+                choice.id ? `${choice.fullName}` : ''
+            }
+        />
+    </ReferenceInput>,
+];
 
 
 export const UserList = props => (
     <List {...props}
-          filter={{role:0}}>
-        <Datagrid rowClick="edit">
+          filter={{role:0}}
+          filters={usersFilters}
+          >
+        <Datagrid rowClick="show">
             <EmailField source="email" />
             <TextField source="fullName" />
             <TextField source="address"/>
             <TextField source="state"/>
             <TextField source="city"/>
             <DateField source="registeredAt"/>
-            <ReferenceField reference="users" source="createdBy" >
-                <TextField source="fullName"/>
-            </ReferenceField>
+            <UserLinkField />
             <DateField source="lastLogin"/>
             <BooleanField  source="currentLogged" />
-            {/*<ReferenceManyField reference="roles" target="roleId">*/}
-            {/*    <SingleFieldList>*/}
-            {/*        <ChipField source="name" />*/}
-            {/*    </SingleFieldList>*/}
-            {/*</ReferenceManyField>*/}
-
+            <ReferenceField reference="roles" source="roleId">
+                    <ChipField source="code" />
+            </ReferenceField>
+            <EditButton />
         </Datagrid>
     </List>
 );

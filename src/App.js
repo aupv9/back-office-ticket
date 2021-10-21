@@ -1,6 +1,6 @@
 import './App.css';
 import {
-    Admin, EditGuesser, ListGuesser,
+    Admin, EditGuesser, fetchUtils, ListGuesser,
     Resource, ShowGuesser
 } from 'react-admin';
 import {Location} from "./page/location/Location";
@@ -36,6 +36,7 @@ import OrdersCreate from "./page/orders/OrdersCreate";
 import {UserCreate} from "./page/user/UserCreate";
 import {UserList} from "./page/user/UserList";
 import UserEdit from "./page/user/UserEdit";
+import MyLoginPage from "./page/login/MyLoginPage";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -43,8 +44,17 @@ import UserEdit from "./page/user/UserEdit";
 
 
 
+const httpClient = (url, options = {}) => {
+    if (!options.headers) {
+        options.headers = new Headers({ Accept: 'application/json' });
+    }
+    const  token  = JSON.parse(localStorage.getItem('token'));
+    options.headers.set('Authorization', `${token}`);
+    return fetchUtils.fetchJson(url, options);
+};
 
- const dataProvider = customRequest(`http://localhost:8080/api/v1`);
+
+const dataProvider = customRequest(`http://localhost:8080/api/v1`,httpClient);
 
 // const dataProvider = customNewRequest(`http://localhost:8080/api/v1`);
 
@@ -64,7 +74,13 @@ const routes =  [
 
 const App = () => {
     return (
-        <Admin dataProvider={dataProvider} dashboard={DashBoard} authProvider={authProvider} customRoutes={routes} layout={Layout}>
+        <Admin dataProvider={dataProvider}
+               dashboard={DashBoard}
+               authProvider={authProvider}
+               customRoutes={routes}
+               layout={Layout}
+               // loginPage={MyLoginPage}
+        >
             {/*<Resource name="locations" list={Location} edit={LocationEdit} create={LocationCreate}/>*/}
             <Resource name="theaters" list={TheaterList} edit={EditTheater} create={TheaterCreate}/>
             <Resource name="rooms"  list={ListRoom} edit={RoomEdit} create={RoomCreate}/>
@@ -81,7 +97,7 @@ const App = () => {
             <Resource name="categories" options={{label:'Category'}} list={CategoryList} edit={CategoryEdit} create={CategoryCreate}/>
             <Resource name="concessions" list={ConcessionList} create={ConcessionCreate}   options={{label:'Concessions'}} />
             <Resource name="orders" list={OrdersList} create={OrdersCreate}/>
-            <Resource name="users" create={UserCreate} list={UserList} edit={UserEdit}/>
+            <Resource name="users" create={UserCreate} list={UserList} edit={UserEdit} show={ShowGuesser}/>
             <Resource name="roles" />
             <Resource name={"uas"} />
         </Admin>

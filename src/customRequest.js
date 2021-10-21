@@ -50,7 +50,6 @@ export const getOrderingQuery = (sort) => {
 export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
 
 
-
     /**
      * @param {String} type One of the constants appearing at the top if this file, e.g. 'UPDATE'
      * @param {String} resource Name of the resource to fetch, e.g. 'posts'
