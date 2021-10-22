@@ -40,7 +40,7 @@ export const UserList = props => (
             <DateField source="lastLogin"/>
             <BooleanField  source="currentLogged" />
             <ReferenceField reference="roles" source="roleId">
-                    <ChipField source="code" />
+                <ChipField source="code" />
             </ReferenceField>
             <EditButton />
         </Datagrid>

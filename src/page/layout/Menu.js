@@ -15,11 +15,11 @@ import {
 
 import SubMenu from './SubMenu';
 import {
-    AttachMoney, BookmarkSharp, LibraryAdd, LibraryBooks,
+    AttachMoney, BookmarkSharp, Category, CategoryRounded, EmojiPeopleOutlined, Fastfood, LibraryAdd, LibraryBooks,
     LocationCityOutlined, Money, MoneyTwoTone,
     MovieCreationSharp,
     MovieFilter,
-    RoomServiceSharp, SupervisedUserCircle,
+    RoomServiceSharp, SupervisedUserCircle, SupervisedUserCircleRounded,
     TheatersSharp, VerifiedUser, Wallpaper, WallpaperTwoTone
 } from "@material-ui/icons";
 
@@ -29,6 +29,7 @@ const Menu = ({ dense = false }) => {
         menuManageBase: true,
         menuFilm: true,
         menuOrders: true,
+        menuConcessions:true
     });
     const translate = useTranslate();
     const open = useSelector((state) => state.admin.ui.sidebarOpen);
@@ -86,6 +87,36 @@ const Menu = ({ dense = false }) => {
                         smart_count: 2,
                     })}
                     leftIcon={<RoomServiceSharp />}
+                    dense={dense}
+                />
+            </SubMenu>
+            <SubMenu
+                handleToggle={() => handleToggle('menuConcessions')}
+                isOpen={state.menuConcessions}
+                name="Concessions"
+                icon={<Fastfood   />}
+                dense={dense}
+            >
+                <MenuItemLink
+                    to={{
+                        pathname: '/categories',
+                        state: { _scrollToTop: true },
+                    }}
+                    primaryText={translate(`Category`, {
+                        smart_count: 2,
+                    })}
+                    leftIcon={<Category/>}
+                    dense={dense}
+                />
+                <MenuItemLink
+                    to={{
+                        pathname: '/concessions',
+                        state: { _scrollToTop: true },
+                    }}
+                    primaryText={translate(`Fast Food`, {
+                        smart_count: 2,
+                    })}
+                    leftIcon={<Fastfood />}
                     dense={dense}
                 />
             </SubMenu>
@@ -162,24 +193,26 @@ const Menu = ({ dense = false }) => {
                         pathname: '/users',
                         state: { _scrollToTop: true },
                     }}
-                    primaryText={translate(`Staff`, {
+                    primaryText={translate(`User`, {
                         smart_count: 2,
                     })}
-                    leftIcon={<VerifiedUser/>}
+                    leftIcon={<SupervisedUserCircleRounded/>}
                     dense={dense}
                 />
                 <MenuItemLink
                     to={{
-                        pathname: '/invoices',
+                        pathname: '/employees',
                         state: { _scrollToTop: true },
                     }}
-                    primaryText={translate(`Invoices`, {
+                    primaryText={translate(`Employee`, {
                         smart_count: 2,
                     })}
-                    leftIcon={<LibraryBooks />}
+                    leftIcon={<EmojiPeopleOutlined />}
                     dense={dense}
                 />
             </SubMenu>
+
+
             {/*<MenuItemLink*/}
             {/*    to={{*/}
             {/*        pathname: '/reviews',*/}

@@ -7,7 +7,7 @@ export default {
     // called when the user attempts to log in
     // login: ({ username, password }) => {
     //
-    //     localStorage.setItem('username', username);
+    //     // localStorage.setItem('username', username);
     //     // accept all username/password combinations
     //     return Promise.resolve();
     // },
@@ -35,7 +35,7 @@ export default {
                 throw new Error('Network error')
             });
     },
-    // called when the user clicks on the logout button
+    //called when the user clicks on the logout button
     logout: () => {
         localStorage.removeItem('username');
         localStorage.removeItem('token');
@@ -52,7 +52,7 @@ export default {
     },
     // called when the user navigates to a new location, to check for authentication
     checkAuth: () => {
-        return localStorage.getItem('token')
+       return localStorage.getItem('token')
             ? Promise.resolve()
             : Promise.reject();
     },

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { memo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import AvatarField from './AvatarField';
@@ -38,4 +37,4 @@ FullNameField.defaultProps = {
     label: 'resources.customers.fields.name',
 };
 
-export default memo(FullNameField);
+export default React.memo(FullNameField);
