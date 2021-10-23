@@ -23,25 +23,34 @@ const usersFilters = [
 ];
 
 
-export const EmployeeList = props => (
-    <List {...props}
-          filter={{role_id:0,theater_id:0}}
-          filters={usersFilters}
-    >
-        <Datagrid rowClick="show">
-            {/*<EmailField source="email" />*/}
-            {/*<TextField source="fullName" />*/}
-            {/*<TextField source="address"/>*/}
-            {/*<TextField source="state"/>*/}
-            {/*<TextField source="city"/>*/}
-            {/*<DateField source="registeredAt"/>*/}
-            {/*<UserLinkField />*/}
-            {/*<DateField source="lastLogin"/>*/}
-            {/*<BooleanField  source="currentLogged" />*/}
-            {/*<ReferenceField reference="roles" source="roleId">*/}
-            {/*    <ChipField source="code" />*/}
-            {/*</ReferenceField>*/}
-            <EditButton />
-        </Datagrid>
-    </List>
-);
+export const EmployeeList = props => {
+
+
+    return   (
+
+        <List {...props}
+              filter={{role_id:0,theater_id:0}}
+              filters={usersFilters}
+        >
+            <Datagrid rowClick="show">
+                <ReferenceField reference="users" source="userId" label="User Account">
+                    <UserLinkField />
+                </ReferenceField>
+                <ReferenceField reference="users" source="createdBy" label="Created By">
+                    <UserLinkField />
+                </ReferenceField>
+                <ReferenceField reference="theaters" source="theaterId" label="Theater">
+                    <TextField source="name" />
+                </ReferenceField>
+                <DateField source="createdAt"/>
+                <DateField source="updatedAt"/>
+                <DateField source="startsAt"/>
+                <DateField source="endsAt"/>
+                <ChipField source="status" />
+                <EditButton />
+            </Datagrid>
+        </List>
+    );
+}
+
+

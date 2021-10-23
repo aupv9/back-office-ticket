@@ -1,6 +1,6 @@
 import './App.css';
 import {
-    Admin, EditGuesser, fetchUtils, ListGuesser,
+    Admin, EditGuesser, fetchUtils, ListGuesser, Login,
     Resource, ShowGuesser
 } from 'react-admin';
 import {Location} from "./page/location/Location";
@@ -34,10 +34,11 @@ import OrdersList from "./page/orders/OrdersList";
 import Layout from "./page/layout/Layout";
 import OrdersCreate from "./page/orders/OrdersCreate";
 import {UserCreate} from "./page/user/UserCreate";
-import {UserList} from "./page/user/UserList";
 import UserEdit from "./page/user/UserEdit";
-import MyLoginPage from "./page/login/MyLoginPage";
 import {EmployeeList} from "./page/employee/EmployeeList";
+import EmployeeEdit from "./page/employee/EmployeeEdit";
+import LoginForm from "./page/login/LoginForm";
+import UserList from "./page/user/UserList";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -72,15 +73,21 @@ const routes =  [
  ]
 
 
+const MyLoginPage = () => (
+    <Login
+        backgroundImage="https://source.unsplash.com/random/1600x900/daily">
+        <LoginForm/>
+    </Login>
+);
 
 const App = () => {
     return (
         <Admin dataProvider={dataProvider}
                dashboard={DashBoard}
                authProvider={authProvider}
-               customRoutes={routes}
+               // customRoutes={routes}
                layout={Layout}
-               // loginPage={MyLoginPage}
+                loginPage={MyLoginPage}
         >
             {/*<Resource name="locations" list={Location} edit={LocationEdit} create={LocationCreate}/>*/}
             <Resource name="theaters" list={TheaterList} edit={EditTheater} create={TheaterCreate}/>
@@ -101,8 +108,7 @@ const App = () => {
             <Resource name="users" create={UserCreate} list={UserList} edit={UserEdit} show={ShowGuesser}/>
             <Resource name="roles" />
             <Resource name={"uas"} />
-            <Resource name="employees" list={EmployeeList}/>
-
+            <Resource name="employees" list={EmployeeList} edit={EmployeeEdit}/>
         </Admin>
     );
 }

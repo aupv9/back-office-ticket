@@ -3,12 +3,17 @@ import { Link } from 'react-admin';
 
 import FullNameField from './FullNameField';
 
-const UserLinkField = (props) =>
-    props.record ? (
-        <Link to={`/users/${props.record.id}`}>
-            <FullNameField {...props} />
-        </Link>
-    ) : null;
+const UserLinkField = (props) => {
+    console.log(props)
+    return (
+        props.record ? (
+            <Link to={ `/users/${props.record.id}`}>
+                <FullNameField {...props} />
+            </Link>
+        ) : null
+    );
+}
+
 
 UserLinkField.defaultProps = {
     source: 'createdBy',

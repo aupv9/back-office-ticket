@@ -27,6 +27,7 @@ export default {
                 return response.json();
             })
             .then(auth => {
+                console.log(auth)
                 localStorage.setItem('username', username);
                 localStorage.setItem('token', JSON.stringify(auth["token"]));
                 localStorage.setItem('privilege', JSON.stringify(auth["privileges"]));

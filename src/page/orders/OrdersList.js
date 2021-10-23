@@ -25,10 +25,6 @@ import { useMediaQuery, Divider, Tabs, Tab, Theme } from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-// import NbItemsField from './NbItemsField';
-// import CustomerReferenceField from '../visitors/CustomerReferenceField';
-// import AddressField from '../visitors/AddressField';
-// import MobileGrid from './MobileGrid';
 
 const orderFilters = [
     <SearchInput source="q" alwaysOn />,

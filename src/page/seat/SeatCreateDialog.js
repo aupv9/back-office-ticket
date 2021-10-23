@@ -42,7 +42,6 @@ export const SeatCreateDialog = ({ open} ) => {
     const dataProvider = useDataProvider();
     const roomId = localStorage.getItem("idRoom") ? parseInt(localStorage.getItem("idRoom")) : 0;
     const { data, loading, error } = useGetOne('rooms',roomId );
-    console.log(data)
     if(error) {
         return <Error error={"Not Found"}/>;
     };
