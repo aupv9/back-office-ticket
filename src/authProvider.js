@@ -1,8 +1,4 @@
 // in src/authProvider.js
-
-
-import {useNotify} from "react-admin";
-
 export default {
     // called when the user attempts to log in
     // login: ({ username, password }) => {
@@ -11,30 +7,63 @@ export default {
     //     // accept all username/password combinations
     //     return Promise.resolve();
     // },
-    login: ({ username, password }) =>  {
-
-        const request = new Request('http://localhost:8080/api/v1/authenticate', {
-            method: 'POST',
-            body: JSON.stringify({ email:username, password }),
-            headers: new Headers({ 'Content-Type': 'application/json' }),
-        });
-        return fetch(request)
-            .then(response => {
-                if (response.status < 200 || response.status >= 300) {
-
-                    throw new Error(response.statusText);
-                }
-                return response.json();
-            })
-            .then(auth => {
-                console.log(auth)
-                localStorage.setItem('username', username);
-                localStorage.setItem('token', JSON.stringify(auth["token"]));
-                localStorage.setItem('privilege', JSON.stringify(auth["privileges"]));
-            })
-            .catch(() => {
-                throw new Error('Network error')
+    login: ({ username, password ,isSocial,body}) =>  {
+        if(!isSocial){
+            const request = new Request('http://localhost:8080/api/v1/authenticate', {
+                method: 'POST',
+                body: JSON.stringify({ email:username, password }),
+                headers: new Headers({ 'Content-Type': 'application/json' }),
             });
+            return fetch(request)
+                .then(response => {
+                    if (response.status < 200 || response.status >= 300) {
+
+                        throw new Error(response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(auth => {
+                    console.log(auth)
+                    localStorage.setItem('username', username);
+                    localStorage.setItem('token', JSON.stringify(auth["token"]));
+                    localStorage.setItem('privilege', JSON.stringify(auth["privileges"]));
+                })
+                .catch(() => {
+                    throw new Error('Network error')
+                });
+        }else{
+            const params = {
+                email:body.email,
+                familyName:body.familyName,
+                givenName: body.givenName,
+                googleId: body.googleId,
+                imageUrl: body.imageUrl,
+                name: body.name
+            }
+            const request = new Request('http://localhost:8080/api/v1/authenticate-social', {
+                method: 'POST',
+                body: JSON.stringify(body),
+                headers: new Headers({ 'Content-Type': 'application/json' }),
+            });
+            return fetch(request)
+                .then(response => {
+                    if (response.status < 200 || response.status >= 300) {
+
+                        throw new Error(response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(auth => {
+                    console.log(auth)
+                    localStorage.setItem('username', username);
+                    localStorage.setItem('token', JSON.stringify(auth["token"]));
+                    localStorage.setItem('privilege', JSON.stringify(auth["privileges"]));
+                })
+                .catch(() => {
+                    throw new Error('Network error')
+                });
+        }
+
     },
     //called when the user clicks on the logout button
     logout: () => {

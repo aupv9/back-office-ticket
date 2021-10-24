@@ -61,7 +61,6 @@ const LoginForm = (props) => {
     const login = useLogin();
     const translate = useTranslate();
     const notify = useNotify();
-    const redirect = useRedirect();
     const classes = useStyles(props);
 
     const validate = (values) => {
@@ -77,8 +76,9 @@ const LoginForm = (props) => {
     };
 
     const submit = values => {
+        let valueParams = {...values,isSocial:false};
         setLoading(true);
-        login(values, redirectTo)
+        login(valueParams, redirectTo)
             .then(() => {
                 setLoading(false);
             })
@@ -102,23 +102,28 @@ const LoginForm = (props) => {
                 );
             });
     };
+
     const onSuccess = (res) => {
         console.log('Login Success: currentUser:', res.profileObj);
         refreshTokenSetup(res);
+        login({isSocial:true,body:res.profileObj}).catch(() =>
+            notify('Invalid')
+        );
         return Promise.resolve()
     };
+
     const onFailure = (res) => {
         console.log('Login failed: res:', res);
     };
+
     const { signIn } = useGoogleLogin({
         onSuccess,
         onFailure,
         clientId,
         isSignedIn: true,
-        accessType: 'offline',
-        // responseType: 'code',
-        // prompt: 'consent',
+        accessType: 'offline'
     });
+
     return (
         <Form
             onSubmit={submit}
@@ -184,6 +189,7 @@ const LoginForm = (props) => {
                                         thickness={2}
                                     />
                                 )}
+
                                 Login With Google
                             </Button>
                         </CardActions>

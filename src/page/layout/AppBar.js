@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { forwardRef } from 'react';
-import { AppBar, UserMenu, MenuItemLink, useTranslate } from 'react-admin';
+import {AppBar, UserMenu, MenuItemLink, useTranslate, Logout, useLogout} from 'react-admin';
 import Typography from '@material-ui/core/Typography';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { makeStyles } from '@material-ui/core/styles';
 import Logo from "./Logo";
+import {useGoogleLogout} from "react-google-login";
+import {PowerInput, PowerOff, PowerSettingsNew} from "@material-ui/icons";
 
 
 const useStyles = makeStyles({
@@ -33,11 +35,50 @@ const ConfigurationMenu = forwardRef((props, ref) => {
     );
 });
 
-const CustomUserMenu = (props) => (
-    <UserMenu {...props}>
-        <ConfigurationMenu />
-    </UserMenu>
-);
+const clientId = '765454672866-ogngmccn89t4b7nkf24glnk87e3mn5e5.apps.googleusercontent.com';
+
+const LogoutCustom = forwardRef((props,ref) =>{
+    const logout = useLogout();
+    const onFailure = (res) =>{
+
+    };
+    const onLogoutSuccess = (res) => {
+        console.log('Logged out Success');
+    };
+
+    const { signOut} = useGoogleLogout({
+        onFailure,
+        clientId,
+        onLogoutSuccess
+    })
+    const logoutHandle =() =>{
+        signOut();
+        logout().then(r => console.log(r));
+    }
+    return (
+        <MenuItemLink
+            ref={ref}
+            to="/"
+            primaryText={'Logout'}
+            leftIcon={<PowerSettingsNew />}
+            onClick={logoutHandle}
+            sidebarIsOpen
+        />
+    );
+});
+
+const CustomUserMenu = (props) => {
+
+    return(
+        <UserMenu {...props}
+                  logout={<LogoutCustom />}
+        >
+            <ConfigurationMenu />
+        </UserMenu>
+    );
+}
+
+
 
 const CustomAppBar = (props) => {
     const classes = useStyles();

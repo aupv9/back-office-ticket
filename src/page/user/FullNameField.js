@@ -19,7 +19,6 @@ const useStyles = makeStyles(theme => ({
 
 const FullNameField = (props) => {
     const { record, size } = props;
-    console.log(record)
 
     const classes = useStyles();
     return record ? (

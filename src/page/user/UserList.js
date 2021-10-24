@@ -106,13 +106,13 @@ const tabs = [
 const useGetTotals = (filterValues) => {
     const { total: userRegister } = useGetList(
         'users',
-        { perPage: 1, page: 1 },
+        { perPage: 25, page: 1 },
         { field: 'id', order: 'ASC' },
         { ...filterValues }
     );
     const { total: userSocial } = useGetList(
         'users',
-        { perPage: 1, page: 1 },
+        { perPage: 25, page: 1 },
         { field: 'id', order: 'ASC' },
         { ...filterValues }
     );
@@ -204,7 +204,12 @@ const TabbedDatagrid = (props) => {
                                 <TextField source="state"/>
                                 <TextField source="city"/>
                                 <DateField source="registeredAt"/>
-                                <UserLinkField />
+
+                                {/*<ReferenceField reference="users" source="createdBy">*/}
+                                {/*    <TextField source="firstName" />*/}
+                                {/*</ReferenceField>*/}
+                                {/*<UserLinkField />*/}
+
                                 <DateField source="lastLogin"/>
                                 <BooleanField  source="currentLogged" />
                                 <ReferenceField reference="roles" source="roleId">
@@ -223,7 +228,10 @@ const TabbedDatagrid = (props) => {
                             value={{ ...listContext, ids: userSocial }}
                         >
                             <Datagrid {...props} rowClick="edit">
-
+                                <EmailField source="email" />
+                                <TextField source="fullName" />
+                                <DateField source="lastLogin"/>
+                                <BooleanField  source="currentLogged" />
                             </Datagrid>
                         </ListContextProvider>
                     )}
@@ -236,7 +244,7 @@ const TabbedDatagrid = (props) => {
 const UserList = (props) => (
     <List
         {...props}
-        filterDefaultValues={{ role:0 }}
+        filterDefaultValues={{ role:0 ,status:'userRegister'}}
         sort={{ field: 'registeredAt', order: 'DESC' }}
         perPage={25}
         filters={orderFilters}
