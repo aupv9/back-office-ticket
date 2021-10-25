@@ -15,12 +15,25 @@ import {
 
 import SubMenu from './SubMenu';
 import {
-    AttachMoney, BookmarkSharp, Category, CategoryRounded, EmojiPeopleOutlined, Fastfood, LibraryAdd, LibraryBooks,
-    LocationCityOutlined, Money, MoneyTwoTone,
+    AttachMoney,
+    Category,
+    EmojiPeopleOutlined,
+    Fastfood,
+    LocationCityOutlined,
+    MoneyTwoTone,
     MovieCreationSharp,
     MovieFilter,
-    RoomServiceSharp, SupervisedUserCircle, SupervisedUserCircleRounded,
-    TheatersSharp, VerifiedUser, Wallpaper, WallpaperTwoTone
+    RoomServiceSharp,
+    SupervisedUserCircle,
+    SupervisedUserCircleRounded,
+    TheatersSharp,
+    Videocam,
+    ViewCompact,
+    ViewDay,
+    ViewHeadline,
+    Visibility,
+    WallpaperTwoTone,
+    YoutubeSearchedForOutlined
 } from "@material-ui/icons";
 
 
@@ -29,7 +42,8 @@ const Menu = ({ dense = false }) => {
         menuManageBase: true,
         menuFilm: true,
         menuOrders: true,
-        menuConcessions:true
+        menuConcessions:true,
+        menuShowTimes:true
     });
     const translate = useTranslate();
     const open = useSelector((state) => state.admin.ui.sidebarOpen);
@@ -150,6 +164,39 @@ const Menu = ({ dense = false }) => {
                 {/*    dense={dense}*/}
                 {/*/>*/}
             </SubMenu>
+
+            <SubMenu
+                handleToggle={() => handleToggle('menuShowTimes')}
+                isOpen={state.menuShowTimes}
+                name="Show Times"
+                icon={<ViewHeadline   />}
+                dense={dense}
+            >
+                <MenuItemLink
+                    to={{
+                        pathname: '/showTimesDetails',
+                        state: { _scrollToTop: true },
+                    }}
+                    primaryText={translate(`Show Times`, {
+                        smart_count: 2,
+                    })}
+                    leftIcon={<Videocam/>}
+                    dense={dense}
+                />
+                {/*<MenuItemLink*/}
+                {/*    to={{*/}
+                {/*        pathname: '/employees',*/}
+                {/*        state: { _scrollToTop: true },*/}
+                {/*    }}*/}
+                {/*    primaryText={translate(`Employee`, {*/}
+                {/*        smart_count: 2,*/}
+                {/*    })}*/}
+                {/*    leftIcon={<EmojiPeopleOutlined />}*/}
+                {/*    dense={dense}*/}
+                {/*/>*/}
+            </SubMenu>
+
+
             <SubMenu
                 handleToggle={() => handleToggle('menuOrders')}
                 isOpen={state.menuOrders}

@@ -9,10 +9,11 @@ import {
     Create,
     useGetIdentity,
     NullableBooleanInput,
-    NumberInput,AutocompleteInput
+    NumberInput, AutocompleteInput, List, Datagrid, ReferenceField,TextField
 } from "react-admin";
 import * as React from "react";
 import {InputAdornment} from "@material-ui/core";
+import {useState} from "react";
 
 
 
@@ -37,13 +38,12 @@ const useStyles = makeStyles({
 const OrdersCreate = (props) =>{
     const classes = useStyles();
     const { identity, loading: identityLoading } = useGetIdentity();
-    const OptionRenderer = choice => (
-        <span>
-            <img src={choice["thumbnail"]} alt=""/>
-            {choice["name"]}
-        </span>
-    );
-    const inputText = choice => `${choice.name}`;
+
+    const [theater,setTheater] = useState();
+    const handleChangeTheater = (event) =>{
+        setTheater(event);
+        localStorage.setItem("theaterId",theater);
+    }
     return(
         <Create {...props} >
             <TabbedForm >
@@ -52,31 +52,41 @@ const OrdersCreate = (props) =>{
                     contentClassName={classes.tab}
                 >
                     <NullableBooleanInput label="Non Profile" source="nonProfile"/>
-                    {/*<NumberInput*/}
-                    {/*    source="price"*/}
-                    {/*    className={classes.price}*/}
-                    {/*    InputProps={{*/}
-                    {/*        endAdornment: (*/}
-                    {/*            <InputAdornment position="start">*/}
-                    {/*                vnd*/}
-                    {/*            </InputAdornment>*/}
-                    {/*        ),*/}
-                    {/*    }}*/}
-                    {/*    validate={requiredValidate}*/}
-                    {/*/>*/}
-
                 </FormTab>
                 <FormTab
-                    label="detail"
-                    path="detail"
+                    label="movie"
+                    path="movie"
                     contentClassName={classes.tab}
                 >
-                    {/*<TextInput source="name" validate={requiredValidate} />*/}
-                    {/*<TextInput source="code" validate={requiredValidate} />*/}
                     <ReferenceInput
                         source="movieId"
                         reference="movies"
                         validate={requiredValidate}
+                        onChange={(event) => handleChangeTheater(event)}
+                    >
+                        <AutocompleteInput isRequired
+                                           optionText={(choice) => choice.id ?  `${choice.name}` : ''
+                                           }
+                        />
+                    </ReferenceInput>
+
+                    <ReferenceInput
+                        source="roomId"
+                        reference="rooms"
+                        validate={requiredValidate}
+                        filter={{}}
+                    >
+                        <AutocompleteInput isRequired
+                                           optionText={(choice) => choice.id ?  `${choice.name}` : ''
+                                           }
+                        />
+                    </ReferenceInput>
+
+                    <ReferenceInput
+                        source="showTimeDetailId"
+                        reference="showTimesDetails"
+                        validate={requiredValidate}
+                        filter={{}}
                     >
                         <AutocompleteInput isRequired
                                            optionText={(choice) => choice.id ?  `${choice.name}` : ''
@@ -85,19 +95,6 @@ const OrdersCreate = (props) =>{
                     </ReferenceInput>
 
 
-
-                    {/*<TextInput source="address" validate={requiredValidate} />*/}
-                    {/*<GMapField*/}
-                    {/*    source=""*/}
-                    {/*    googleKey=""*/}
-                    {/*    searchable={true}*/}
-                    {/*/>*/}
-
-                    {/*<GMapInput*/}
-                    {/*    source="longitude"*/}
-                    {/*    multipleMarkers*/}
-                    {/*    googleKey="<YOUR_GOOGLE_APP_KEY>"*/}
-                    {/*/>*/}
                 </FormTab>
 
             </TabbedForm>

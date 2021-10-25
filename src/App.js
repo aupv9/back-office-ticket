@@ -92,7 +92,7 @@ const App = () => {
             {/*<Resource name="locations" list={Location} edit={LocationEdit} create={LocationCreate}/>*/}
             <Resource name="theaters" list={TheaterList} edit={EditTheater} create={TheaterCreate}/>
             <Resource name="rooms"  list={ListRoom} edit={RoomEdit} create={RoomCreate}/>
-            <Resource name="seats" edit={SeatEdit} create={localStorage.getItem("idRoom") ? SeatCreateDialog :null}  />
+            <Resource name="seats" edit={SeatEdit} create={ SeatCreateDialog }  />
             <Resource name="locations" list={LocationList} show={LocationShow} edit={LocationEdit} create={LocationCreate}/>
             <Resource name="location-theater"/>
             <Resource name={"movies"} list={MovieList} />

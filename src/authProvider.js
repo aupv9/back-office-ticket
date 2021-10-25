@@ -23,8 +23,7 @@ export default {
                     return response.json();
                 })
                 .then(auth => {
-                    console.log(auth)
-                    localStorage.setItem('username', username);
+                    localStorage.setItem('username', auth["email"]);
                     localStorage.setItem('token', JSON.stringify(auth["token"]));
                     localStorage.setItem('privilege', JSON.stringify(auth["privileges"]));
                 })
@@ -54,8 +53,7 @@ export default {
                     return response.json();
                 })
                 .then(auth => {
-                    console.log(auth)
-                    localStorage.setItem('username', username);
+                    localStorage.setItem('username', auth["email"]);
                     localStorage.setItem('token', JSON.stringify(auth["token"]));
                     localStorage.setItem('privilege', JSON.stringify(auth["privileges"]));
                 })
@@ -67,6 +65,7 @@ export default {
     },
     //called when the user clicks on the logout button
     logout: () => {
+        localStorage.removeItem('authToken');
         localStorage.removeItem('username');
         localStorage.removeItem('token');
         localStorage.removeItem('privilege');
@@ -90,8 +89,8 @@ export default {
     getPermissions: () => Promise.resolve(),
     getIdentity:  () => {
         try {
-              const username =  JSON.parse(localStorage.getItem('username'));
-            return Promise.resolve({ id:1, fullName: username});
+            const username =  JSON.parse(localStorage.getItem('username'));
+            return Promise.resolve({fullName: username});
         } catch (error) {
             return Promise.reject(error);
         }
