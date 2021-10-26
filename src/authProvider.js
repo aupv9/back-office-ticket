@@ -1,4 +1,8 @@
 // in src/authProvider.js
+
+import {useGoogleLogout} from "react-google-login";
+
+
 export default {
     // called when the user attempts to log in
     // login: ({ username, password }) => {
@@ -75,6 +79,7 @@ export default {
     checkError: ({ status }) => {
         if (status === 401 || status === 403) {
             localStorage.removeItem('username');
+
             return Promise.reject();
         }
         return Promise.resolve();

@@ -4,24 +4,20 @@ import {
     AutocompleteInput,
     BooleanField,
     Datagrid,
-    DatagridProps,
     DateField,
     DateInput,
-    Identifier,
     List,
     ListContextProvider,
-    ListProps,
     NullableBooleanInput,
     NumberField,
     ReferenceInput,
-    ReferenceField,
     SearchInput,
     TextField,
     TextInput,
     useGetList,
     useListContext, ChipField,
 } from 'react-admin';
-import { useMediaQuery, Divider, Tabs, Tab, Theme } from '@material-ui/core';
+import { useMediaQuery, Divider, Tabs, Tab } from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -223,7 +219,6 @@ const OrderList = (props) => (
         sort={{ field: 'create_date', order: 'DESC' }}
         perPage={25}
         filters={orderFilters}
-        hasCreate={true}
     >
         <TabbedDatagrid />
     </List>

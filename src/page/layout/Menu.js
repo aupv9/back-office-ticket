@@ -16,17 +16,17 @@ import {
 import SubMenu from './SubMenu';
 import {
     AttachMoney,
-    Category,
+    Category, CollectionsBookmark,
     EmojiPeopleOutlined,
     Fastfood,
     LocationCityOutlined,
     MoneyTwoTone,
     MovieCreationSharp,
     MovieFilter,
-    RoomServiceSharp,
+    RoomServiceSharp, ShowChart,
     SupervisedUserCircle,
     SupervisedUserCircleRounded,
-    TheatersSharp,
+    TheatersSharp, TimelapseOutlined,
     Videocam,
     ViewCompact,
     ViewDay,
@@ -43,7 +43,8 @@ const Menu = ({ dense = false }) => {
         menuFilm: true,
         menuOrders: true,
         menuConcessions:true,
-        menuShowTimes:true
+        menuShowTimes:true,
+        menuTicket:true
     });
     const translate = useTranslate();
     const open = useSelector((state) => state.admin.ui.sidebarOpen);
@@ -226,6 +227,37 @@ const Menu = ({ dense = false }) => {
                     leftIcon={<WallpaperTwoTone />}
                     dense={dense}
                 />
+            </SubMenu>
+
+            <SubMenu
+                handleToggle={() => handleToggle('menuTicket')}
+                isOpen={state.menuTicket}
+                name="Ticket"
+                icon={<CollectionsBookmark   />}
+                dense={dense}
+            >
+                <MenuItemLink
+                    to={{
+                        pathname: '/shows',
+                        state: { _scrollToTop: true },
+                    }}
+                    primaryText={translate(`Show Times`, {
+                        smart_count: 2,
+                    })}
+                    leftIcon={<TimelapseOutlined/>}
+                    dense={dense}
+                />
+                {/*<MenuItemLink*/}
+                {/*    to={{*/}
+                {/*        pathname: '/shows',*/}
+                {/*        state: { _scrollToTop: true },*/}
+                {/*    }}*/}
+                {/*    primaryText={translate(`Shows`, {*/}
+                {/*        smart_count: 2,*/}
+                {/*    })}*/}
+                {/*    leftIcon={<WallpaperTwoTone />}*/}
+                {/*    dense={dense}*/}
+                {/*/>*/}
             </SubMenu>
 
             <SubMenu

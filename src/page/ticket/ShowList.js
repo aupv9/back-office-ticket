@@ -83,7 +83,7 @@ const ListActions = (props) => (
 );
 
 
-export const ShowTimesList = (props) =>{
+export const ShowList = (props) =>{
     const classes = useStyles();
     const isXsmall = useMediaQuery(theme =>
         theme.breakpoints.down('xs')
@@ -94,12 +94,13 @@ export const ShowTimesList = (props) =>{
         <List
             {...props}
             filters={roomFilters}
+            filter={{movie_id:0,room_id:0}}
             sort={{ field: 'id', order: 'ACS' }}
             perPage={10}
             // aside={<ShowTimesAside />}
             actions={<ListActions/>}
         >
-            <Datagrid optimized rowClick="show">
+            <Datagrid optimized  rowClick="edit">
                 <ReferenceField label="Movie Name" source="movieId" reference="movies">
                     <TextField source="name" />
                 </ReferenceField>
@@ -125,8 +126,7 @@ export const ShowTimesList = (props) =>{
                         </ReferenceField>
                     </ReferenceField>
                 </ReferenceField>
-                <ShowButton />
-                <EditButton />
+
             </Datagrid>
         </List>
     );

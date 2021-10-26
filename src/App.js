@@ -39,6 +39,7 @@ import {EmployeeList} from "./page/employee/EmployeeList";
 import EmployeeEdit from "./page/employee/EmployeeEdit";
 import LoginForm from "./page/login/LoginForm";
 import UserList from "./page/user/UserList";
+import {ShowList} from "./page/ticket/ShowList";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -104,11 +105,15 @@ const App = () => {
             <Resource name="seats-room" />
             <Resource name="categories" options={{label:'Category'}} list={CategoryList} edit={CategoryEdit} create={CategoryCreate}/>
             <Resource name="concessions" list={ConcessionList} create={ConcessionCreate}   options={{label:'Concessions'}} />
-            <Resource name="orders" list={OrdersList} create={OrdersCreate}/>
+            <Resource name="orders" list={OrdersList}
+                      // create={OrdersCreate}
+            />
             <Resource name="users" create={UserCreate} list={UserList} edit={UserEdit} show={ShowGuesser}/>
             <Resource name="roles" />
             <Resource name={"uas"} />
             <Resource name="employees" list={EmployeeList} edit={EmployeeEdit}/>
+            <Resource name="shows"  list={ShowList} />
+
         </Admin>
     );
 }

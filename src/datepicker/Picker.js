@@ -38,7 +38,6 @@ const Picker = ({ PickerComponent, ...fieldProps }) => {
                         source={source}
                         resource={resource}
                         isRequired={isRequired}
-
                     />}
                     margin="normal"
                     error={!!(touched && error)}
