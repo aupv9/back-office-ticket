@@ -57,7 +57,7 @@ const UserForm = (props ) => {
                                             <TextInput
                                                 source="firstName"
                                                 resource="users"
-                                                validate={requiredValidate}
+                                                // validate={requiredValidate}
                                                 fullWidth
                                             />
                                         </Box>
@@ -68,7 +68,7 @@ const UserForm = (props ) => {
                                             <TextInput
                                                 source="lastName"
                                                 resource="users"
-                                                validate={requiredValidate}
+                                                // validate={requiredValidate}
                                                 fullWidth
                                             />
                                         </Box>

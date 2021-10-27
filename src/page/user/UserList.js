@@ -231,7 +231,12 @@ const TabbedDatagrid = (props) => {
                                 <EmailField source="email" />
                                 <TextField source="fullName" />
                                 <DateField source="lastLogin"/>
+                                <ReferenceField reference="roles" source="roleId">
+                                    <ChipField source="code" />
+                                </ReferenceField>
                                 <BooleanField  source="currentLogged" />
+                                <EditButton />
+
                             </Datagrid>
                         </ListContextProvider>
                     )}

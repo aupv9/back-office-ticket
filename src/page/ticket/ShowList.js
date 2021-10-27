@@ -126,7 +126,7 @@ export const ShowList = (props) =>{
                         </ReferenceField>
                     </ReferenceField>
                 </ReferenceField>
-
+                <EditButton label="Pick"/>
             </Datagrid>
         </List>
     );

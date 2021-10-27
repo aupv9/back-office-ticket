@@ -40,6 +40,7 @@ import EmployeeEdit from "./page/employee/EmployeeEdit";
 import LoginForm from "./page/login/LoginForm";
 import UserList from "./page/user/UserList";
 import {ShowList} from "./page/ticket/ShowList";
+import {ShowEdit} from "./page/ticket/ShowEdit";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -112,7 +113,7 @@ const App = () => {
             <Resource name="roles" />
             <Resource name={"uas"} />
             <Resource name="employees" list={EmployeeList} edit={EmployeeEdit}/>
-            <Resource name="shows"  list={ShowList} />
+            <Resource name="shows"  list={ShowList}  edit={ShowEdit}/>
 
         </Admin>
     );

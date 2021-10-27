@@ -19,6 +19,7 @@ const useActionStyles = makeStyles(theme => ({
     },
 }));
 
+
 const LocationListActions = () => {
     const classes = useActionStyles();
     return (
