@@ -61,6 +61,7 @@ export const ConcessionCreate = (props) =>{
                     >
                         <SelectInput source="name" />
                     </ReferenceInput>
+
                     <NumberInput
                         source="price"
                         validate={required()}

@@ -93,6 +93,8 @@ const RoomEdit = (props) =>{
     );
 
     return(
+
+        <>
             <Edit {...props} title={<RoomTitle />}>
                 <TabbedForm>
 
@@ -120,10 +122,8 @@ const RoomEdit = (props) =>{
                     </FormTab>
                     <FormTab label="seats" path="seats">
                         <CreateButton label={"New Seat For Rom"} variant="contained" basePath={`/seats`} onClick={setIdUseRedirect}
-                             classes={classes.btnCreate}/>
-                        {/*<Route path={"/seats/create"}>*/}
-                        {/*    {({match}) => <RoomCreateDialog open={false}/>}*/}
-                        {/*</Route>*/}
+                                      classes={classes.btnCreate}/>
+
                         <ReferenceManyField
                             reference="seats"
                             target="room_id"
@@ -140,14 +140,26 @@ const RoomEdit = (props) =>{
                                 <ColoredNumberField
                                     source="price"
                                     options={{ style: 'currency', currency: 'VND' }}
-                                    />
+                                />
                                 <EditButton  onClick={setIdUseRedirect}/>
-                                </Datagrid>
+                            </Datagrid>
                         </ReferenceManyField>
 
                     </FormTab>
                 </TabbedForm>
+
             </Edit>
+            {/*<Route path="/deals/create">*/}
+            {/*    {({ match }) => <DealCreate open={!!match} />}*/}
+            {/*</Route>*/}
+            {/*<Route path="/deals/:id/show">*/}
+            {/*    {({ match }) =>*/}
+            {/*        !!match ? (*/}
+            {/*            <DealShow open={!!match} id={match?.params?.id} />*/}
+            {/*        ) : null*/}
+            {/*    }*/}
+            {/*</Route>*/}
+        </>
 
     )
 };
