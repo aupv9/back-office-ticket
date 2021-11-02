@@ -89,7 +89,7 @@ export const ShowEdit = (props) =>{
         const arrSeat = localStorage.getItem("seats");
         if(arrSeat){
             setYourSeats(JSON.parse(arrSeat));
-            
+
         }
     },[refresh])
 
@@ -102,7 +102,7 @@ export const ShowEdit = (props) =>{
     return(
         <>
             <Edit {...props}
-                  aside={<Aside seats={yourSeats} price={price}/>}
+                  aside={<Aside seats={yourSeats} price={price} {...props}/>}
             >
                 <CustomMyForm thoughSeatPrice={(seats,price) => thoughSeatAndPrice(seats,price)} {...props}/>
             </Edit>
@@ -232,13 +232,15 @@ const ConcessionsItem = ({data,addConcession}) =>{
 const initialTime = 50 * 1000; // initial time in milliseconds, defaults to 60000
 const interval = 1000; // interval to change remaining time amount, defaults to 1000
 
-const Aside = ({seats,price}) =>{
+const Aside = ({seats,price,id}) =>{
     const classes = useAsideStyles();
     const [arrSeat,setSeats] = useState([]);
     const [yourPriceSeats,setPriceSeats] = useState(0);
     const [concessions,setConcession] = useState([]);
     const [subTotal,setSubTotal] = useState(0);
     const dataProvider = useDataProvider();
+    const refresh = useRefresh();
+    const redirect = useRedirect();
 
     const calConcession = () => {
         return concessions.reduce(((previousValue, currentValue) => {
@@ -260,27 +262,33 @@ const Aside = ({seats,price}) =>{
     };
 
     const handleOrder = () => {
-        const reserved  = JSON.parse(localStorage.getItem("reserved"));
-        if(reserved){
-            const arrConcession = concessions.map((value =>  value.id));
+        const arrConcession = concessions.map((value =>  value.id));
+        const seats = arrSeat.map((value =>  value.id));
 
-            const order = {
-                seats:reserved["seats"],
-                concessionId:arrConcession,
-                creation:reserved["userId"],
-                showTimesDetailId:reserved["showTime"]
-            }
-            dataProvider.create("orders",
-                {
-                    data:order
-                },{})
-                .then(response =>{
-
-                })
-                .catch(reason => {
-
-                })
+        const order = {
+            seats:seats,
+            concessionId:arrConcession,
+            creation:0,
+            showTimesDetailId:id,
+            userId:0,
         }
+        dataProvider.create("orders",
+            {
+                data:order
+            },{})
+            .then(response =>{
+                if(response.data){
+                    console.log(response)
+                    redirect("edit","/my-orders",response["data"]["id"])
+                    // refresh();
+                }
+
+            })
+            .catch(reason => {
+
+            })
+
+
     }
 
     const removeConcession = (value) =>{
@@ -460,33 +468,32 @@ const CustomMyForm = props =>{
     const [price,setPrice] = useState(0);
     const [reserved,setReserved] = useState(true);
 
-    const  handleUpdate = value =>{
-        const arrSeat = arrSeatSelected.map((value) => value["id"]);
-        localStorage.setItem("seats",JSON.stringify(arrSeatSelected));
-        setArrSeatSelected([]);
-            dataProvider
-                .update('reserved', { id: record.id, data: {
-                            seats: arrSeat,
-                            showTime:record.id,
-                            room:record.roomId,
-                            user:0 }
-                    }
-                )
-                .then(response => {
-                    refresh();
-                    if(response && response.data && response.data.id){
-                        localStorage.setItem("reserved",JSON.stringify(response.data["data"]))
-
-                    }
-                })
-                .catch(error => {
-                    // failure side effects go here
-                    // notify(`Comment approval error: ${error.message}`, { type: 'warning' });
-                });
-
-
-    };
-
+    // const  handleUpdate = value =>{
+    //     const arrSeat = arrSeatSelected.map((value) => value["id"]);
+    //     localStorage.setItem("seats",JSON.stringify(arrSeatSelected));
+    //     setArrSeatSelected([]);
+    //         dataProvider
+    //             .update('reserved', { id: record.id, data: {
+    //                         seats: arrSeat,
+    //                         showTime:record.id,
+    //                         room:record.roomId,
+    //                         user:0 }
+    //                 }
+    //             )
+    //             .then(response => {
+    //                 refresh();
+    //                 if(response && response.data && response.data.id){
+    //                     localStorage.setItem("reserved",JSON.stringify(response.data["data"]))
+    //
+    //                 }
+    //             })
+    //             .catch(error => {
+    //                 // failure side effects go here
+    //                 // notify(`Comment approval error: ${error.message}`, { type: 'warning' });
+    //             });
+    //
+    //
+    // };
 
 
     const calSeat = (arrSeatSelected) => {
@@ -564,31 +571,27 @@ const CustomMyForm = props =>{
 
     const [value, setValue] = React.useState(2);
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
-    const handRedirect = () =>{
-    }
+
     return  (
         <FormWithRedirect
             {...props}
             render={formProps => (
                         <form >
                             <Box>
-                                <Box style={{marginTop:"0px !important"}}>
-                                    <Toolbar >
-                                        <Box display="flex" justifyContent="space-between" width="100%" height={"auto"}>
-                                            <SaveButton
-                                                saving={formProps.saving}
-                                                handleSubmitWithRedirect={formProps.handleSubmitWithRedirect}
-                                                onSave={handleUpdate}
-                                                label={"Reserved"}
-                                            />
-                                            {/*<DeleteButton record={formProps.record} />*/}
-                                        </Box>
+                                {/*<Box style={{marginTop:"0px !important"}}>*/}
+                                {/*    <Toolbar >*/}
+                                {/*        <Box display="flex" justifyContent="space-between" width="100%" height={"auto"}>*/}
+                                {/*            <SaveButton*/}
+                                {/*                saving={formProps.saving}*/}
+                                {/*                handleSubmitWithRedirect={formProps.handleSubmitWithRedirect}*/}
+                                {/*                onSave={handleUpdate}*/}
+                                {/*                label={"Reserved"}*/}
+                                {/*            />*/}
+                                {/*            /!*<DeleteButton record={formProps.record} />*!/*/}
+                                {/*        </Box>*/}
 
-                                    </Toolbar>
-                                </Box>
+                                {/*    </Toolbar>*/}
+                                {/*</Box>*/}
                                 <Screen />
                                 <Box display="flex" justifyContent="center" p={5} flexWrap={"noWrap"}>
                                     <Stage arrSeatRow={arrSeat} onSelectedSeat={(idSeat,row) => onSelectedSeat(idSeat,row)}/>

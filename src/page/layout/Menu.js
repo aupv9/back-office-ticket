@@ -15,6 +15,7 @@ import {
 
 import SubMenu from './SubMenu';
 import {
+    AccessibilityTwoTone,
     AttachMoney,
     Category, CollectionsBookmark,
     EmojiPeopleOutlined,
@@ -22,7 +23,7 @@ import {
     LocationCityOutlined,
     MoneyTwoTone,
     MovieCreationSharp,
-    MovieFilter,
+    MovieFilter, QuestionAnswer,
     RoomServiceSharp, ShowChart,
     SupervisedUserCircle,
     SupervisedUserCircleRounded,
@@ -214,6 +215,17 @@ const Menu = ({ dense = false }) => {
                         smart_count: 2,
                     })}
                     leftIcon={<MoneyTwoTone/>}
+                    dense={dense}
+                />
+                <MenuItemLink
+                    to={{
+                        pathname: '/my-orders',
+                        state: { _scrollToTop: true },
+                    }}
+                    primaryText={translate(`My Orders`, {
+                        smart_count: 2,
+                    })}
+                    leftIcon={<QuestionAnswer />}
                     dense={dense}
                 />
                 <MenuItemLink
