@@ -278,9 +278,7 @@ const Aside = ({seats,price,id}) =>{
             },{})
             .then(response =>{
                 if(response.data){
-                    console.log(response)
                     redirect("edit","/my-orders",response["data"]["id"])
-                    // refresh();
                 }
 
             })

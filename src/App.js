@@ -42,6 +42,7 @@ import UserList from "./page/user/UserList";
 import {ShowList} from "./page/ticket/ShowList";
 import {ShowEdit} from "./page/ticket/ShowEdit";
 import {MyOrder} from "./page/my-order/MyOrder";
+import OrderEdit from "./page/my-order/MyOrderEdit";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -110,7 +111,7 @@ const App = () => {
             <Resource name="orders" list={OrdersList}
                       // create={OrdersCreate}
             />
-            <Resource name="my-orders" list={MyOrder} edit={EditGuesser}/>
+            <Resource name="my-orders" list={MyOrder} edit={OrderEdit}/>
             <Resource name="users" create={UserCreate} list={UserList} edit={UserEdit} show={ShowGuesser}/>
             <Resource name="roles" />
             <Resource name={"uas"} />
