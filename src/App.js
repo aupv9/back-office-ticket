@@ -43,6 +43,7 @@ import {ShowList} from "./page/ticket/ShowList";
 import {ShowEdit} from "./page/ticket/ShowEdit";
 import {MyOrder} from "./page/my-order/MyOrder";
 import OrderEdit from "./page/my-order/MyOrderEdit";
+import {PaymentCreate} from "./page/payment/PaymentCreate";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -117,6 +118,8 @@ const App = () => {
             <Resource name={"uas"} />
             <Resource name="employees" list={EmployeeList} edit={EmployeeEdit}/>
             <Resource name="shows"  list={ShowList}  edit={ShowEdit}/>
+            <Resource name="payments"  create={PaymentCreate}/>
+            <Resource name="payments-method" />
 
         </Admin>
     );

@@ -119,6 +119,10 @@ const OrderForm = (props) => {
     const {record,loaded} = useEditContext();
     const [isUser, setIsUser] = useState(false);
 
+    const amountCallBack = (amount) =>{
+        props.amountCallBack(amount);
+    }
+
     const handleChangeIsUser = value =>{
         setIsUser(value);
     }
@@ -262,7 +266,7 @@ const OrderForm = (props) => {
                             </Typography>
                             <Box>
                                 {
-                                    loaded ?  <Totals record={formProps.record} />
+                                    loaded ?  <Totals record={formProps.record} totalAmountCallBack={(amount) => amountCallBack(amount)}/>
                                         :<Loading />
                                 }
                             </Box>
@@ -286,16 +290,21 @@ const OrderForm = (props) => {
 
 const OrderEdit = (props) => {
     const classes = useEditStyles();
+    const [totalAmount,setTotalAmount] = useState(0);
+
+    const amountCallBack = amount =>{
+        setTotalAmount(amount);
+    }
     return (
         <>
             <Edit
                 title={<OrderTitle />}
-                aside={<MyOrderAside />}
+                aside={<MyOrderAside amount={totalAmount}/>}
                 classes={classes}
                 {...props}
                 component="div"
             >
-                <OrderForm />
+                <OrderForm amountCallBack ={(amount) => amountCallBack(amount)}/>
             </Edit>
             {/*<Route path="/my-orders/create">*/}
             {/*    {({ match }) => <MakePaymentDialog open={!!match} />}*/}

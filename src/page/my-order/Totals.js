@@ -42,8 +42,10 @@ const Totals = (props) => {
         setTotalConcessions(calConcession());
         setTax(percentage(totalConcessions + totalSeats,10));
         setTotal(totalSeats + totalConcessions + tax);
-    },[record,totalSeats,totalConcessions,tax]);
-
+    },[record,totalSeats,totalConcessions,tax,]);
+    useEffect(() =>{
+        props.totalAmountCallBack(total);
+    },[total])
 
     return (
         <Table className={classes.container}>
