@@ -4,15 +4,28 @@ import {
     FormTab,
     ReferenceInput,
     required,
-    TabbedForm, useRedirect, useRefresh, TextInput, NumberInput, ReferenceField, TextField, DateField,SelectInput
+    TabbedForm,
+    useRedirect,
+    useRefresh,
+    TextInput,
+    NumberInput,
+    ReferenceField,
+    TextField,
+    DateField,
+    SelectInput,
+    useCreateContext
 } from "react-admin";
 import * as React from "react";
 import {makeStyles} from "@material-ui/core/styles";
 
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import { DateKeyInput} from '../../datepicker/Picker';
-import {InputAdornment} from "@material-ui/core";
+import {Box, InputAdornment, Typography} from "@material-ui/core";
 import RichTextInput from "ra-input-rich-text";
+import {useTimer} from "react-timer-hook";
+import TimerStyled from "./TimerStyled";
+import {CountdownCircleTimer} from "react-countdown-circle-timer";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles({
     widthFormGroup: { display: 'inline-block' },
@@ -29,11 +42,37 @@ const useStyles = makeStyles({
     },
 });
 
+const renderTime = ({ remainingTime }) => {
+    if (remainingTime === 0) {
+        return <div className="timer">Too lale...</div>;
+    }
+
+    return (
+        <div className="timer">
+            <div className="text">Expire remaining</div>
+            <div className="value">{remainingTime}</div>
+            <div className="text">seconds</div>
+        </div>
+    );
+};
 
 export const PaymentCreate = (props) =>{
-    console.log(props.location.state.record)
-    const classes = useStyles();
-    const [theater,setTheater] = useState();
+
+    // useEffect(() =>{
+    //     setExpireTime(new Date(record["expire"]));
+    // },[record]);
+    // useEffect(() =>{
+    //     console.log(expireTime)
+    // },[expireTime]);
+    const redirect = useRedirect();
+    const history = useHistory();
+    const  handleExpire = () =>{
+        // redirect('list','payments');
+        window.location.href = '#/shows';
+    };
+
+     const classes = useStyles();
+
 
     return(
         <Create {...props} >
@@ -71,8 +110,22 @@ export const PaymentCreate = (props) =>{
                     label="Make Payment"
                     contentClassName={classes.tab}
                 >
-                    <DateField source="expire"  locales="VN" showTime options={{ weekday: 'long',day: 'numeric', month: 'long', year: 'numeric',hour:'numeric',minute:'numeric'}}
-                               label={"Expire Time Payment"}/>
+                    {/*<DateField source="expire"  locales="VN" showTime options={{ weekday: 'long',day: 'numeric', month: 'long', year: 'numeric',hour:'numeric',minute:'numeric'}}*/}
+                    {/*           label={"Expire Time Payment"}/>*/}
+                    <Box>
+                        <Typography>
+
+                        </Typography>
+                        <CountdownCircleTimer
+                            isPlaying
+                            duration={new Date(props.location.state.record.expire).getSeconds() - new Date().getSeconds()}
+                            colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
+                            onComplete={handleExpire}
+                        >
+                            {renderTime}
+                        </CountdownCircleTimer>
+                    </Box>
+
                     <ReferenceInput reference={"payments-method"} source={"paymentMethodId"}>
                         <SelectInput source={"name"} />
                     </ReferenceInput>

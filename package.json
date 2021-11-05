@@ -21,12 +21,15 @@
     "react": "^17.0.2",
     "react-admin": "^3.18.3",
     "react-admin-date-inputs": "^1.1.4",
+    "react-countdown-circle-timer": "^2.5.4",
     "react-countdown-hook": "^1.1.1",
     "react-currency-format": "^1.0.0",
     "react-dom": "^17.0.2",
     "react-google-login": "^5.2.2",
     "react-number-format": "^4.7.3",
     "react-scripts": "4.0.3",
+    "react-timer-hook": "^3.0.5",
+    "styled-components": "^5.3.3",
     "web-vitals": "^1.0.1"
   },
   "scripts": {

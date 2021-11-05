@@ -22,12 +22,9 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import {useEffect, useState} from "react";
-import InputLabel from "@material-ui/core/InputLabel";
-import {FieldTitle} from "ra-core";
+
 import Basket from "./Basket";
 import {MyOrderAside} from "./MyOrderAside";
-import {SeatCreateDialog} from "../seat/SeatCreateDialog";
-import {MakePaymentDialog} from "./MakePaymentDialog";
 import Totals from "./Totals";
 import SeatTotals from "./SeatTotal";
 
@@ -306,9 +303,6 @@ const OrderEdit = (props) => {
             >
                 <OrderForm amountCallBack ={(amount) => amountCallBack(amount)}/>
             </Edit>
-            {/*<Route path="/my-orders/create">*/}
-            {/*    {({ match }) => <MakePaymentDialog open={!!match} />}*/}
-            {/*</Route>*/}
         </>
     );
 };
