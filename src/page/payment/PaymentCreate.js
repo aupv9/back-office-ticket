@@ -57,13 +57,15 @@ const renderTime = ({ remainingTime }) => {
 };
 
 export const PaymentCreate = (props) =>{
+    const [duration,setDuration] = useState(1000);
 
-    // useEffect(() =>{
-    //     setExpireTime(new Date(record["expire"]));
-    // },[record]);
-    // useEffect(() =>{
-    //     console.log(expireTime)
-    // },[expireTime]);
+    useEffect(() =>{
+        if(props.location.state.record.expire){
+            console.log("id")
+            setDuration(new Date(props.location.state.record.expire).getSeconds - new Date().getSeconds);
+        }
+    },[]);
+
     const redirect = useRedirect();
     const history = useHistory();
     const  handleExpire = () =>{
@@ -113,17 +115,16 @@ export const PaymentCreate = (props) =>{
                     {/*<DateField source="expire"  locales="VN" showTime options={{ weekday: 'long',day: 'numeric', month: 'long', year: 'numeric',hour:'numeric',minute:'numeric'}}*/}
                     {/*           label={"Expire Time Payment"}/>*/}
                     <Box>
-                        <Typography>
+                         <CountdownCircleTimer
+                                isPlaying
+                                duration={duration}
+                                colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
+                                onComplete={handleExpire}
 
-                        </Typography>
-                        <CountdownCircleTimer
-                            isPlaying
-                            duration={new Date(props.location.state.record.expire).getSeconds() - new Date().getSeconds()}
-                            colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
-                            onComplete={handleExpire}
-                        >
-                            {renderTime}
-                        </CountdownCircleTimer>
+                            >
+                                {renderTime}
+                            </CountdownCircleTimer>
+
                     </Box>
 
                     <ReferenceInput reference={"payments-method"} source={"paymentMethodId"}>
