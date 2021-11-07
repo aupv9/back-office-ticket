@@ -64,7 +64,10 @@ export const MyOrder = (props) =>{
             actions={<ListActions/>}
         >
             <Datagrid optimized rowClick="edit">
-                <TextField source={"name"}/>
+                <ReferenceField reference={"showTimesDetails"} source={"showTimesDetailId"}>
+                    <TextField source={"id"}/>
+
+                </ReferenceField>
                 <TextField source={"code"}/>
 
                 <TextField source={"type"}/>

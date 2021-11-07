@@ -26,6 +26,7 @@ import {useTimer} from "react-timer-hook";
 import TimerStyled from "./TimerStyled";
 import {CountdownCircleTimer} from "react-countdown-circle-timer";
 import {useHistory} from "react-router-dom";
+import { sub,subMinutes } from 'date-fns'
 
 const useStyles = makeStyles({
     widthFormGroup: { display: 'inline-block' },
@@ -57,14 +58,15 @@ const renderTime = ({ remainingTime }) => {
 };
 
 export const PaymentCreate = (props) =>{
-    const [duration,setDuration] = useState(1000);
+    const [duration,setDuration] = useState(0);
 
-    useEffect(() =>{
-        if(props.location.state.record.expire){
-            console.log("id")
-            setDuration(new Date(props.location.state.record.expire).getSeconds - new Date().getSeconds);
-        }
-    },[]);
+    // useEffect(() =>{
+    //     if(props.location.state.record.expire){
+    //         const duration = new Date(props.location.state.record.expire).getTime() - new Date().getTime();
+    //         console.log(duration)
+    //         setDuration(duration);
+    //     }
+    // },[]);
 
     const redirect = useRedirect();
     const history = useHistory();
@@ -110,22 +112,24 @@ export const PaymentCreate = (props) =>{
                 </FormTab>
                 <FormTab
                     label="Make Payment"
+                    path={"make-payment"}
                     contentClassName={classes.tab}
                 >
-                    {/*<DateField source="expire"  locales="VN" showTime options={{ weekday: 'long',day: 'numeric', month: 'long', year: 'numeric',hour:'numeric',minute:'numeric'}}*/}
-                    {/*           label={"Expire Time Payment"}/>*/}
-                    <Box>
-                         <CountdownCircleTimer
-                                isPlaying
-                                duration={duration}
-                                colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
-                                onComplete={handleExpire}
+                    <DateField source="expire"  locales="VN" showTime options={{ weekday: 'long',day: 'numeric', month: 'long', year: 'numeric',hour:'numeric',minute:'numeric',seconds:'numeric'}}
+                               label={"Expire Time Payment"}/>
+                    {/*<Box>*/}
+                    {/*    <Typography>*/}
 
-                            >
-                                {renderTime}
-                            </CountdownCircleTimer>
-
-                    </Box>
+                    {/*    </Typography>*/}
+                    {/*    <CountdownCircleTimer*/}
+                    {/*        isPlaying*/}
+                    {/*        duration={new Date(props.location.state.record.expire).getTime() - new Date()}*/}
+                    {/*        colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}*/}
+                    {/*        onComplete={handleExpire}*/}
+                    {/*    >*/}
+                    {/*        {renderTime}*/}
+                    {/*    </CountdownCircleTimer>*/}
+                    {/*</Box>*/}
 
                     <ReferenceInput reference={"payments-method"} source={"paymentMethodId"}>
                         <SelectInput source={"name"} />
@@ -146,6 +150,7 @@ export const PaymentCreate = (props) =>{
                 </FormTab>
                 <FormTab
                     label="Note"
+                    path={"note"}
                     contentClassName={classes.tab}
                 >
                   <RichTextInput source={"note"}/>
