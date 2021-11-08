@@ -4,7 +4,7 @@ import {
     useGetList,
     Toolbar,
     SaveButton,
-    FormWithRedirect, useDataProvider, useRefresh, useRedirect
+    FormWithRedirect, useDataProvider, useRefresh, useRedirect, useNotify
 } from "react-admin";
 import * as React from "react";
 import {makeStyles} from "@material-ui/core/styles";
@@ -241,6 +241,7 @@ const Aside = ({seats,price,id}) =>{
     const dataProvider = useDataProvider();
     const refresh = useRefresh();
     const redirect = useRedirect();
+    const notify = useNotify();
 
     const calConcession = () => {
         return concessions.reduce(((previousValue, currentValue) => {
@@ -262,8 +263,13 @@ const Aside = ({seats,price,id}) =>{
     };
 
     const handleOrder = () => {
+
         const arrConcession = concessions.map((value =>  value.id));
         const seats = arrSeat.map((value =>  value.id));
+        if(seats.length === 0){
+            notify("Please select seat !!","warning")
+            return;
+        }
 
         const order = {
             seats:seats,
@@ -271,6 +277,7 @@ const Aside = ({seats,price,id}) =>{
             creation:0,
             showTimesDetailId:id,
             userId:0,
+            typeUser:false
         }
         dataProvider.create("orders",
             {

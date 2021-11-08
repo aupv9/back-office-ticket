@@ -11,11 +11,11 @@ import {Money, TheatersSharp} from "@material-ui/icons";
 
 export const MyOrderAside = ({amount}) => {
     const {record,loaded} = useEditContext();
-
+    console.log(record)
     return (
         <>
             {
-                loaded ?  <Box ml={4} width={250} minWidth={250}>
+                loaded && record.status === "non_payment"?  <Box ml={4} width={250} minWidth={250}>
                     <Box textAlign="center" mb={2}>
                         {
                             loaded ?  <Button

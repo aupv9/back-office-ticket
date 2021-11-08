@@ -15,11 +15,12 @@ import {
     TextField,
     TextInput,
     useGetList,
-    useListContext, ChipField,
+    useListContext, ChipField, ReferenceField, useGetOne,
 } from 'react-admin';
-import { useMediaQuery, Divider, Tabs, Tab } from '@material-ui/core';
+import {useMediaQuery, Divider, Tabs, Tab, Typography} from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
+import NumberFormat from "react-number-format";
 
 
 const orderFilters = [
@@ -44,27 +45,38 @@ const useDatagridStyles = makeStyles({
 });
 
 const tabs = [
-    { id: 'ordered', name: 'ordered' },
+    { id: 'non_payment', name: 'nonePayment' },
+    { id: 'payment', name: 'payment' },
     { id: 'cancelled', name: 'cancelled' }
+
 ];
 
 
 const useGetTotals = (filterValues) => {
-    const { total: totalOrdered } = useGetList(
-        'orders',
-        { perPage: 1, page: 1 },
-        { field: 'id', order: 'ASC' },
-        { ...filterValues, status: 'ordered' }
-    );
     const { total: totalCancelled } = useGetList(
         'orders',
         { perPage: 1, page: 1 },
         { field: 'id', order: 'ASC' },
         { ...filterValues, status: 'cancelled' }
     );
+    const { total: totalNonePayment } = useGetList(
+        'orders',
+        { perPage: 1, page: 1 },
+        { field: 'id', order: 'ASC' },
+        { ...filterValues, status: 'non_payment' }
+    );
+    const { total: totalPayment } = useGetList(
+        'orders',
+        { perPage: 1, page: 1 },
+        { field: 'id', order: 'ASC' },
+        { ...filterValues, status: 'payment' }
+    );
+
+
     return {
-        ordered: totalOrdered,
         cancelled: totalCancelled,
+        nonePayment:totalNonePayment,
+        payment:totalPayment
     };
 };
 
@@ -78,16 +90,22 @@ const TabbedDatagrid = (props) => {
     const [ordered, setOrdered] = useState([]);
 
     const [cancelled, setCancelled] = useState([]);
+
+    const [nonePayment, setNonePayment] = useState([]);
+
+    const [payment, setPayment] = useState([]);
+
     const totals = useGetTotals(filterValues);
 
     useEffect(() => {
         if (ids && ids !== filterValues.status) {
             switch (filterValues.status) {
-                case 'ordered':
-                    setOrdered(ids);
-                    break;
                 case 'cancelled':
                     setCancelled(ids);
+                case 'non_payment':
+                    setNonePayment(ids);
+                case 'payment':
+                    setPayment(ids);
                     break;
             }
         }
@@ -105,9 +123,9 @@ const TabbedDatagrid = (props) => {
     );
 
     const selectedIds =
-        filterValues.status === 'ordered'
-            ? ordered
-                : cancelled;
+         filterValues.status === 'cancelled' ?
+                    cancelled : filterValues.status === 'nonePayment' ?
+                        nonePayment : payment;
 
     return (
         <Fragment>
@@ -139,79 +157,117 @@ const TabbedDatagrid = (props) => {
                 </ListContextProvider>
             ) : (
                 <div>
-                    {filterValues.status === 'ordered' && (
+                    {filterValues.status === 'non_payment' && (
                         <ListContextProvider
-                            value={{ ...listContext, ids: ordered }}
+                            value={{ ...listContext, ids: nonePayment }}
                         >
-                            <Datagrid {...props} optimized rowClick="edit">
-                                <DateField source="createDate" showTime />
-                                <ChipField source="typeUser" />
-                                <TextField source="note"/>
-                                {/*<CustomerReferenceField />*/}
-                                {/*<ReferenceField*/}
-                                {/*    source="customer_id"*/}
-                                {/*    reference="customers"*/}
-                                {/*    link={false}*/}
-                                {/*    label="resources.commands.fields.address"*/}
-                                {/*>*/}
-                                {/*    <AddressField />*/}
-                                {/*</ReferenceField>*/}
-                                {/*<NbItemsField />*/}
+                            <Datagrid {...props} rowClick="show">
+                                <DateField source="createdDate" showTime />
+                                <DateField source="expirePayment" showTime />
 
-                                <NumberField
-                                    source="tax"
-                                    options={{
-                                        style: 'currency',
-                                        currency: 'VND',
-                                    }}
-                                    className={classes.total}
-                                />
-                                <NumberField
-                                    source="total"
-                                    options={{
-                                        style: 'currency',
-                                        currency: 'VND',
-                                    }}
-                                    className={classes.total}
-                                />
+                                <ReferenceField
+                                    source="showTimesDetailId"
+                                    reference="showTimesDetails"
+                                    label="Show Time"
+                                >
+                                    <TextField source={"id"}/>
+                                </ReferenceField>
+
+                                <ReferenceField
+                                    source="creation"
+                                    reference="users"
+                                >
+                                    <TextField source={"email"}/>
+                                </ReferenceField>
+
+                                <UserDetail />
+                                <BooleanField source={"profile"} label={"Is User"}/>
+                                <TextField source={"note"} />
+
+                                <AmountDetail {...props}/>
+
                             </Datagrid>
                         </ListContextProvider>
                     )}
+                    {filterValues.status === 'payment' && (
+                        <ListContextProvider
+                            value={{ ...listContext, ids: payment }}
+                        >
+                            <Datagrid {...props} rowClick="show">
+                                <DateField source="createdDate" showTime />
+
+                                <ReferenceField
+                                    source="showTimesDetailId"
+                                    reference="showTimesDetails"
+                                    label="Show Time"
+                                >
+                                    <TextField source={"id"}/>
+                                </ReferenceField>
+
+                                <ReferenceField
+                                    source="creation"
+                                    reference="users"
+                                >
+                                    <TextField source={"email"}/>
+                                </ReferenceField>
+
+                                <UserDetail />
+                                <BooleanField source={"profile"} label={"Is User"}/>
+                                <TextField source={"note"} />
+                                <AmountDetail {...props}/>
+
+                            </Datagrid>
+                        </ListContextProvider>
+                    )}
+
                     {filterValues.status === 'cancelled' && (
                         <ListContextProvider
                             value={{ ...listContext, ids: cancelled }}
                         >
-                            <Datagrid {...props} rowClick="edit">
-                                <DateField source="date" showTime />
-                                <TextField source="reference" />
-                                {/*<CustomerReferenceField />*/}
-                                {/*<ReferenceField*/}
-                                {/*    source="customer_id"*/}
-                                {/*    reference="customers"*/}
-                                {/*    link={false}*/}
-                                {/*    label="resources.commands.fields.address"*/}
-                                {/*>*/}
-                                {/*    <AddressField />*/}
-                                {/*</ReferenceField>*/}
-                                {/*<NbItemsField />*/}
-                                <NumberField
-                                    source="total"
-                                    options={{
-                                        style: 'currency',
-                                        currency: 'USD',
-                                    }}
-                                    className={classes.total}
-                                />
-                                <BooleanField source="returned" />
+                            <Datagrid {...props} rowClick="show">
+                                <DateField source="createdDate" showTime />
+                                <ReferenceField
+                                    source="showTimesDetailId"
+                                    reference="showTimesDetails"
+                                    label="Show Time"
+                                >
+                                    <TextField source={"id"}/>
+                                </ReferenceField>
+
+                                <ReferenceField
+                                    source="creation"
+                                    reference="users"
+                                >
+                                    <TextField source={"email"}/>
+                                </ReferenceField>
+
+                                <UserDetail />
+                                <BooleanField source={"profile"} label={"Is User"}/>
+                                <TextField source={"note"} />
+                                <AmountDetail {...props}/>
+
+
                             </Datagrid>
                         </ListContextProvider>
                     )}
+
                 </div>
             )}
         </Fragment>
     );
 };
 
+const AmountDetail = (props) =>{
+    const { record } = props;
+    const { data, loaded, error } = useGetOne('orders', record.id);
+    if(loaded){
+        // console.log(data)
+    }
+
+    return loaded ? (
+        <NumberFormat thousandSeparator={true} suffix={' đ'}  value={data.totalAmount}   displayType={'text'}/>
+    ) : null
+}
 const OrderList = (props) => (
     <List
         {...props}
@@ -223,5 +279,17 @@ const OrderList = (props) => (
         <TabbedDatagrid />
     </List>
 );
+
+const UserDetail = ({record}) =>{
+    return record.profile ? (
+        <ReferenceField reference={"users"} source={"userId"}>
+            <TextField source={"email"}/>
+        </ReferenceField>
+    ) :(
+        <Typography>
+            {""}
+        </Typography>
+    )
+}
 
 export default OrderList;

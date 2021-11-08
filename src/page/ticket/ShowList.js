@@ -77,7 +77,6 @@ const roomFilters = [
 const ListActions = (props) => (
     <TopToolbar>
         <FilterButton/>
-        <CreateButton/>
         <ExportButton/>
     </TopToolbar>
 );

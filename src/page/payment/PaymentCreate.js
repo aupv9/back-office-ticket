@@ -76,7 +76,7 @@ export const PaymentCreate = (props) =>{
     };
 
      const classes = useStyles();
-
+    console.log(props)
 
     return(
         <Create {...props} >

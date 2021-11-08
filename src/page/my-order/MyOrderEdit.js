@@ -27,6 +27,7 @@ import Basket from "./Basket";
 import {MyOrderAside} from "./MyOrderAside";
 import Totals from "./Totals";
 import SeatTotals from "./SeatTotal";
+import RichTextInput from "ra-input-rich-text";
 
 
 
@@ -184,6 +185,10 @@ const OrderForm = (props) => {
                                                         name: 'Payment',
                                                     },
                                                     {
+                                                        id: 'cancelled',
+                                                        name: 'Cancelled',
+                                                    },
+                                                    {
                                                         id: 'edit',
                                                         name: 'Edit'
                                                     },
@@ -237,6 +242,9 @@ const OrderForm = (props) => {
 
                                 </Grid>
                             </Grid>
+                            <Box>
+                                <RichTextInput source={"note"} />
+                            </Box>
                             <Spacer />
 
                             <Typography variant="h6" gutterBottom>
@@ -292,6 +300,7 @@ const OrderEdit = (props) => {
     const amountCallBack = amount =>{
         setTotalAmount(amount);
     }
+    console.log(props)
     return (
         <>
             <Edit

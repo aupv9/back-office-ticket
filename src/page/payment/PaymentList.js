@@ -15,7 +15,7 @@ import {
     ReferenceInput,
     DateField,
     ChipField,
-    BooleanField, useListContext
+    BooleanField, useListContext, NumberField
 } from "react-admin";
 import {makeStyles} from "@material-ui/core/styles";
 import {Typography, useMediaQuery} from "@material-ui/core";
@@ -54,7 +54,7 @@ const ListActions = (props) => (
     </TopToolbar>
 );
 
-export const MyOrder = (props) =>{
+export const PaymentList = (props) => {
     const classes = useStyles();
     const isXsmall = useMediaQuery(theme =>
         theme.breakpoints.down('xs')
@@ -63,35 +63,46 @@ export const MyOrder = (props) =>{
     return (
         <List
             {...props}
-            filter={{showTimes_id:0,creation:0}}
+            filter={{creation:0,method:0}}
             filters={roomFilters}
             sort={{ field: 'id', order: 'ACS' }}
             perPage={25}
             // aside={<Aside />}
             actions={<ListActions/>}
         >
-           <CustomDataGrid {...props}/>
+            <CustomDataGrid {...props}/>
         </List>
     );
 }
 
 const CustomDataGrid = (props) =>{
-    const {data,ids} = useListContext();
-    return (
-        <Datagrid optimized rowClick="edit">
-            <DateField source={"createdDate"} showTime/>
 
-            <ReferenceField reference={"showTimesDetails"} source={"showTimesDetailId"}>
+    return (
+        <Datagrid optimized rowClick="show">
+            <DateField source={"createdDate"} showTime/>
+            <ReferenceField reference={"my-orders"} source={"partId"}>
                 <TextField source={"id"}/>
             </ReferenceField>
-            <BooleanField source={"profile"} label={"Is User"}/>
-            <UserDetail {...props}/>
+            <ChipField source={"useFor"} label={"Type"}/>
+            <ReferenceField reference={"payments-method"} source={"paymentMethodId"} link={false}>
+                <ChipField source={"name"}/>
+            </ReferenceField>
+            {/*<BooleanField source={"profile"} label={"Is User"}/>*/}
+            {/*<UserDetail {...props}/>*/}
             <ReferenceField reference={"users"} source={"creation"}>
                 <TextField source={"email"} />
             </ReferenceField>
             <ChipField source={"status"}/>
-            <DateField source={"expirePayment"} showTime/>
-            <TextField source={"note"}/>
+            <NumberField
+                source="amount"
+                options={{
+                    style: 'currency',
+                    currency: 'VND',
+                }}
+            />
+
+            {/*<DateField source={"expirePayment"} showTime/>*/}
+            {/*<TextField source={"note"}/>*/}
         </Datagrid>
 
     )

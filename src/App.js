@@ -1,9 +1,8 @@
 import './App.css';
 import {
-    Admin, EditGuesser, fetchUtils, ListGuesser, Login,
+    Admin, fetchUtils, Login,
     Resource, ShowGuesser
 } from 'react-admin';
-import {Location} from "./page/location/Location";
 import customRequest from "./customRequest";
 import DashBoard from "./DashBoard";
 import authProvider from "./authProvider";
@@ -32,7 +31,6 @@ import {CategoryCreate} from "./page/category/CategoryCreate";
 import {ConcessionCreate} from "./page/foods/ConcessionCreate";
 import OrdersList from "./page/orders/OrdersList";
 import Layout from "./page/layout/Layout";
-import OrdersCreate from "./page/orders/OrdersCreate";
 import {UserCreate} from "./page/user/UserCreate";
 import UserEdit from "./page/user/UserEdit";
 import {EmployeeList} from "./page/employee/EmployeeList";
@@ -44,6 +42,7 @@ import {ShowEdit} from "./page/ticket/ShowEdit";
 import {MyOrder} from "./page/my-order/MyOrder";
 import OrderEdit from "./page/my-order/MyOrderEdit";
 import {PaymentCreate} from "./page/payment/PaymentCreate";
+import {PaymentList} from "./page/payment/PaymentList";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -109,7 +108,7 @@ const App = () => {
             <Resource name="seats-room" />
             <Resource name="categories" options={{label:'Category'}} list={CategoryList} edit={CategoryEdit} create={CategoryCreate}/>
             <Resource name="concessions" list={ConcessionList} create={ConcessionCreate}   options={{label:'Concessions'}} />
-            <Resource name="orders" list={OrdersList}
+            <Resource name="orders" list={OrdersList} show={ShowGuesser}
                       // create={OrdersCreate}
             />
             <Resource name="my-orders" list={MyOrder} edit={OrderEdit}/>
@@ -117,10 +116,10 @@ const App = () => {
             <Resource name="roles" />
             <Resource name={"uas"} />
             <Resource name="employees" list={EmployeeList} edit={EmployeeEdit}/>
-            <Resource name="shows"  list={ShowList}  edit={ShowEdit}/>
-            <Resource name="payments"  create={PaymentCreate}/>
+            <Resource name="shows"  list={ShowList}  edit={ShowEdit} />
+            <Resource name="payments"  create={PaymentCreate} list={PaymentList}/>
             <Resource name="payments-method" />
-
+            <Resource name={"paymentOrder"} />
         </Admin>
     );
 }
