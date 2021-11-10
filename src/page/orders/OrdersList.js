@@ -25,19 +25,19 @@ import NumberFormat from "react-number-format";
 
 const orderFilters = [
     <SearchInput source="q" alwaysOn />,
-    <ReferenceInput source="customer_id" reference="customers">
-        <AutocompleteInput
-            optionText={(choice) =>
-                choice.id // the empty choice is { id: '' }
-                    ? `${choice.first_name} ${choice.last_name}`
-                    : ''
-            }
-        />
-    </ReferenceInput>,
-    <DateInput source="date_gte" />,
-    <DateInput source="date_lte" />,
-    <TextInput source="total_gte" />,
-    <NullableBooleanInput source="returned" />,
+    // <ReferenceInput source="customer_id" reference="customers">
+    //     <AutocompleteInput
+    //         optionText={(choice) =>
+    //             choice.id // the empty choice is { id: '' }
+    //                 ? `${choice.first_name} ${choice.last_name}`
+    //                 : ''
+    //         }
+    //     />
+    // </ReferenceInput>,
+    // <DateInput source="created_" />,
+    // <DateInput source="date_lte" />,
+    // <TextInput source="total_gte" />,
+    // <NullableBooleanInput source="returned" />,
 ];
 
 const useDatagridStyles = makeStyles({
@@ -45,7 +45,7 @@ const useDatagridStyles = makeStyles({
 });
 
 const tabs = [
-    { id: 'non_payment', name: 'nonePayment' },
+    { id: 'non_payment', name: 'None Payment' },
     { id: 'payment', name: 'payment' },
     { id: 'cancelled', name: 'cancelled' }
 
@@ -53,19 +53,19 @@ const tabs = [
 
 
 const useGetTotals = (filterValues) => {
-    const { total: totalCancelled } = useGetList(
+    const { total: totalCancelled ,loaded : loadedTotalCancelled} = useGetList(
         'orders',
         { perPage: 1, page: 1 },
         { field: 'id', order: 'ASC' },
         { ...filterValues, status: 'cancelled' }
     );
-    const { total: totalNonePayment } = useGetList(
+    const { total: totalNonePayment ,loaded : loadedTotalNonePayment} = useGetList(
         'orders',
         { perPage: 1, page: 1 },
         { field: 'id', order: 'ASC' },
         { ...filterValues, status: 'non_payment' }
     );
-    const { total: totalPayment } = useGetList(
+    const { total: totalPayment,loaded : loadedTotalPayment } = useGetList(
         'orders',
         { perPage: 1, page: 1 },
         { field: 'id', order: 'ASC' },
@@ -183,8 +183,20 @@ const TabbedDatagrid = (props) => {
                                 <UserDetail />
                                 <BooleanField source={"profile"} label={"Is User"}/>
                                 <TextField source={"note"} />
-
-                                <AmountDetail {...props}/>
+                                <ReferenceField
+                                    source="id"
+                                    reference="orders"
+                                    label={"Total"}
+                                >
+                                    <NumberField
+                                        source="totalAmount"
+                                        options={{
+                                            style: 'currency',
+                                            currency: 'VND',
+                                        }}
+                                        className={classes.total}
+                                    />
+                                </ReferenceField>
 
                             </Datagrid>
                         </ListContextProvider>
@@ -214,7 +226,21 @@ const TabbedDatagrid = (props) => {
                                 <UserDetail />
                                 <BooleanField source={"profile"} label={"Is User"}/>
                                 <TextField source={"note"} />
-                                <AmountDetail {...props}/>
+                                <ReferenceField
+                                    source="id"
+                                    reference="orders"
+                                    label={"Total"}
+                                >
+                                    <NumberField
+                                        source="totalAmount"
+                                        options={{
+                                            style: 'currency',
+                                            currency: 'VND',
+                                        }}
+                                        className={classes.total}
+                                    />
+                                </ReferenceField>
+
 
                             </Datagrid>
                         </ListContextProvider>
@@ -244,7 +270,21 @@ const TabbedDatagrid = (props) => {
                                 <UserDetail />
                                 <BooleanField source={"profile"} label={"Is User"}/>
                                 <TextField source={"note"} />
-                                <AmountDetail {...props}/>
+                                {/*<AmountDetail {...props}/>*/}
+                                <ReferenceField
+                                    source="id"
+                                    reference="orders"
+                                    label={"Total"}
+                                >
+                                    <NumberField
+                                        source="totalAmount"
+                                        options={{
+                                            style: 'currency',
+                                            currency: 'VND',
+                                        }}
+                                        className={classes.total}
+                                    />
+                                </ReferenceField>
 
 
                             </Datagrid>

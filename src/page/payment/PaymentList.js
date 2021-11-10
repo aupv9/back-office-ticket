@@ -15,7 +15,7 @@ import {
     ReferenceInput,
     DateField,
     ChipField,
-    BooleanField, useListContext, NumberField
+    BooleanField, useListContext, NumberField,DateInput
 } from "react-admin";
 import {makeStyles} from "@material-ui/core/styles";
 import {Typography, useMediaQuery} from "@material-ui/core";
@@ -35,15 +35,16 @@ const useStyles = makeStyles(theme => ({
 
 const roomFilters = [
     <SearchInput source="q" alwaysOn />,
-    <ReferenceInput source="theater_id" reference="theaters">
-        <AutocompleteInput
-            optionText={(choice) =>
-                choice.id
-                    ? `${choice.name}`
-                    : ''
-            }
-        />
-    </ReferenceInput>,
+    // <ReferenceInput source="theater_id" reference="theaters">
+    //     <AutocompleteInput
+    //         optionText={(choice) =>
+    //             choice.id
+    //                 ? `${choice.name}`
+    //                 : ''
+    //         }
+    //     />
+    // </ReferenceInput>,
+    <DateInput source={"created_date"} />
 
 ];
 

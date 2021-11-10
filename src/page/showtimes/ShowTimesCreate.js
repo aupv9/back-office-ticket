@@ -4,19 +4,15 @@ import {
     FormTab,
     ReferenceInput,
     required,
-    TabbedForm, useRedirect, useRefresh,
+    TabbedForm
 } from "react-admin";
 import * as React from "react";
 import {makeStyles} from "@material-ui/core/styles";
 
 import {useState} from "react";
-import {Divider} from "@material-ui/core";
-import {ShowTimesForm} from "./ShowTimeCreateForm";
-import { DateKeyInput} from '../../datepicker/Picker';
-import { TimeInput} from '../../datepicker/PickerTime';
 
-import DateFnsUtils from "@date-io/date-fns";
-import vi from 'date-fns/locale/vi'
+import { DateKeyInput} from '../../datepicker/Picker';
+
 
 const useStyles = makeStyles({
     widthFormGroup: { display: 'inline-block' },
@@ -36,11 +32,7 @@ const useStyles = makeStyles({
 
 export const ShowTimesCreate = (props) =>{
     const classes = useStyles();
-    const [theater,setTheater] = useState();
-    const handleChangeTheater = (event) =>{
-        setTheater(event);
-        localStorage.setItem("theaterId",theater);
-    }
+
     return(
         <Create {...props} >
             <TabbedForm >
@@ -55,27 +47,25 @@ export const ShowTimesCreate = (props) =>{
                                 }
                         />
                     </ReferenceInput>
-                    <ReferenceInput reference="theaters" source="theaterId" onChange={(event) => handleChangeTheater(event)}>
-                        <AutocompleteInput isRequired
-                                           optionText={(choice) => choice.id ? `${choice.name}` : ''
-                                               }
+
+                    <ReferenceInput reference="rooms" source="roomId" >
+                        <AutocompleteInput
+                            optionText={(choice) =>
+                                choice.id ? `${choice.name}` : ''
+                            }
                         />
                     </ReferenceInput>
-
-                    {
-                        theater && theater !== (localStorage.getItem("theaterId")? parseInt(localStorage.getItem("theaterId")) : 0) ?
-                            <ReferenceInput reference="rooms" source="roomId" filter={{ theater_id: theater }}>
-                                    <AutocompleteInput
-                                        optionText={(choice) =>
-                                            choice.id ? `${choice.name}` : ''
-                                        }
-                                    />
-                                  </ReferenceInput> :null
-                    }
 
                     <DateKeyInput source="timeStart" label="Start date"  />
                 </FormTab>
 
+                <FormTab
+                    label="promotion"
+                    path="promotion"
+                    contentClassName={classes.tab}
+                >
+
+                </FormTab>
             </TabbedForm>
         </Create>
     )

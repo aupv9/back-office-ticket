@@ -36,6 +36,9 @@ export const EmployeeList = props => {
                 <ReferenceField reference="users" source="userId" label="User Account">
                     <UserLinkField />
                 </ReferenceField>
+                <ReferenceField reference="roles" source="roleId" label="Role">
+                    <ChipField source="code"/>
+                </ReferenceField>
                 <ReferenceField reference="users" source="createdBy" label="Created By">
                     <UserLinkField />
                 </ReferenceField>

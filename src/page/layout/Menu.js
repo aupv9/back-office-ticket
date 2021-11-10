@@ -23,7 +23,7 @@ import {
     LocationCityOutlined,
     MoneyTwoTone,
     MovieCreationSharp,
-    MovieFilter, QuestionAnswer,
+    MovieFilter, PaymentSharp, QuestionAnswer,
     RoomServiceSharp, ShowChart,
     SupervisedUserCircle,
     SupervisedUserCircleRounded,
@@ -45,7 +45,8 @@ const Menu = ({ dense = false }) => {
         menuOrders: true,
         menuConcessions:true,
         menuShowTimes:true,
-        menuTicket:true
+        menuTicket:true,
+        menuPayment:true
     });
     const translate = useTranslate();
     const open = useSelector((state) => state.admin.ui.sidebarOpen);
@@ -240,6 +241,27 @@ const Menu = ({ dense = false }) => {
                     dense={dense}
                 />
             </SubMenu>
+
+            <SubMenu
+                handleToggle={() => handleToggle('menuPayment')}
+                isOpen={state.menuPayment}
+                name="Payment List"
+                icon={<PaymentSharp   />}
+                dense={dense}
+            >
+                <MenuItemLink
+                    to={{
+                        pathname: '/payments',
+                        state: { _scrollToTop: true },
+                    }}
+                    primaryText={translate(`Payments`, {
+                        smart_count: 2,
+                    })}
+                    leftIcon={<PaymentSharp/>}
+                    dense={dense}
+                />
+            </SubMenu>
+
 
             <SubMenu
                 handleToggle={() => handleToggle('menuTicket')}

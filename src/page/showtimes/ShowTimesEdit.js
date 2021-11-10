@@ -53,20 +53,16 @@ export const ShowTimesEdit = (props) =>{
                         />
                     </ReferenceInput>
 
-                    <ReferenceInput reference="theaters" source="theaterId" perPage={1000} onChange={handleChangeTheater}>
+                    <ReferenceInput reference="rooms" source="roomId" perPage={1000} >
                         <AutocompleteInput
                             optionText={(choice) =>
                                 choice.id ? `${choice.name}` : ''
                             }
                         />
                     </ReferenceInput>
-                    <ReferenceInput reference="rooms" source="roomId" perPage={1000} filter={{ theater_id: theater }}>
-                        <AutocompleteInput
-                            optionText={(choice) =>
-                                choice.id ? `${choice.name}` : ''
-                            }
-                        />
-                    </ReferenceInput>
+
+
+
                     <DateKeyInput source="timeStart" label="Start date"  />
                 </FormTab>
 
