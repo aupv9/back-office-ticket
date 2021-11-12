@@ -17,7 +17,7 @@ import SubMenu from './SubMenu';
 import {
     AccessibilityTwoTone,
     AttachMoney,
-    Category, CollectionsBookmark,
+    Category, CollectionsBookmark, DashboardSharp,
     EmojiPeopleOutlined,
     Fastfood,
     LocationCityOutlined,
@@ -36,17 +36,19 @@ import {
     WallpaperTwoTone,
     YoutubeSearchedForOutlined
 } from "@material-ui/icons";
+import LocalOfferIcon from "@material-ui/icons/LocalOfferOutlined";
 
 
 const Menu = ({ dense = false }) => {
     const [state, setState] = useState({
-        menuManageBase: true,
-        menuFilm: true,
-        menuOrders: true,
-        menuConcessions:true,
-        menuShowTimes:true,
-        menuTicket:true,
-        menuPayment:true
+        menuManageBase: false,
+        menuFilm: false,
+        menuOrders: false,
+        menuConcessions:false,
+        menuShowTimes:false,
+        menuTicket:false,
+        menuPayment:false,
+        menuOffer:false
     });
     const translate = useTranslate();
     const open = useSelector((state) => state.admin.ui.sidebarOpen);
@@ -199,6 +201,37 @@ const Menu = ({ dense = false }) => {
                 {/*/>*/}
             </SubMenu>
 
+            <SubMenu
+                handleToggle={() => handleToggle('menuOffer')}
+                isOpen={state.menuOffer}
+                name="Offer"
+                icon={<LocalOfferIcon   />}
+                dense={dense}
+            >
+                <MenuItemLink
+                    to={{
+                        pathname: '/offers',
+                        state: { _scrollToTop: true },
+                    }}
+                    primaryText={translate(`Offer DashBoard`, {
+                        smart_count: 2,
+                    })}
+                    leftIcon={<DashboardSharp/>}
+                    dense={dense}
+                />
+                {/*<MenuItemLink*/}
+                {/*    to={{*/}
+                {/*        pathname: '/employees',*/}
+                {/*        state: { _scrollToTop: true },*/}
+                {/*    }}*/}
+                {/*    primaryText={translate(`Employee`, {*/}
+                {/*        smart_count: 2,*/}
+                {/*    })}*/}
+                {/*    leftIcon={<EmojiPeopleOutlined />}*/}
+                {/*    dense={dense}*/}
+                {/*/>*/}
+            </SubMenu>
+
 
             <SubMenu
                 handleToggle={() => handleToggle('menuOrders')}
@@ -326,17 +359,7 @@ const Menu = ({ dense = false }) => {
             </SubMenu>
 
 
-            {/*<MenuItemLink*/}
-            {/*    to={{*/}
-            {/*        pathname: '/reviews',*/}
-            {/*        state: { _scrollToTop: true },*/}
-            {/*    }}*/}
-            {/*    primaryText={translate(`resources.reviews.name`, {*/}
-            {/*        smart_count: 2,*/}
-            {/*    })}*/}
-            {/*    // leftIcon={<reviews.icon />}*/}
-            {/*    dense={dense}*/}
-            {/*/>*/}
+
         </div>
     );
 };

@@ -1,6 +1,6 @@
 import './App.css';
 import {
-    Admin, fetchUtils, Login,
+    Admin, fetchUtils, ListGuesser, Login,
     Resource, ShowGuesser
 } from 'react-admin';
 import customRequest from "./customRequest";
@@ -43,6 +43,8 @@ import {MyOrder} from "./page/my-order/MyOrder";
 import OrderEdit from "./page/my-order/MyOrderEdit";
 import {PaymentCreate} from "./page/payment/PaymentCreate";
 import {PaymentList} from "./page/payment/PaymentList";
+import {OfferList} from "./page/offer/OfferList";
+import {OfferCreate} from "./page/offer/OfferCreate";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -120,6 +122,8 @@ const App = () => {
             <Resource name="payments"  create={PaymentCreate} list={PaymentList}/>
             <Resource name="payments-method" />
             <Resource name={"paymentOrder"} />
+            <Resource name={"offers"} list={OfferList} create={OfferCreate}/>
+
         </Admin>
     );
 }
