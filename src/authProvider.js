@@ -3,6 +3,7 @@
 import {useGoogleLogout} from "react-google-login";
 
 
+
 export default {
     // called when the user attempts to log in
     // login: ({ username, password }) => {
@@ -51,7 +52,6 @@ export default {
             return fetch(request)
                 .then(response => {
                     if (response.status < 200 || response.status >= 300) {
-
                         throw new Error(response.statusText);
                     }
                     return response.json();
@@ -73,6 +73,7 @@ export default {
         localStorage.removeItem('username');
         localStorage.removeItem('token');
         localStorage.removeItem('privilege');
+
         return Promise.resolve();
     },
     // called when the API returns an error

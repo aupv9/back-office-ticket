@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { forwardRef } from 'react';
-import {AppBar, UserMenu, MenuItemLink, useTranslate, Logout, useLogout} from 'react-admin';
+import {AppBar, UserMenu, MenuItemLink, useTranslate, Logout, useLogout, useDataProvider} from 'react-admin';
 import Typography from '@material-ui/core/Typography';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { makeStyles } from '@material-ui/core/styles';
@@ -39,10 +39,19 @@ const clientId = '765454672866-ogngmccn89t4b7nkf24glnk87e3mn5e5.apps.googleuserc
 
 const LogoutCustom = forwardRef((props,ref) =>{
     const logout = useLogout();
+    const dataProvider = useDataProvider();
+
     const onFailure = (res) =>{
 
     };
     const onLogoutSuccess = (res) => {
+        dataProvider.update('update-status-login', { email: JSON.stringify(localStorage.getItem("username"))})
+            .then(({ data }) => {
+
+            })
+            .catch(error => {
+
+            })
         console.log('Logged out Success');
     };
 

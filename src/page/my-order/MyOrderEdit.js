@@ -9,7 +9,7 @@ import {
     SelectInput,
     TextField,
     Toolbar, useEditContext,
-    useTranslate,ReferenceInput,AutocompleteInput,Loading
+    useTranslate, ReferenceInput, AutocompleteInput, Loading, TextInput, useQuery
 } from 'react-admin';
 import {Link as RouterLink, Route} from 'react-router-dom';
 import {
@@ -18,7 +18,7 @@ import {
     Box,
     Grid,
     Typography,
-    Link,
+    Link, ButtonBase, Button,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import {useEffect, useState} from "react";
@@ -28,6 +28,8 @@ import {MyOrderAside} from "./MyOrderAside";
 import Totals from "./Totals";
 import SeatTotals from "./SeatTotal";
 import RichTextInput from "ra-input-rich-text";
+import {CodeOutlined, Money} from "@material-ui/icons";
+import LocalOfferIcon from "@material-ui/icons/LocalOfferOutlined";
 
 
 
@@ -115,6 +117,7 @@ const Spacer = () => <Box m={1}>&nbsp;</Box>;
 const OrderForm = (props) => {
     const translate = useTranslate();
     const {record,loaded} = useEditContext();
+    const [promoCode,setPromoCode] = useState("");
     const [isUser, setIsUser] = useState(false);
 
     const amountCallBack = (amount) =>{
@@ -125,8 +128,16 @@ const OrderForm = (props) => {
         setIsUser(value);
     }
     useEffect(()=>{
-        setIsUser(record.typeUser);
+        setIsUser(record.profile);
     },[record])
+
+    const changePromoCode = ({target}) =>{
+        setPromoCode(target.value)
+    }
+
+    const onCheckPromoCode = () =>{
+        // const {loaded} = useQuery()
+    }
 
     return (
         <FormWithRedirect
@@ -200,7 +211,7 @@ const OrderForm = (props) => {
                                                 <BooleanInput
                                                     row={true}
                                                     resource="my-orders"
-                                                    source="typeUser"
+                                                    source="profile"
                                                     label={"Is User"}
                                                     onChange={handleChangeIsUser}
                                                 />
@@ -274,6 +285,22 @@ const OrderForm = (props) => {
                                     loaded ?  <Totals record={formProps.record} totalAmountCallBack={(amount) => amountCallBack(amount)}/>
                                         :<Loading />
                                 }
+                            </Box>
+                            <Spacer/>
+                            <Box display={"flex"} justifyItems={"center"}>
+                                <TextInput source={"promoCode"} onChange={changePromoCode}/>
+                            </Box>
+                            <Box display={"flex"} justifyItems={"center"}>
+                                <Button
+
+                                    color="primary"
+                                    variant="contained"
+                                    size="small"
+                                    startIcon={<LocalOfferIcon />}
+                                    onClick={onCheckPromoCode}
+                                >
+                                    Check Promo Code
+                                </Button>
                             </Box>
                         </CardContent>
                         <Toolbar

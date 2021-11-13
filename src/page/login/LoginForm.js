@@ -75,6 +75,7 @@ const LoginForm = (props) => {
         return errors;
     };
 
+
     const submit = values => {
         let valueParams = {...values,isSocial:false};
         setLoading(true);
@@ -106,8 +107,8 @@ const LoginForm = (props) => {
     const onSuccess = (res) => {
         console.log('Login Success: currentUser:', res.profileObj);
         refreshTokenSetup(res);
-        login({isSocial:true,body:res.profileObj}).catch(() =>
-            notify('Invalid')
+        login({isSocial:true,body:res.profileObj}).catch((res) =>
+            notify("Invalid")
         );
         return Promise.resolve()
     };

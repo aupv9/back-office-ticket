@@ -65,7 +65,16 @@ const roomFilters = [
         { id: '10:15', name: '10:15' },
         { id: '10:30', name: '10:30' },
         { id: '11:00', name: '11:00' },
-    ]} />
+    ]} />,
+    <ReferenceInput source="theaterId" reference="theaters">
+        <AutocompleteInput
+            optionText={(choice) =>
+                choice.id
+                    ? `${choice.name}`
+                    : ''
+            }
+        />
+    </ReferenceInput>,
 
 
 ];
