@@ -107,8 +107,13 @@ const LoginForm = (props) => {
     const onSuccess = (res) => {
         console.log('Login Success: currentUser:', res.profileObj);
         refreshTokenSetup(res);
-        login({isSocial:true,body:res.profileObj}).catch((res) =>
-            notify("Invalid")
+        login({isSocial:true,body:res.profileObj}).then(res =>{
+
+            // localStorage.setItem("avatar",res.profileObj["imageUrl"]);
+        }).catch((res) =>{
+                notify("Invalid")
+                console.log(res)
+            }
         );
         return Promise.resolve()
     };

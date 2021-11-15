@@ -8,4 +8,7 @@ export default (props) => {
     //     state.theme === 'dark' ? darkTheme : lightTheme
     // );
     return <Layout {...props} appBar={AppBar} menu={Menu}  />;
+
+
+
 };

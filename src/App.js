@@ -45,6 +45,7 @@ import {PaymentCreate} from "./page/payment/PaymentCreate";
 import {PaymentList} from "./page/payment/PaymentList";
 import {OfferList} from "./page/offer/OfferList";
 import {OfferCreate} from "./page/offer/OfferCreate";
+import {createMuiTheme} from "@material-ui/core";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -57,6 +58,7 @@ const httpClient = (url, options = {}) => {
         options.headers = new Headers({ Accept: 'application/json' });
     }
     const  token  = JSON.parse(localStorage.getItem('token'));
+    console.log(token)
     options.headers.set('Authorization', `${token}`);
     return fetchUtils.fetchJson(url, options);
 };
@@ -86,6 +88,12 @@ const MyLoginPage = () => (
     </Login>
 );
 
+const theme = createMuiTheme({
+    palette: {
+        type: 'light', // Switching the dark mode on is a single property value change.
+    },
+});
+
 const App = () => {
     return (
         <Admin dataProvider={dataProvider}
@@ -94,6 +102,7 @@ const App = () => {
                // customRoutes={routes}
                layout={Layout}
                 loginPage={MyLoginPage}
+               theme={theme}
         >
             {/*<Resource name="locations" list={Location} edit={LocationEdit} create={LocationCreate}/>*/}
             <Resource name="theaters" list={TheaterList} edit={EditTheater} create={TheaterCreate}/>

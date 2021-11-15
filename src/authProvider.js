@@ -1,8 +1,5 @@
 // in src/authProvider.js
 
-import {useGoogleLogout} from "react-google-login";
-
-
 
 export default {
     // called when the user attempts to log in
@@ -28,7 +25,15 @@ export default {
                     return response.json();
                 })
                 .then(auth => {
-                    localStorage.setItem('username', auth["email"]);
+                    console.log(auth)
+                    const authenticate = {
+                        fullName:auth["fullName"],
+                        id:auth["id"],
+                        avatar:auth["photo"]
+                    }
+                    localStorage.setItem("email",JSON.stringify(auth["email"]));
+                    localStorage.setItem('auth', JSON.stringify(authenticate));
+
                     localStorage.setItem('token', JSON.stringify(auth["token"]));
                     localStorage.setItem('privilege', JSON.stringify(auth["privileges"]));
                 })
@@ -36,14 +41,14 @@ export default {
                     throw new Error('Network error')
                 });
         }else{
-            const params = {
-                email:body.email,
-                familyName:body.familyName,
-                givenName: body.givenName,
-                googleId: body.googleId,
-                imageUrl: body.imageUrl,
-                name: body.name
-            }
+            // const params = {
+            //     email:body.email,
+            //     familyName:body.familyName,
+            //     givenName: body.givenName,
+            //     googleId: body.googleId,
+            //     imageUrl: body.imageUrl,
+            //     name: body.name
+            // }
             const request = new Request('http://localhost:8080/api/v1/authenticate-social', {
                 method: 'POST',
                 body: JSON.stringify(body),
@@ -57,7 +62,14 @@ export default {
                     return response.json();
                 })
                 .then(auth => {
-                    localStorage.setItem('username', auth["email"]);
+
+                    const authenticate = {
+                        fullName:auth["fullName"],
+                        id:auth["id"],
+                        avatar:auth["photo"]
+                    };
+                    localStorage.setItem("email",JSON.stringify(auth["email"]));
+                    localStorage.setItem('auth', JSON.stringify(authenticate));
                     localStorage.setItem('token', JSON.stringify(auth["token"]));
                     localStorage.setItem('privilege', JSON.stringify(auth["privileges"]));
                 })
@@ -69,11 +81,8 @@ export default {
     },
     //called when the user clicks on the logout button
     logout: () => {
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('username');
-        localStorage.removeItem('token');
+        localStorage.removeItem('auth');
         localStorage.removeItem('privilege');
-
         return Promise.resolve();
     },
     // called when the API returns an error
@@ -87,7 +96,7 @@ export default {
     },
     // called when the user navigates to a new location, to check for authentication
     checkAuth: () => {
-       return localStorage.getItem('token')
+       return localStorage.getItem('auth')
             ? Promise.resolve()
             : Promise.reject();
     },
@@ -95,9 +104,11 @@ export default {
     getPermissions: () => Promise.resolve(),
     getIdentity:  () => {
         try {
-            const username =  JSON.parse(localStorage.getItem('username'));
-            return Promise.resolve({fullName: username});
+
+            const { id, fullName, avatar } = JSON.parse(localStorage.getItem('auth'));
+            return Promise.resolve({ id: id,fullName:fullName,avatar:avatar});
         } catch (error) {
+            console.log(error)
             return Promise.reject(error);
         }
     }
