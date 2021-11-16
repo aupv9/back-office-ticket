@@ -20,7 +20,7 @@ import {
 import {makeStyles} from "@material-ui/core/styles";
 import {Typography, useMediaQuery} from "@material-ui/core";
 import * as React from "react";
-
+import CustomizableDatagrid from 'ra-customizable-datagrid';
 
 
 const useStyles = makeStyles(theme => ({
@@ -79,7 +79,9 @@ export const OfferList = (props) =>{
 const CustomDataGrid = () =>{
 
     return (
-        <Datagrid optimized rowClick="edit">
+
+
+        <CustomizableDatagrid>
             <DateField source={"creationDate"} showTime/>
             <TextField source={"name"}/>
             <ChipField source={"method"} label={"Mode"}/>
@@ -92,26 +94,28 @@ const CustomDataGrid = () =>{
                 }}
                 label={"Amount"}
             />
-            {/*<NumberField*/}
-            {/*    source="percentage"*/}
-            {/*    options={{*/}
-            {/*        style: 'percent'*/}
-            {/*    }}*/}
-            {/*/>*/}
             <TextField source={"percentage"} label={"%"}/>
 
-            {/*<ReferenceField reference={"showTimesDetails"} source={"showTimesDetailId"}>*/}
-            {/*    <TextField source={"id"}/>*/}
-            {/*</ReferenceField>*/}
-            {/*<BooleanField source={"profile"} label={"Is User"}/>*/}
-            {/*<UserDetail {...props}/>*/}
-            {/*<ReferenceField reference={"users"} source={"creation"}>*/}
-            {/*    <TextField source={"email"} />*/}
-            {/*</ReferenceField>*/}
-            {/*<ChipField source={"status"}/>*/}
-            {/*<DateField source={"expirePayment"} showTime/>*/}
-            {/*<TextField source={"note"}/>*/}
-        </Datagrid>
+
+        </CustomizableDatagrid>
+
+        // <Datagrid optimized rowClick="edit">
+        //     <DateField source={"creationDate"} showTime/>
+        //     <TextField source={"name"}/>
+        //     <ChipField source={"method"} label={"Mode"}/>
+        //     <ChipField source={"type"}/>
+        //     <NumberField
+        //         source="discountAmount"
+        //         options={{
+        //             style: 'currency',
+        //             currency: 'VND',
+        //         }}
+        //         label={"Amount"}
+        //     />
+        //
+        //     <TextField source={"percentage"} label={"%"}/>
+        //
+        // </Datagrid>
 
     )
 }

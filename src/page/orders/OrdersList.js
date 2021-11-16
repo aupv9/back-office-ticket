@@ -21,7 +21,7 @@ import {useMediaQuery, Divider, Tabs, Tab, Typography} from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
 import NumberFormat from "react-number-format";
-
+import CustomizableDatagrid from 'ra-customizable-datagrid';
 
 const orderFilters = [
     <SearchInput source="q" alwaysOn />,
@@ -161,7 +161,7 @@ const TabbedDatagrid = (props) => {
                         <ListContextProvider
                             value={{ ...listContext, ids: nonePayment }}
                         >
-                            <Datagrid {...props} rowClick="show">
+                            <CustomizableDatagrid>
                                 <DateField source="createdDate" showTime />
                                 <DateField source="expirePayment" showTime />
 
@@ -197,15 +197,14 @@ const TabbedDatagrid = (props) => {
                                         className={classes.total}
                                     />
                                 </ReferenceField>
-
-                            </Datagrid>
+                            </CustomizableDatagrid>
                         </ListContextProvider>
                     )}
                     {filterValues.status === 'payment' && (
                         <ListContextProvider
                             value={{ ...listContext, ids: payment }}
                         >
-                            <Datagrid {...props} rowClick="show">
+                            <CustomizableDatagrid>
                                 <DateField source="createdDate" showTime />
 
                                 <ReferenceField
@@ -241,8 +240,7 @@ const TabbedDatagrid = (props) => {
                                     />
                                 </ReferenceField>
 
-
-                            </Datagrid>
+                            </CustomizableDatagrid>
                         </ListContextProvider>
                     )}
 
@@ -250,7 +248,7 @@ const TabbedDatagrid = (props) => {
                         <ListContextProvider
                             value={{ ...listContext, ids: cancelled }}
                         >
-                            <Datagrid {...props} rowClick="show">
+                            <CustomizableDatagrid>
                                 <DateField source="createdDate" showTime />
                                 <ReferenceField
                                     source="showTimesDetailId"
@@ -285,9 +283,7 @@ const TabbedDatagrid = (props) => {
                                         className={classes.total}
                                     />
                                 </ReferenceField>
-
-
-                            </Datagrid>
+                            </CustomizableDatagrid>
                         </ListContextProvider>
                     )}
 
@@ -331,5 +327,8 @@ const UserDetail = ({record}) =>{
         </Typography>
     )
 }
+
+
+
 
 export default OrderList;

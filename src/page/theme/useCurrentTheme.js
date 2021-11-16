@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import themes from './index'
 import { AUTO_THEME_ID } from '../consts'
-import config from '../config'
+import config from '../configuration'
 import { useEffect } from 'react'
 
 const useCurrentTheme = () => {

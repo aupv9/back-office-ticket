@@ -63,20 +63,21 @@ const LoadedGridList = (props) => {
                     <GridListTileBar
                         className={classes.tileBar}
                         title={data[id].name}
-                        subtitle={
-                            <span>
-                                <NumberField
-                                    className={classes.price}
-                                    source="price"
-                                    record={data[id]}
-                                    color="inherit"
-                                    options={{
-                                        style: 'currency',
-                                        currency: 'vnd',
-                                    }}
-                                />
-                            </span>
-                        }
+
+                        // subtitle={
+                        //     <span>
+                        //         <NumberField
+                        //             className={classes.price}
+                        //             source="price"
+                        //             record={data[id]}
+                        //             color="inherit"
+                        //             options={{
+                        //                 style: 'currency',
+                        //                 currency: 'vnd',
+                        //             }}
+                        //         />
+                        //     </span>
+                        // }
                     />
                 </GridListTile>
             ))}

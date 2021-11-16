@@ -180,24 +180,33 @@ const LoginForm = (props) => {
                     </CardActions>
                     <div>
                         <CardActions>
-                            <Button
-                                className={classes.button}
-                                variant="contained"
-                                type="button"
-                                color="primary"
-                                onClick={signIn}
-                                disabled={loading}
-                            >
-                                {loading && (
-                                    <CircularProgress
-                                        className={classes.icon}
-                                        size={18}
-                                        thickness={2}
-                                    />
-                                )}
 
-                                Login With Google
-                            </Button>
+
+
+                            {/*<Button*/}
+                            {/*    className={classes.button}*/}
+                            {/*    variant="contained"*/}
+                            {/*    type="button"*/}
+                            {/*    color="primary"*/}
+                            {/*    onClick={signIn}*/}
+                            {/*    disabled={loading}*/}
+                            {/*>*/}
+                            {/*    {loading && (*/}
+                            {/*        <CircularProgress*/}
+                            {/*            className={classes.icon}*/}
+                            {/*            size={18}*/}
+                            {/*            thickness={2}*/}
+                            {/*        />*/}
+                            {/*    )}*/}
+                            {/*    Login With Google*/}
+                            {/*</Button>*/}
+
+                            <GoogleLogin
+                                clientId={clientId}
+                                buttonText="Login"
+                                onSuccess={onSuccess}
+                                onFailure={onFailure}
+                            />
                         </CardActions>
                     </div>
 

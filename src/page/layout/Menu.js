@@ -15,19 +15,19 @@ import {
 
 import SubMenu from './SubMenu';
 import {
-    AccessibilityTwoTone,
-    AttachMoney,
+    AccessibilityTwoTone, AddShoppingCart,
+    AttachMoney, CardTravel,
     Category, CollectionsBookmark, DashboardSharp,
     EmojiPeopleOutlined,
     Fastfood,
-    LocationCityOutlined,
+    LocationCityOutlined, MeetingRoom,
     MoneyTwoTone,
     MovieCreationSharp,
-    MovieFilter, PaymentSharp, QuestionAnswer,
-    RoomServiceSharp, ShowChart,
+    MovieFilter, PaymentSharp, QuestionAnswer, RoomRounded,
+    RoomServiceSharp, RoomSharp, Settings, SettingsCellSharp, SettingsPower, ShowChart,
     SupervisedUserCircle,
     SupervisedUserCircleRounded,
-    TheatersSharp, TimelapseOutlined,
+    TheatersSharp, TheatersTwoTone, TimelapseOutlined,
     Videocam,
     ViewCompact,
     ViewDay,
@@ -37,6 +37,7 @@ import {
     YoutubeSearchedForOutlined
 } from "@material-ui/icons";
 import LocalOfferIcon from "@material-ui/icons/LocalOfferOutlined";
+import SettingsIcon from "@material-ui/icons/Settings";
 
 
 const Menu = ({ dense = false }) => {
@@ -72,7 +73,7 @@ const Menu = ({ dense = false }) => {
                 handleToggle={() => handleToggle('menuManageBase')}
                 isOpen={state.menuManageBase}
                 name="Manage Base"
-                icon={<TheatersSharp/>}
+                icon={<SettingsIcon/>}
                 dense={dense}
             >
                 <MenuItemLink
@@ -83,7 +84,7 @@ const Menu = ({ dense = false }) => {
                     primaryText={translate(`Location`, {
                         smart_count: 2,
                     })}
-                    leftIcon={<LocationCityOutlined />}
+                    leftIcon={<RoomSharp />}
                     dense={dense}
                 />
                 <MenuItemLink
@@ -94,7 +95,7 @@ const Menu = ({ dense = false }) => {
                     primaryText={translate(`Theater`, {
                         smart_count: 2,
                     })}
-                    leftIcon={<TheatersSharp />}
+                    leftIcon={<TheatersTwoTone />}
                     dense={dense}
                 />
                 <MenuItemLink
@@ -105,7 +106,7 @@ const Menu = ({ dense = false }) => {
                     primaryText={translate(`Room`, {
                         smart_count: 2,
                     })}
-                    leftIcon={<RoomServiceSharp />}
+                    leftIcon={<MeetingRoom />}
                     dense={dense}
                 />
             </SubMenu>
@@ -188,17 +189,7 @@ const Menu = ({ dense = false }) => {
                     leftIcon={<Videocam/>}
                     dense={dense}
                 />
-                {/*<MenuItemLink*/}
-                {/*    to={{*/}
-                {/*        pathname: '/employees',*/}
-                {/*        state: { _scrollToTop: true },*/}
-                {/*    }}*/}
-                {/*    primaryText={translate(`Employee`, {*/}
-                {/*        smart_count: 2,*/}
-                {/*    })}*/}
-                {/*    leftIcon={<EmojiPeopleOutlined />}*/}
-                {/*    dense={dense}*/}
-                {/*/>*/}
+
             </SubMenu>
 
             <SubMenu
@@ -213,7 +204,7 @@ const Menu = ({ dense = false }) => {
                         pathname: '/offers',
                         state: { _scrollToTop: true },
                     }}
-                    primaryText={translate(`Offer DashBoard`, {
+                    primaryText={translate(`DashBoard`, {
                         smart_count: 2,
                     })}
                     leftIcon={<DashboardSharp/>}
@@ -237,7 +228,7 @@ const Menu = ({ dense = false }) => {
                 handleToggle={() => handleToggle('menuOrders')}
                 isOpen={state.menuOrders}
                 name="Orders"
-                icon={<AttachMoney   />}
+                icon={<AddShoppingCart   />}
                 dense={dense}
             >
                 <MenuItemLink

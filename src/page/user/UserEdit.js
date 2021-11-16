@@ -9,20 +9,30 @@ import {
     useTranslate,
     FormWithRedirect,
     required,
-    email,SelectInput, ReferenceField,ReferenceInput
+    email, SelectInput, ReferenceField, ReferenceInput, AutocompleteArrayInput, ReferenceArrayInput, ShowButton,TopToolbar,ListButton
 } from 'react-admin';
 import { Box, Card, CardContent, Typography } from '@material-ui/core';
 
 import { validatePasswords } from './UserCreate';
 import FullNameField from "../room/TheaterNameField";
 
+const ListAction = () =>{
+    return (
+        <TopToolbar>
+          <ShowButton />
+          <ListButton />
+        </TopToolbar>
+    )
+}
 
 const UserEdit = (props) => {
     return (
         <Edit
+            hasList
             title={<VisitorTitle />}
             // aside={<Aside />}
             component="div"
+            actions={<ListAction />}
             {...props}
         >
             <UserForm />
@@ -162,13 +172,16 @@ const UserForm = (props ) => {
                                     </Typography>
 
                                     <div>
-                                        <ReferenceInput
-                                            source="roleId"
-                                            reference="roles"
-                                            validate={requiredValidate}
-                                        >
-                                            <SelectInput source="name" />
-                                        </ReferenceInput>
+                                        {/*<ReferenceInput*/}
+                                        {/*    source="roleId"*/}
+                                        {/*    reference="roles"*/}
+                                        {/*    validate={requiredValidate}*/}
+                                        {/*>*/}
+                                        {/*    <SelectInput source="name" />*/}
+                                        {/*</ReferenceInput>*/}
+                                        <ReferenceArrayInput label="Role List" reference="roles" source="roleIds">
+                                            <AutocompleteArrayInput />
+                                        </ReferenceArrayInput>
                                     </div>
                                     <div>
                                         <ReferenceInput

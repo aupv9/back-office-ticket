@@ -15,8 +15,7 @@ import {Button, useMediaQuery} from "@material-ui/core";
 import Aside from "./Aside";
 import MobileGrid from "./MobileGrid";
 import * as React from "react";
-
-
+import CustomizableDatagrid from 'ra-customizable-datagrid';
 
 const useStyles = makeStyles(theme => ({
     nb_commands: { color: 'purple' },
@@ -68,14 +67,22 @@ export const ListRoom = (props) =>{
             {isXsmall ? (
                 <MobileGrid />
             ) : (
-                <Datagrid optimized rowClick="edit">
+                <CustomizableDatagrid>
                     <TextField source={"name"}/>
                     <TextField source={"code"}/>
                     <ReferenceField reference={"theaters"} source={"theaterId"}>
                         <TheaterNameField />
                     </ReferenceField>
-                    <TextField source={"type"}/>
-                </Datagrid>
+                    {/*<TextField source={"type"}/>*/}
+                </CustomizableDatagrid>
+                // <Datagrid optimized rowClick="edit">
+                //     <TextField source={"name"}/>
+                //     <TextField source={"code"}/>
+                //     <ReferenceField reference={"theaters"} source={"theaterId"}>
+                //         <TheaterNameField />
+                //     </ReferenceField>
+                //     <TextField source={"type"}/>
+                // </Datagrid>
             )}
         </List>
     );

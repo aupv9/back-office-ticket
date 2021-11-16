@@ -46,6 +46,7 @@ import {PaymentList} from "./page/payment/PaymentList";
 import {OfferList} from "./page/offer/OfferList";
 import {OfferCreate} from "./page/offer/OfferCreate";
 import {createMuiTheme} from "@material-ui/core";
+import {theme} from "./theme";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -58,7 +59,6 @@ const httpClient = (url, options = {}) => {
         options.headers = new Headers({ Accept: 'application/json' });
     }
     const  token  = JSON.parse(localStorage.getItem('token'));
-    console.log(token)
     options.headers.set('Authorization', `${token}`);
     return fetchUtils.fetchJson(url, options);
 };
@@ -88,11 +88,11 @@ const MyLoginPage = () => (
     </Login>
 );
 
-const theme = createMuiTheme({
-    palette: {
-        type: 'light', // Switching the dark mode on is a single property value change.
-    },
-});
+// const theme = createMuiTheme({
+//     palette: {
+//         type: 'light', // Switching the dark mode on is a single property value change.
+//     },
+// });
 
 const App = () => {
     return (

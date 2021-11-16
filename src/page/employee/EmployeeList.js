@@ -45,11 +45,15 @@ export const EmployeeList = props => {
                 <ReferenceField reference="theaters" source="theaterId" label="Theater">
                     <TextField source="name" />
                 </ReferenceField>
+                {/*<ReferenceField reference="employees" source="theaterId" label="Theater">*/}
+                {/*    <TextField source="name" />*/}
+                {/*</ReferenceField>*/}
                 <DateField source="createdAt"/>
                 <DateField source="updatedAt"/>
                 <DateField source="startsAt"/>
                 <DateField source="endsAt"/>
                 <ChipField source="status" />
+
                 <EditButton />
             </Datagrid>
         </List>

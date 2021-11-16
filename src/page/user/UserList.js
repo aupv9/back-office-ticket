@@ -68,7 +68,7 @@ import {
     TextField,
     TextInput,
     useGetList,
-    useListContext, ChipField, EmailField,EditButton
+    useListContext, ChipField, EmailField, EditButton, ReferenceManyField,SingleFieldList
 } from 'react-admin';
 import { useMediaQuery, Divider, Tabs, Tab, Theme } from '@material-ui/core';
 
@@ -197,7 +197,7 @@ const TabbedDatagrid = (props) => {
                         <ListContextProvider
                             value={{ ...listContext, ids: userRegister }}
                         >
-                            <Datagrid {...props} optimized rowClick="edit">
+                            <Datagrid {...props} optimized rowClick="show">
                                 <EmailField source="email" />
                                 <TextField source="fullName" />
                                 <TextField source="address"/>
@@ -212,9 +212,16 @@ const TabbedDatagrid = (props) => {
 
                                 <DateField source="lastLogin"/>
                                 <BooleanField  source="currentLogged" />
-                                <ReferenceField reference="roles" source="roleId">
+
+                                <ReferenceManyField label="Role" reference="roles" target="roleIds">
+                                    <SingleFieldList>
+                                        <ChipField source="name" />
+                                    </SingleFieldList>
+                                </ReferenceManyField>
+
+                                <ReferenceManyField reference="roles" source="roleIds">
                                     <ChipField source="code" />
-                                </ReferenceField>
+                                </ReferenceManyField>
 
                                 <ReferenceField reference="uas" source="uasId" label="Status">
                                     <ChipField source="name" />
@@ -227,7 +234,7 @@ const TabbedDatagrid = (props) => {
                         <ListContextProvider
                             value={{ ...listContext, ids: userSocial }}
                         >
-                            <Datagrid {...props} rowClick="edit">
+                            <Datagrid {...props} rowClick="show">
                                 <EmailField source="email" />
                                 <TextField source="fullName" />
                                 <DateField source="lastLogin"/>
@@ -250,7 +257,7 @@ const UserList = (props) => (
     <List
         {...props}
         filterDefaultValues={{ role:0 ,status:'userRegister'}}
-        sort={{ field: 'registeredAt', order: 'DESC' }}
+        sort={{ field: 'id', order: 'DESC' }}
         perPage={25}
         filters={orderFilters}
         hasCreate={true}
