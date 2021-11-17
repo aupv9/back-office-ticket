@@ -45,4 +45,4 @@ RolesField.defaultProps = {
     source: 'groups',
 };
 
-export default SegmentsField
+export default RolesField;

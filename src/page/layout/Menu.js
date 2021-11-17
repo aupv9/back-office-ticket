@@ -23,7 +23,7 @@ import {
     LocationCityOutlined, MeetingRoom,
     MoneyTwoTone,
     MovieCreationSharp,
-    MovieFilter, PaymentSharp, QuestionAnswer, RoomRounded,
+    MovieFilter, PaymentSharp, People, QuestionAnswer, RoomRounded,
     RoomServiceSharp, RoomSharp, Settings, SettingsCellSharp, SettingsPower, ShowChart,
     SupervisedUserCircle,
     SupervisedUserCircleRounded,
@@ -345,6 +345,17 @@ const Menu = ({ dense = false }) => {
                         smart_count: 2,
                     })}
                     leftIcon={<EmojiPeopleOutlined />}
+                    dense={dense}
+                />
+                <MenuItemLink
+                    to={{
+                        pathname: '/roles',
+                        state: { _scrollToTop: true },
+                    }}
+                    primaryText={translate(`Role List`, {
+                        smart_count: 2,
+                    })}
+                    leftIcon={<People />}
                     dense={dense}
                 />
             </SubMenu>

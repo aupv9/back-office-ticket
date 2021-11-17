@@ -1,62 +1,9 @@
-// import {
-//     List,
-//     Datagrid,
-//     TextField,
-//     EmailField,
-//     ReferenceField,
-//     DateField,
-//     ChipField,
-//     BooleanField,
-//     ReferenceManyField, SingleFieldList, SearchInput, EditButton, AutocompleteInput, ReferenceInput
-// } from 'react-admin';
-// import UserLinkField from "./UserLinkField";
-// import * as React from "react";
-//
-// const usersFilters = [
-//     <SearchInput source="q" alwaysOn />,
-//     <ReferenceInput source="createBy" reference="users" filter={{role:0}}>
-//         <AutocompleteInput
-//             optionText={(choice) =>
-//                 choice.id ? `${choice.fullName}` : ''
-//             }
-//         />
-//     </ReferenceInput>,
-// ];
-//
-//
-// export const UserList = props => (
-//     <List {...props}
-//           filter={{role:0}}
-//           filters={usersFilters}
-//           >
-//         <Datagrid rowClick="show">
-//             <EmailField source="email" />
-//             <TextField source="fullName" />
-//             <TextField source="address"/>
-//             <TextField source="state"/>
-//             <TextField source="city"/>
-//             <DateField source="registeredAt"/>
-//             <UserLinkField />
-//             <DateField source="lastLogin"/>
-//             <BooleanField  source="currentLogged" />
-//             <ReferenceField reference="roles" source="roleId">
-//                 <ChipField source="code" />
-//             </ReferenceField>
-//
-//             <ReferenceField reference="uas" source="uasId" label="Status">
-//                 <ChipField source="name" />
-//             </ReferenceField>
-//             <EditButton />
-//         </Datagrid>
-//     </List>
-// );
 
 import * as React from 'react';
 import { Fragment, useCallback, useEffect, useState } from 'react';
 import {
     AutocompleteInput,
     BooleanField,
-    Datagrid,
     DateField,
     DateInput,
     List,
@@ -68,9 +15,10 @@ import {
     TextField,
     TextInput,
     useGetList,
-    useListContext, ChipField, EmailField, EditButton, ReferenceManyField,SingleFieldList
+    useListContext, ChipField, EmailField, EditButton,SingleFieldList,ReferenceArrayField,BulkExportButton,BulkDeleteButton
 } from 'react-admin';
 import { useMediaQuery, Divider, Tabs, Tab, Theme } from '@material-ui/core';
+import CustomizableDatagrid from 'ra-customizable-datagrid';
 
 import { makeStyles } from '@material-ui/core/styles';
 import UserLinkField from "./UserLinkField";
@@ -197,54 +145,48 @@ const TabbedDatagrid = (props) => {
                         <ListContextProvider
                             value={{ ...listContext, ids: userRegister }}
                         >
-                            <Datagrid {...props} optimized rowClick="show">
+
+                            <CustomizableDatagrid {...props} >
                                 <EmailField source="email" />
                                 <TextField source="fullName" />
                                 <TextField source="address"/>
                                 <TextField source="state"/>
                                 <TextField source="city"/>
                                 <DateField source="registeredAt"/>
-
-                                {/*<ReferenceField reference="users" source="createdBy">*/}
-                                {/*    <TextField source="firstName" />*/}
-                                {/*</ReferenceField>*/}
-                                {/*<UserLinkField />*/}
-
                                 <DateField source="lastLogin"/>
                                 <BooleanField  source="currentLogged" />
 
-                                <ReferenceManyField label="Role" reference="roles" target="roleIds">
+                                <ReferenceArrayField label="Roles" reference="roles" source="roleIds">
                                     <SingleFieldList>
-                                        <ChipField source="name" />
+                                        <ChipField source="code" />
                                     </SingleFieldList>
-                                </ReferenceManyField>
-
-                                <ReferenceManyField reference="roles" source="roleIds">
-                                    <ChipField source="code" />
-                                </ReferenceManyField>
+                                </ReferenceArrayField>
 
                                 <ReferenceField reference="uas" source="uasId" label="Status">
                                     <ChipField source="name" />
                                 </ReferenceField>
+
                                 <EditButton />
-                            </Datagrid>
+                            </CustomizableDatagrid>
+
                         </ListContextProvider>
                     )}
                     {filterValues.status === 'userSocial' && (
                         <ListContextProvider
                             value={{ ...listContext, ids: userSocial }}
                         >
-                            <Datagrid {...props} rowClick="show">
+                            <CustomizableDatagrid {...props}>
                                 <EmailField source="email" />
                                 <TextField source="fullName" />
                                 <DateField source="lastLogin"/>
-                                <ReferenceField reference="roles" source="roleId">
-                                    <ChipField source="code" />
-                                </ReferenceField>
                                 <BooleanField  source="currentLogged" />
+                                <ReferenceArrayField label="Roles" reference="roles" source="roleIds">
+                                    <SingleFieldList>
+                                        <ChipField source="code" />
+                                    </SingleFieldList>
+                                </ReferenceArrayField>
                                 <EditButton />
-
-                            </Datagrid>
+                            </CustomizableDatagrid>
                         </ListContextProvider>
                     )}
                 </div>
@@ -252,6 +194,14 @@ const TabbedDatagrid = (props) => {
         </Fragment>
     );
 };
+
+
+const BulkActionButtons = ({ basePath }) => (
+    <Fragment>
+        <BulkExportButton />
+        <BulkDeleteButton basePath={basePath} />
+    </Fragment>
+);
 
 const UserList = (props) => (
     <List
@@ -261,6 +211,7 @@ const UserList = (props) => (
         perPage={25}
         filters={orderFilters}
         hasCreate={true}
+        bulkActionButtons={<BulkActionButtons />}
     >
         <TabbedDatagrid />
     </List>

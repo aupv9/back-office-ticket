@@ -47,6 +47,8 @@ import {OfferList} from "./page/offer/OfferList";
 import {OfferCreate} from "./page/offer/OfferCreate";
 import {createMuiTheme} from "@material-ui/core";
 import {theme} from "./theme";
+import {RoleList} from "./page/role/RoleList";
+import {RoleShow} from "./page/role/RoleShow";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -124,7 +126,6 @@ const App = () => {
             />
             <Resource name="my-orders" list={MyOrder} edit={OrderEdit}/>
             <Resource name="users" create={UserCreate} list={UserList} edit={UserEdit} show={ShowGuesser}/>
-            <Resource name="roles" />
             <Resource name={"uas"} />
             <Resource name="employees" list={EmployeeList} edit={EmployeeEdit}/>
             <Resource name="shows"  list={ShowList}  edit={ShowEdit} />
@@ -132,6 +133,8 @@ const App = () => {
             <Resource name="payments-method" />
             <Resource name={"paymentOrder"} />
             <Resource name={"offers"} list={OfferList} create={OfferCreate}/>
+            <Resource name="roles" list={RoleList} show={RoleShow}/>
+            <Resource name="privilege-role" />
 
         </Admin>
     );
