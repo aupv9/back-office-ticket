@@ -2,7 +2,7 @@ import * as React from 'react';
 import classnames from 'classnames';
 import { Table, TableBody, TableCell, TableRow } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { useTranslate } from 'react-admin';
+import {useRefresh, useTranslate} from 'react-admin';
 import {useEffect, useState} from "react";
 
 
@@ -13,14 +13,16 @@ const useStyles = makeStyles({
 });
 
 const Totals = (props) => {
-    const { record } = props;
+    const { record,offer } = props;
+    console.log(offer)
     const classes = useStyles();
     const translate = useTranslate();
     const [totalSeats,setTotalSeats] = useState(0);
     const [totalConcessions,setTotalConcessions] = useState(0);
     const [tax,setTax] = useState(0);
     const [total,setTotal] = useState(0);
-
+    const [discount,setDiscount] = useState(0);
+    const refresh = useRefresh();
     const calSeat = () =>{
         return record["seats"] ? record["seats"].reduce(((previousValue, currentValue) => {
             return previousValue + currentValue["price"]
@@ -37,15 +39,29 @@ const Totals = (props) => {
         return (num/100) * per;
     }
 
+    const calDiscount = () => {
+        if(offer && offer.type === "Flat"){
+            return offer["discountAmount"];
+        }else if(offer && offer.type === "Percentage"){
+            const total = totalSeats + totalConcessions;
+            percentage(total,offer["discountAmount"]);
+        }else
+        return 0;
+    }
+
     useEffect(() =>{
         setTotalSeats(calSeat());
         setTotalConcessions(calConcession());
         setTax(percentage(totalConcessions + totalSeats,10));
-        setTotal(totalSeats + totalConcessions + tax);
-    },[record,totalSeats,totalConcessions,tax,]);
+        setDiscount(calDiscount());
+        setTotal(totalSeats + totalConcessions + tax - discount);
+    },[record,totalSeats,totalConcessions,tax,discount]);
+
     useEffect(() =>{
         props.totalAmountCallBack(total);
     },[total])
+
+
 
     return (
         <Table className={classes.container}>
@@ -82,6 +98,17 @@ const Totals = (props) => {
                     </TableCell>
                     <TableCell className={classes.rightAlignedCell}>
                         {tax.toLocaleString(undefined, {
+                            style: 'currency',
+                            currency: 'VND',
+                        })}
+                    </TableCell>
+                </TableRow>
+                <TableRow>
+                    <TableCell>
+                        {translate('Discount')}
+                    </TableCell>
+                    <TableCell className={classes.rightAlignedCell}>
+                        {discount.toLocaleString(undefined, {
                             style: 'currency',
                             currency: 'VND',
                         })}

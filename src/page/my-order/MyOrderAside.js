@@ -11,7 +11,6 @@ import {CodeRounded, Money, Queue, TheatersSharp} from "@material-ui/icons";
 
 export const MyOrderAside = ({amount}) => {
     const {record,loaded} = useEditContext();
-    console.log(record)
     return (
         <>
             {

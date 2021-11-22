@@ -23,6 +23,7 @@ import {
  * CREATE       => POST http://my.api.url/posts
  * DELETE       => DELETE http://my.api.url/posts/123
  */
+
 const getPaginationQuery = (pagination) => {
     return {
         page: pagination.page,

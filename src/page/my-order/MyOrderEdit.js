@@ -8,8 +8,17 @@ import {
     ReferenceField,
     SelectInput,
     TextField,
-    Toolbar, useEditContext,
-    useTranslate, ReferenceInput, AutocompleteInput, Loading, TextInput, useQuery
+    Toolbar,
+    useEditContext,
+    useTranslate,
+    ReferenceInput,
+    AutocompleteInput,
+    Loading,
+    TextInput,
+    useQuery,
+    useNotify,
+    useDataProvider,
+    useRefresh
 } from 'react-admin';
 import {Link as RouterLink, Route} from 'react-router-dom';
 import {
@@ -30,6 +39,7 @@ import SeatTotals from "./SeatTotal";
 import RichTextInput from "ra-input-rich-text";
 import {CodeOutlined, Money} from "@material-ui/icons";
 import LocalOfferIcon from "@material-ui/icons/LocalOfferOutlined";
+import axios from "axios";
 
 
 
@@ -119,6 +129,12 @@ const OrderForm = (props) => {
     const {record,loaded} = useEditContext();
     const [promoCode,setPromoCode] = useState("");
     const [isUser, setIsUser] = useState(false);
+    const notify = useNotify();
+    const dataProvider = useDataProvider();
+    const refresh = useRefresh();
+    const [offer, setOffer] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState();
 
     const amountCallBack = (amount) =>{
         props.amountCallBack(amount);
@@ -135,8 +151,40 @@ const OrderForm = (props) => {
         setPromoCode(target.value)
     }
 
+
     const onCheckPromoCode = () =>{
-        // const {loaded} = useQuery()
+        console.log(promoCode)
+        axios.get(`http://localhost:8080/api/v1/check-promoCode?code=${promoCode}`)
+            .then(response =>{
+                if(response.data){
+                    dataProvider.getOne('offers', { id: response.data.offerId })
+                        .then(({ data }) => {
+                            setOffer(data);
+                            setLoading(false);
+                            setPromoCode("");
+                            refresh();
+                        })
+                        .catch(error => {
+                            console.log(error)
+                            setError(error);
+                            setLoading(false);
+
+                        })
+                }else{
+                    setOffer(null);
+                    notify("Hmm, that's an invalid code. Check for typos and try again.","error");
+
+                    refresh();
+
+                }
+            })
+            .catch(() =>{
+                notify("Hmm, that's an invalid code. Check for typos and try again.","error")
+                setOffer(null);
+                refresh();
+
+            })
+
     }
 
     return (
@@ -282,7 +330,7 @@ const OrderForm = (props) => {
                             </Typography>
                             <Box>
                                 {
-                                    loaded ?  <Totals record={formProps.record} totalAmountCallBack={(amount) => amountCallBack(amount)}/>
+                                    loaded ?  <Totals record={formProps.record} totalAmountCallBack={(amount) => amountCallBack(amount)} offer={offer}/>
                                         :<Loading />
                                 }
                             </Box>
@@ -299,7 +347,7 @@ const OrderForm = (props) => {
                                     startIcon={<LocalOfferIcon />}
                                     onClick={onCheckPromoCode}
                                 >
-                                    Check Promo Code
+                                    Apply
                                 </Button>
                             </Box>
                         </CardContent>
@@ -327,7 +375,6 @@ const OrderEdit = (props) => {
     const amountCallBack = amount =>{
         setTotalAmount(amount);
     }
-    console.log(props)
     return (
         <>
             <Edit
