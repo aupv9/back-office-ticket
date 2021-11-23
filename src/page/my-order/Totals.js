@@ -14,7 +14,6 @@ const useStyles = makeStyles({
 
 const Totals = (props) => {
     const { record,offer } = props;
-    console.log(offer)
     const classes = useStyles();
     const translate = useTranslate();
     const [totalSeats,setTotalSeats] = useState(0);
@@ -22,6 +21,7 @@ const Totals = (props) => {
     const [tax,setTax] = useState(0);
     const [total,setTotal] = useState(0);
     const [discount,setDiscount] = useState(0);
+
     const refresh = useRefresh();
     const calSeat = () =>{
         return record["seats"] ? record["seats"].reduce(((previousValue, currentValue) => {
@@ -44,7 +44,7 @@ const Totals = (props) => {
             return offer["discountAmount"];
         }else if(offer && offer.type === "Percentage"){
             const total = totalSeats + totalConcessions;
-            percentage(total,offer["discountAmount"]);
+            return  percentage(total,offer["percentage"]);
         }else
         return 0;
     }
@@ -53,7 +53,7 @@ const Totals = (props) => {
         setTotalSeats(calSeat());
         setTotalConcessions(calConcession());
         setTax(percentage(totalConcessions + totalSeats,10));
-        setDiscount(calDiscount());
+        setDiscount(calDiscount() ? calDiscount : 0);
         setTotal(totalSeats + totalConcessions + tax - discount);
     },[record,totalSeats,totalConcessions,tax,discount]);
 

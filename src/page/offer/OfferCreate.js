@@ -1,19 +1,12 @@
 import {
-    AutocompleteInput,
     Create,
     FormTab,
-    ReferenceInput,
     required,
     TabbedForm,
     useRedirect,
-    useRefresh,
     TextInput,
     NumberInput,
-    ReferenceField,
-    TextField,
-    DateField,
-    SelectInput,
-    useCreateContext,AutocompleteArrayInput,ReferenceArrayInput
+    SelectInput,AutocompleteArrayInput,ReferenceArrayInput,BooleanInput
 } from "react-admin";
 import * as React from "react";
 import {makeStyles} from "@material-ui/core/styles";
@@ -150,12 +143,8 @@ export const OfferCreate = (props) =>{
                         className={classes.price}
                         validate={requiredValidate}
                     />
-                    {/*<SelectInput source={"typePromo"} choices={[*/}
-                    {/*    { id: 1, name: 'Promo Code For Movie' },*/}
-                    {/*    { id: 2, name: 'Promo Code For Show time' }]}*/}
-                    {/*             onChange={changeMethod}*/}
-                    {/*             label={"Create Promo Code for ?"}*/}
-                    {/*/>*/}
+
+                    <BooleanInput label="Profile" source="anonProfile" />
                 </FormTab>
                 <FormTab
                     label="detail"

@@ -9902,6 +9902,14 @@ quill@~1.3.6:
     parchment "^1.1.4"
     quill-delta "^3.6.2"
 
+ra-compact-ui@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/ra-compact-ui/-/ra-compact-ui-1.1.1.tgz#a3f94ddb0d093d21e3da9f3f6ac8d6e24e5ae403"
+  integrity sha512-yMX0948oNmbXKV8I/QowKxtE10tdeXikT+306X0oyff03pWHpPmOVE1jGG59aFyDXFjfFxOOrZwY7I8eELcQ9A==
+  dependencies:
+    classnames "^2.2.6"
+    prop-types "^15.7.2"
+
 ra-core@^2.9.2:
   version "2.9.9"
   resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-2.9.9.tgz#2241e007dea3defcb623e8d475a06b353705b11c"

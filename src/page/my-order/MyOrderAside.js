@@ -9,7 +9,7 @@ import {CodeRounded, Money, Queue, TheatersSharp} from "@material-ui/icons";
 
 
 
-export const MyOrderAside = ({amount}) => {
+export const MyOrderAside = ({amount,code}) => {
     const {record,loaded} = useEditContext();
     return (
         <>
@@ -22,7 +22,8 @@ export const MyOrderAside = ({amount}) => {
                                 component={RouterLink}
                                 to={{
                                     pathname: '/payments/create',
-                                    state: { record: { partId: record.id ,amount:amount,userId:record.userId,expire:record["expirePayment"],createdDate:record["createdDate"]} },
+                                    state: { record: {code:code,partId: record.id ,amount:amount,userId:record.userId,
+                                            expire:record["expirePayment"],createdDate:record["createdDate"]} },
                                 }}
                                 color="primary"
                                 variant="contained"

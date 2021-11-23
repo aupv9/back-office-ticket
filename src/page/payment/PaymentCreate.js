@@ -76,11 +76,10 @@ export const PaymentCreate = (props) =>{
     };
 
      const classes = useStyles();
-    console.log(props)
 
     return(
         <Create {...props} >
-            <TabbedForm>
+            <TabbedForm >
                 <FormTab
                     label="Summary"
                     contentClassName={classes.tab}
@@ -134,6 +133,7 @@ export const PaymentCreate = (props) =>{
                     <ReferenceInput reference={"payments-method"} source={"paymentMethodId"}>
                         <SelectInput source={"name"} />
                     </ReferenceInput>
+
                     <NumberInput
                         source="amount"
                         className={classes.price}
@@ -146,6 +146,7 @@ export const PaymentCreate = (props) =>{
                         }}
                         validate={requiredValidate}
                     />
+
 
                 </FormTab>
                 <FormTab

@@ -30,7 +30,7 @@ import {
     Link, ButtonBase, Button,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 
 import Basket from "./Basket";
 import {MyOrderAside} from "./MyOrderAside";
@@ -135,9 +135,12 @@ const OrderForm = (props) => {
     const [offer, setOffer] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState();
+    const [offerCode, setOfferCode] = useState("");
+
 
     const amountCallBack = (amount) =>{
         props.amountCallBack(amount);
+
     }
 
     const handleChangeIsUser = value =>{
@@ -147,13 +150,23 @@ const OrderForm = (props) => {
         setIsUser(record.profile);
     },[record])
 
+    useEffect(()=>{
+        if(offer){
+            props.offerCallBack(offerCode);
+        }
+    },[offerCode]);
+
     const changePromoCode = ({target}) =>{
         setPromoCode(target.value)
     }
 
 
     const onCheckPromoCode = () =>{
-        console.log(promoCode)
+
+        if(!promoCode){
+            notify("Please enter a promo code","warning");
+            return;
+        }
         axios.get(`http://localhost:8080/api/v1/check-promoCode?code=${promoCode}`)
             .then(response =>{
                 if(response.data){
@@ -161,6 +174,7 @@ const OrderForm = (props) => {
                         .then(({ data }) => {
                             setOffer(data);
                             setLoading(false);
+                            setOfferCode(promoCode);
                             setPromoCode("");
                             refresh();
                         })
@@ -371,20 +385,24 @@ const OrderForm = (props) => {
 const OrderEdit = (props) => {
     const classes = useEditStyles();
     const [totalAmount,setTotalAmount] = useState(0);
+    const [code,setCode] = useState("");
 
     const amountCallBack = amount =>{
         setTotalAmount(amount);
+    }
+    const offerCallBack = (code)=>{
+        setCode(code);
     }
     return (
         <>
             <Edit
                 title={<OrderTitle />}
-                aside={<MyOrderAside amount={totalAmount}/>}
+                aside={<MyOrderAside amount={totalAmount} code={code}/>}
                 classes={classes}
                 {...props}
                 component="div"
             >
-                <OrderForm amountCallBack ={(amount) => amountCallBack(amount)}/>
+                <OrderForm amountCallBack ={(amount) => amountCallBack(amount)} offerCallBack={(code) => offerCallBack(code)}/>
             </Edit>
         </>
     );

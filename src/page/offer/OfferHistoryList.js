@@ -15,7 +15,7 @@ import {
     ReferenceInput,
     DateField,
     ChipField,
-    BooleanField, useListContext, NumberField, ShowButton
+    BooleanField, useListContext, NumberField, useGetOne
 } from "react-admin";
 import {makeStyles} from "@material-ui/core/styles";
 import {Typography, useMediaQuery} from "@material-ui/core";
@@ -55,7 +55,7 @@ const ListActions = (props) => (
     </TopToolbar>
 );
 
-export const OfferList = (props) =>{
+export const OfferHistoryList = (props) =>{
     const classes = useStyles();
     const isXsmall = useMediaQuery(theme =>
         theme.breakpoints.down('xs')
@@ -66,6 +66,7 @@ export const OfferList = (props) =>{
             {...props}
             filters={roomFilters}
             sort={{ field: 'id', order: 'ACS' }}
+            // filter={{offerId:0,userId:0,orderId:0}}
             perPage={25}
             // aside={<Aside />}
             actions={<ListActions/>}
@@ -81,24 +82,45 @@ const CustomDataGrid = () =>{
     return (
 
 
-        <CustomizableDatagrid rowClick={"show"}>
-            <DateField source={"creationDate"} showTime/>
-            <TextField source={"name"}/>
-            <ChipField source={"method"} label={"Mode"}/>
-            <ChipField source={"type"}/>
-            <ChipField source={"status"}/>
+        <CustomizableDatagrid>
+            <ReferenceField reference={"offers"} source={"offerId"} label={"Offer Name"}>
+                <TextField source={"name"}/>
+            </ReferenceField>
+            <ReferenceField reference={"offers"} source={"offerId"} label={"Offer Type"}>
+                <TextField source={"type"}/>
+            </ReferenceField>
+            <ReferenceField reference={"offers"} source={"offerId"} label={"Offer Method"}>
+                <TextField source={"method"}/>
+            </ReferenceField>
+            <ReferenceField reference={"orders"} source={"orderId"} label={"Orders"}>
+                <TextField source={"id"}/>
+            </ReferenceField>
+            <TextField source={"code"}/>
+            <DateField source={"timeUsed"} showTime/>
+
             <NumberField
-                source="discountAmount"
+                source="totalDiscount"
                 options={{
                     style: 'currency',
                     currency: 'VND',
                 }}
-                label={"Amount"}
+                label={"Discount Amount"}
             />
-            <TextField source={"percentage"} label={"%"}/>
+            <ChipField source={"status"}/>
+
         </CustomizableDatagrid>
     )
 }
+
+// const OfferDetail = ({record}) =>{
+//
+//     const {data,loaded} = useGetOne("offers",record.id);
+//
+//     return loaded ? (
+//
+//     )
+// }
+
 
 const UserDetail = ({record}) =>{
     console.log(record)

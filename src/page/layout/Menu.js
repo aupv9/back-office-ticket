@@ -19,7 +19,7 @@ import {
     AttachMoney, CardTravel,
     Category, CollectionsBookmark, DashboardSharp,
     EmojiPeopleOutlined,
-    Fastfood,
+    Fastfood, History,
     LocationCityOutlined, MeetingRoom,
     MoneyTwoTone,
     MovieCreationSharp,
@@ -210,17 +210,17 @@ const Menu = ({ dense = false }) => {
                     leftIcon={<DashboardSharp/>}
                     dense={dense}
                 />
-                {/*<MenuItemLink*/}
-                {/*    to={{*/}
-                {/*        pathname: '/employees',*/}
-                {/*        state: { _scrollToTop: true },*/}
-                {/*    }}*/}
-                {/*    primaryText={translate(`Employee`, {*/}
-                {/*        smart_count: 2,*/}
-                {/*    })}*/}
-                {/*    leftIcon={<EmojiPeopleOutlined />}*/}
-                {/*    dense={dense}*/}
-                {/*/>*/}
+                <MenuItemLink
+                    to={{
+                        pathname: '/offers-history',
+                        state: { _scrollToTop: true },
+                    }}
+                    primaryText={translate(`Offer History`, {
+                        smart_count: 2,
+                    })}
+                    leftIcon={<History />}
+                    dense={dense}
+                />
             </SubMenu>
 
 
