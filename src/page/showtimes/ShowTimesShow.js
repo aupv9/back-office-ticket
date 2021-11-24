@@ -5,12 +5,22 @@ import {
     Show,
     ReferenceField,
     TextField,
-    DateField, useGetList, useShowContext, Datagrid, Pagination,ChipField,BooleanField,NumberField,Loading
+    DateField,
+    useGetList,
+    useShowContext,
+    Datagrid,
+    Pagination,
+    ChipField,
+    BooleanField,
+    NumberField,
+    Loading,
+    ShowButton, useRedirect
 } from 'react-admin'
 
 import {Fragment, useState} from "react";
 import keyBy from 'lodash/keyBy';
-import {Typography} from "@material-ui/core";
+import {Button, Typography} from "@material-ui/core";
+import CustomizableDatagrid from 'ra-customizable-datagrid';
 
 export const ShowTimesShow = (props) => {
 
@@ -81,26 +91,30 @@ const SeatContent = (props) =>{
     if (error) {
         return <p>ERROR: {error}</p>
     }
+
     return (
         <Fragment>
             {
                 ids.length > 0 ?
                     <Fragment>
+
                         <Datagrid
                             data={keyBy(data, 'id')}
                             ids={ids}
                             currentSort={sort}
                             setSort={(field, order) => setSort({ field, order })}
+                            rowClick={"show"}
+                            hasBulkActions={true}
+                            optimized
+
                         >
                             <TextField source="tier" />
                             <NumberField source="numbers"textAlign="left" />
                             <ChipField source="seatType" />
                             <BooleanField label="Available" source="isSelected" defaultValue />
-
                             <ReferenceField reference="rooms" source="roomId" >
                                 <TextField source="name"/>
                             </ReferenceField>
-
                         </Datagrid>
                         <Pagination
                             page={page}

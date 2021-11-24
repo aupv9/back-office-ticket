@@ -4,7 +4,6 @@ import {
     Resource, ShowGuesser
 } from 'react-admin';
 import customRequest from "./customRequest";
-import DashBoard from "./DashBoard";
 import authProvider from "./authProvider";
 import {LocationEdit} from "./page/location/LocaitonEdit";
 import {LocationCreate} from "./page/location/LocationCreate";
@@ -51,6 +50,7 @@ import {RoleList} from "./page/role/RoleList";
 import {RoleShow} from "./page/role/RoleShow";
 import {OfferHistoryList} from "./page/offer/OfferHistoryList";
 import {OfferShow} from "./page/offer/OfferShow";
+import Dashboard from "./page/dashboard/Dashboard";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -101,7 +101,7 @@ const MyLoginPage = () => (
 const App = () => {
     return (
         <Admin dataProvider={dataProvider}
-               dashboard={DashBoard}
+               dashboard={Dashboard}
                authProvider={authProvider}
                // customRoutes={routes}
                layout={Layout}
@@ -126,7 +126,7 @@ const App = () => {
             <Resource name="orders" list={OrdersList} show={ShowGuesser}
                       // create={OrdersCreate}
             />
-            <Resource name="my-orders" list={MyOrder} edit={OrderEdit}/>
+            <Resource name="my-orders" list={MyOrder} edit={OrderEdit} show={ShowGuesser}/>
             <Resource name="users" create={UserCreate} list={UserList} edit={UserEdit} show={ShowGuesser}/>
             <Resource name={"uas"} />
             <Resource name="employees" list={EmployeeList} edit={EmployeeEdit}/>

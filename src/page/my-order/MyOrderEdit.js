@@ -30,7 +30,7 @@ import {
     Link, ButtonBase, Button,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import {useCallback, useEffect, useState} from "react";
+import {Fragment, useCallback, useEffect, useState} from "react";
 
 import Basket from "./Basket";
 import {MyOrderAside} from "./MyOrderAside";
@@ -349,21 +349,31 @@ const OrderForm = (props) => {
                                 }
                             </Box>
                             <Spacer/>
-                            <Box display={"flex"} justifyItems={"center"}>
-                                <TextInput source={"promoCode"} onChange={changePromoCode}/>
-                            </Box>
-                            <Box display={"flex"} justifyItems={"center"}>
-                                <Button
 
-                                    color="primary"
-                                    variant="contained"
-                                    size="small"
-                                    startIcon={<LocalOfferIcon />}
-                                    onClick={onCheckPromoCode}
-                                >
-                                    Apply
-                                </Button>
-                            </Box>
+                            {
+                                record["status"] === "non_payment" && (
+                                    <Box>
+                                        <Box display={"flex"} justifyItems={"center"}>
+                                            <TextInput source={"promoCode"} onChange={changePromoCode}/>
+                                        </Box>
+                                        <Box display={"flex"} justifyItems={"center"}>
+                                            <Button
+
+                                                color="primary"
+                                                variant="contained"
+                                                size="small"
+                                                startIcon={<LocalOfferIcon />}
+                                                onClick={onCheckPromoCode}
+                                            >
+                                                Apply
+                                            </Button>
+                                        </Box>
+                                    </Box>
+
+                                )
+                            }
+
+
                         </CardContent>
                         <Toolbar
                             record={formProps.record}
@@ -394,7 +404,7 @@ const OrderEdit = (props) => {
         setCode(code);
     }
     return (
-        <>
+        <Fragment>
             <Edit
                 title={<OrderTitle />}
                 aside={<MyOrderAside amount={totalAmount} code={code}/>}
@@ -404,7 +414,7 @@ const OrderEdit = (props) => {
             >
                 <OrderForm amountCallBack ={(amount) => amountCallBack(amount)} offerCallBack={(code) => offerCallBack(code)}/>
             </Edit>
-        </>
+        </Fragment>
     );
 };
 

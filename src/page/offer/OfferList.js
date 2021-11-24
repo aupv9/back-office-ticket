@@ -76,12 +76,10 @@ export const OfferList = (props) =>{
     );
 }
 
-const CustomDataGrid = () =>{
+const CustomDataGrid = (props) =>{
 
     return (
-
-
-        <CustomizableDatagrid rowClick={"show"}>
+        <CustomizableDatagrid rowClick={"show"} {...props}>
             <DateField source={"creationDate"} showTime/>
             <TextField source={"name"}/>
             <ChipField source={"method"} label={"Mode"}/>

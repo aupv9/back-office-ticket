@@ -25,9 +25,22 @@ const OfferContent = () =>{
 
         <TabbedShowLayout>
             <Tab label="summary">
-
+                <DateField source={"creationDate"} showTime/>
+                <TextField source={"name"}/>
+                <ChipField source={"method"} label={"Mode"}/>
+                <ChipField source={"type"}/>
+                <ChipField source={"status"}/>
+                <NumberField
+                    source="discountAmount"
+                    options={{
+                        style: 'currency',
+                        currency: 'VND',
+                    }}
+                    label={"Amount"}
+                />
+                <TextField source={"percentage"} label={"%"}/>
             </Tab>
-            <Tab label="Seat In Room" path="seats">
+            <Tab label="Send User" path="send">
 
             </Tab>
 

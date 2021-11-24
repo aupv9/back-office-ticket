@@ -21,7 +21,7 @@ import {
 import {makeStyles} from "@material-ui/core/styles";
 import {useMediaQuery} from "@material-ui/core";
 import * as React from "react";
-
+import { ImportButton } from "react-admin-import-csv";
 
 
 const useStyles = makeStyles(theme => ({
@@ -83,14 +83,43 @@ const roomFilters = [
 
 
 
-const ListActions = (props) => (
-    <TopToolbar>
-        <FilterButton/>
-        <CreateButton/>
-        <ExportButton/>
-    </TopToolbar>
-);
-
+const ListActions = (props) => {
+    const {
+        className,
+        basePath,
+        total,
+        resource,
+        currentSort,
+        filterValues,
+        exporter,
+    } = props;
+    const config = {
+        logging: true,
+        validateRow: async (row) => {
+            if (row.id) {
+                // throw new Error("AAAA");
+            }
+        },
+        postCommitCallback: reportItems => {
+            console.log('reportItems', {reportItems});
+        },
+        // disableImportNew: true,
+        // disableImportOverwrite: true,
+    };
+    return (
+        <TopToolbar className={className}>
+            <CreateButton basePath={basePath} />
+            <ExportButton
+                disabled={total === 0}
+                resource={resource}
+                sort={currentSort}
+                filter={filterValues}
+                exporter={exporter}
+            />
+            {/*<ImportButton {...props} {...config} parseConfig={{dynamicTyping: true}}/>*/}
+        </TopToolbar>
+    );
+};
 
 export const ShowTimesList = (props) =>{
     const classes = useStyles();

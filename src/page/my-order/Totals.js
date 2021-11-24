@@ -20,10 +20,9 @@ const Totals = (props) => {
     const [totalConcessions,setTotalConcessions] = useState(0);
     const [tax,setTax] = useState(0);
     const [total,setTotal] = useState(0);
-    const [discount,setDiscount] = useState(0);
-
+    const [discount,setDiscount] = useState( 0);
     const refresh = useRefresh();
-    const calSeat = () =>{
+    const calSeat = () => {
         return record["seats"] ? record["seats"].reduce(((previousValue, currentValue) => {
             return previousValue + currentValue["price"]
         }),0) : 0
@@ -53,7 +52,7 @@ const Totals = (props) => {
         setTotalSeats(calSeat());
         setTotalConcessions(calConcession());
         setTax(percentage(totalConcessions + totalSeats,10));
-        setDiscount(calDiscount() ? calDiscount : 0);
+        setDiscount(calDiscount ? calDiscount : discount);
         setTotal(totalSeats + totalConcessions + tax - discount);
     },[record,totalSeats,totalConcessions,tax,discount]);
 
@@ -103,33 +102,72 @@ const Totals = (props) => {
                         })}
                     </TableCell>
                 </TableRow>
-                <TableRow>
-                    <TableCell>
-                        {translate('Discount')}
-                    </TableCell>
-                    <TableCell className={classes.rightAlignedCell}>
-                        {discount.toLocaleString(undefined, {
-                            style: 'currency',
-                            currency: 'VND',
-                        })}
-                    </TableCell>
-                </TableRow>
-                <TableRow>
-                    <TableCell className={classes.boldCell}>
-                        {translate('Total')}
-                    </TableCell>
-                    <TableCell
-                        className={classnames(
-                            classes.boldCell,
-                            classes.rightAlignedCell
-                        )}
-                    >
-                        {total.toLocaleString(undefined, {
-                            style: 'currency',
-                            currency: 'VND',
-                        })}
-                    </TableCell>
-                </TableRow>
+                {
+                    record["discountAmount"] ? (
+                        <TableRow>
+                            <TableCell>
+                                {translate('Discount')}
+                            </TableCell>
+                            <TableCell className={classes.rightAlignedCell}>
+                                {record["discountAmount"].toLocaleString(undefined, {
+                                    style: 'currency',
+                                    currency: 'VND',
+                                })}
+                            </TableCell>
+                        </TableRow>
+                    ) :(
+                        <TableRow>
+                            <TableCell>
+                                {translate('Discount')}
+                            </TableCell>
+                            <TableCell className={classes.rightAlignedCell}>
+                                {discount.toLocaleString(undefined, {
+                                    style: 'currency',
+                                    currency: 'VND',
+                                })}
+                            </TableCell>
+                        </TableRow>
+                    )
+                }
+
+                {
+                    record["discountAmount"] ? (
+                        <TableRow>
+                            <TableCell className={classes.boldCell}>
+                                {translate('Total')}
+                            </TableCell>
+                            <TableCell
+                                className={classnames(
+                                    classes.boldCell,
+                                    classes.rightAlignedCell
+                                )}
+                            >
+                                {(total - record["discountAmount"]).toLocaleString(undefined, {
+                                    style: 'currency',
+                                    currency: 'VND',
+                                })}
+                            </TableCell>
+                        </TableRow>
+                    ) : (
+                        <TableRow>
+                            <TableCell className={classes.boldCell}>
+                                {translate('Total')}
+                            </TableCell>
+                            <TableCell
+                                className={classnames(
+                                    classes.boldCell,
+                                    classes.rightAlignedCell
+                                )}
+                            >
+                                {total.toLocaleString(undefined, {
+                                    style: 'currency',
+                                    currency: 'VND',
+                                })}
+                            </TableCell>
+                        </TableRow>
+                    )
+                }
+
             </TableBody>
         </Table>
     );

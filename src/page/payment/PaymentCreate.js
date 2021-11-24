@@ -67,7 +67,7 @@ export const PaymentCreate = (props) =>{
     //         setDuration(duration);
     //     }
     // },[]);
-
+    console.log(props)
     const redirect = useRedirect();
     const history = useHistory();
     const  handleExpire = () =>{
