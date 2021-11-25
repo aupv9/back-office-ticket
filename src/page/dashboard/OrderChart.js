@@ -35,7 +35,6 @@ const aggregateOrdersByDay = (orders) =>
 
 const getRevenuePerDay = (orders) => {
     const daysWithRevenue = aggregateOrdersByDay(orders);
-    console.log(lastMonthDays)
     return lastMonthDays.map(date => ({
         date: date.getTime(),
         total: daysWithRevenue[format(date, 'yyyy-MM-dd')] || 0,

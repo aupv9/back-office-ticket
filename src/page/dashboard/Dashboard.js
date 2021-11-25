@@ -4,6 +4,10 @@ import {useMediaQuery, Theme} from '@material-ui/core';
 import { format, subDays, addDays } from 'date-fns';
 import {Area, CartesianGrid, XAxis, YAxis, AreaChart, ResponsiveContainer, Legend, Line,LineChart,Tooltip} from "recharts";
 import OrderChart from "./OrderChart";
+import MonthlyRevenue from "./MonthlyRevenue";
+import PendingOrders from "./PendingOrders";
+import CustomerCount from "./CustomerCount";
+import OrdersPayment from "./OrderPayment";
 
 
 
@@ -44,19 +48,26 @@ const Dashboard = () => {
             .filter(order => order.status !== 'cancelled')
             .reduce(
                 (stats, order) => {
-                    if (order.status !== 'cancelled') {
+                    if (order.status === 'payment') {
                         stats.revenue += order.total;
-                        stats.nbNewOrders++;
+                        stats.paymentOrders++;
                     }
-                    if (order.status === 'ordered') {
-                        stats.pendingOrders.push(order);
+                    if (order.status === 'non_payment') {
+                        // stats.pendingPayment.push(order);
+                        stats.pendingPayment++;
+                        console.log(stats.pendingPayment)
+                    }
+                    if (order.status === 'cancelled') {
+                        stats.cancelledOrders.push(order);
                     }
                     return stats;
                 },
                 {
                     revenue: 0,
-                    nbNewOrders: 0,
-                    pendingOrders: [],
+                    pendingPayment: 0,
+                    nbNewPaymentOrders:0,
+                    paymentOrders: 0,
+                    cancelledOrders:[]
                 }
             );
         setState(state => ({
@@ -64,12 +75,13 @@ const Dashboard = () => {
             recentOrders,
             revenue: aggregations.revenue.toLocaleString(undefined, {
                 style: 'currency',
-                currency: 'USD',
+                currency: 'vnd',
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
             }),
             nbNewOrders: aggregations.nbNewOrders,
-            pendingOrders: aggregations.pendingOrders,
+            pendingPayment: aggregations.pendingPayment,
+            paymentOrders:aggregations.paymentOrders
         }));
         // const { data: customers } = await dataProvider.getMany<Customer>(
         //     'customers',
@@ -108,8 +120,9 @@ const Dashboard = () => {
     // },[state])
 
     const {
-        recentOrders
+        recentOrders,revenue,pendingPayment,paymentOrders
     } = state;
+
     return isXSmall ? (
         <div>
             <div style={styles.flexColumn }>
@@ -148,18 +161,20 @@ const Dashboard = () => {
         </div>
     ) : (
         <>
+            <div style={styles.flex}>
+                <MonthlyRevenue value={revenue} />
+                <Spacer />
+                <PendingOrders value={pendingPayment}/>
+                {/*<Spacer />*/}
+                {/*<CustomerCount value={12}/>*/}
+                <Spacer />
+                <OrdersPayment value={paymentOrders}/>
+            </div>
             {/*<Welcome />*/}
             <div style={styles.flex}>
                 <div style={styles.leftCol}>
-                    <div style={styles.flex}>
-                        {/*<MonthlyRevenue value={revenue} />*/}
-                        {/*<Spacer />*/}
-                        {/*<NbNewOrders value={nbNewOrders} />*/}
-                    </div>
                     <div style={styles.singleCol}>
                         <OrderChart orders={recentOrders} />
-
-
                     </div>
                     <div style={styles.singleCol}>
                         {/*<PendingOrders*/}

@@ -17,13 +17,13 @@ import SubMenu from './SubMenu';
 import {
     AccessibilityTwoTone, AddShoppingCart,
     AttachMoney, CardTravel,
-    Category, CollectionsBookmark, DashboardSharp,
+    Category, CollectionsBookmark, DashboardSharp, DeleteForever,
     EmojiPeopleOutlined,
     Fastfood, History,
     LocationCityOutlined, MeetingRoom,
     MoneyTwoTone,
     MovieCreationSharp,
-    MovieFilter, PaymentSharp, People, QuestionAnswer, RoomRounded,
+    MovieFilter, PaymentSharp, People, QuestionAnswer, Reorder, RoomRounded,
     RoomServiceSharp, RoomSharp, Settings, SettingsCellSharp, SettingsPower, ShowChart,
     SupervisedUserCircle,
     SupervisedUserCircleRounded,
@@ -49,7 +49,8 @@ const Menu = ({ dense = false }) => {
         menuShowTimes:false,
         menuTicket:false,
         menuPayment:false,
-        menuOffer:false
+        menuOffer:false,
+        menuStatistics:false
     });
     const translate = useTranslate();
     const open = useSelector((state) => state.admin.ui.sidebarOpen);
@@ -68,7 +69,47 @@ const Menu = ({ dense = false }) => {
             })}
         >
             {' '}
-            <DashboardMenuItem />
+            <SubMenu
+                handleToggle={() => handleToggle('menuStatistics')}
+                isOpen={state.menuStatistics}
+                name="Dash Board"
+                icon={<DashboardSharp/>}
+                dense={dense}
+            >
+                <MenuItemLink
+                    to={{
+                        pathname: '/dashboard-default',
+                        state: { _scrollToTop: true },
+                    }}
+                    primaryText={translate(`Default`, {
+                        smart_count: 2,
+                    })}
+                    leftIcon={<Reorder />}
+                    dense={dense}
+                />
+                <MenuItemLink
+                    to={{
+                        pathname: '/theaters',
+                        state: { _scrollToTop: true },
+                    }}
+                    primaryText={translate(`Theater`, {
+                        smart_count: 2,
+                    })}
+                    leftIcon={<TheatersTwoTone />}
+                    dense={dense}
+                />
+                {/*<MenuItemLink*/}
+                {/*    to={{*/}
+                {/*        pathname: '/rooms',*/}
+                {/*        state: { _scrollToTop: true },*/}
+                {/*    }}*/}
+                {/*    primaryText={translate(`Room`, {*/}
+                {/*        smart_count: 2,*/}
+                {/*    })}*/}
+                {/*    leftIcon={<MeetingRoom />}*/}
+                {/*    dense={dense}*/}
+                {/*/>*/}
+            </SubMenu>
             <SubMenu
                 handleToggle={() => handleToggle('menuManageBase')}
                 isOpen={state.menuManageBase}

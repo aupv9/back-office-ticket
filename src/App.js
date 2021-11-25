@@ -73,14 +73,7 @@ const dataProvider = customRequest(`http://localhost:8080/api/v1`,httpClient);
 // const dataProvider = customNewRequest(`http://localhost:8080/api/v1`);
 
 const routes =  [
-    <Route exact path="/seats" >
-        {
-            localStorage.getItem("idRoom") ? <Redirect to={`rooms/${parseInt(localStorage.getItem("idRoom"))}/seats`} />
-                :
-                <Redirect to={`rooms`} />
-        }
-    </Route>
-
+    <Route exact path="/dashboard-default" component={Dashboard} />,
 
  ]
 
@@ -101,9 +94,9 @@ const MyLoginPage = () => (
 const App = () => {
     return (
         <Admin dataProvider={dataProvider}
-               dashboard={Dashboard}
+               // dashboard={Dashboard}
                authProvider={authProvider}
-               // customRoutes={routes}
+               customRoutes={routes}
                layout={Layout}
                 loginPage={MyLoginPage}
                theme={theme}
