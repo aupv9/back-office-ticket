@@ -17,9 +17,9 @@ import SubMenu from './SubMenu';
 import {
     AccessibilityTwoTone, AddShoppingCart,
     AttachMoney, CardTravel,
-    Category, CollectionsBookmark, DashboardSharp, DeleteForever,
+    Category, CollectionsBookmark, ConfirmationNumber, DashboardSharp, DeleteForever,
     EmojiPeopleOutlined,
-    Fastfood, History,
+    Fastfood, FormatListNumbered, History,
     LocationCityOutlined, MeetingRoom,
     MoneyTwoTone,
     MovieCreationSharp,
@@ -89,13 +89,13 @@ const Menu = ({ dense = false }) => {
                 />
                 <MenuItemLink
                     to={{
-                        pathname: '/theaters',
+                        pathname: '/statistics-room',
                         state: { _scrollToTop: true },
                     }}
-                    primaryText={translate(`Theater`, {
+                    primaryText={translate(`Room`, {
                         smart_count: 2,
                     })}
-                    leftIcon={<TheatersTwoTone />}
+                    leftIcon={<FormatListNumbered />}
                     dense={dense}
                 />
                 {/*<MenuItemLink*/}

@@ -373,7 +373,6 @@ const OrderForm = (props) => {
                                 )
                             }
 
-
                         </CardContent>
                         <Toolbar
                             record={formProps.record}

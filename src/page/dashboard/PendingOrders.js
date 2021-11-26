@@ -8,10 +8,9 @@ import CardWithIcon from './CardWithIcon';
 const PendingOrders = (props) => {
     const { value } = props;
     const translate = useTranslate();
-    console.log(value)
     return (
         <CardWithIcon
-            to="/orders"
+            to="/my-orders"
             icon={ShoppingCartIcon}
             title={translate('pos.dashboard.pending_orders')}
             subtitle={value}

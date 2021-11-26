@@ -180,7 +180,7 @@ const UserForm = (props ) => {
                                         {/*    <SelectInput source="name" />*/}
                                         {/*</ReferenceInput>*/}
                                         <ReferenceArrayInput label="Role List" reference="roles" source="roleIds">
-                                            <AutocompleteArrayInput />
+                                            <AutocompleteArrayInput source={"name"}/>
                                         </ReferenceArrayInput>
                                     </div>
                                     <div>

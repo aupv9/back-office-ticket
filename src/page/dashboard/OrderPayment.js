@@ -10,7 +10,7 @@ const OrdersPayment = (props) => {
     const translate = useTranslate();
     return (
         <CardWithIcon
-            to="/orders"
+            to="/my-orders"
             icon={ShoppingCartIcon}
             title={translate('pos.dashboard.orders_payment')}
             subtitle={value}

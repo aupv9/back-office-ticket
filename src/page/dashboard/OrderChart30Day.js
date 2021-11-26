@@ -41,7 +41,7 @@ const getRevenuePerDay = (orders) => {
     }));
 };
 
-const OrderChart = (props) => {
+const OrderChart30Day = (props) => {
     const { orders } = props;
     const translate = useTranslate();
     if (!orders) return null;
@@ -50,7 +50,7 @@ const OrderChart = (props) => {
         <Card>
             <CardHeader title={translate('30 Day Revenue History')} />
             <CardContent>
-                <div style={{ width: '100%', height: 300 }}>
+                <div style={{ width: '100%', height: 500 }}>
                     <ResponsiveContainer>
                         <AreaChart data={getRevenuePerDay(orders)}>
                             <defs>
@@ -114,4 +114,4 @@ const OrderChart = (props) => {
 };
 
 
-export default OrderChart;
+export default OrderChart30Day;

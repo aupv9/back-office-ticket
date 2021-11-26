@@ -3,11 +3,12 @@ import { useVersion, useDataProvider } from 'react-admin';
 import {useMediaQuery, Theme} from '@material-ui/core';
 import { format, subDays, addDays } from 'date-fns';
 import {Area, CartesianGrid, XAxis, YAxis, AreaChart, ResponsiveContainer, Legend, Line,LineChart,Tooltip} from "recharts";
-import OrderChart from "./OrderChart";
+import OrderChart30Day from "./OrderChart30Day";
 import MonthlyRevenue from "./MonthlyRevenue";
 import PendingOrders from "./PendingOrders";
 import CustomerCount from "./CustomerCount";
 import OrdersPayment from "./OrderPayment";
+import {OrdersChartMonth} from "./OrdersChartMonth";
 
 
 
@@ -15,15 +16,15 @@ import OrdersPayment from "./OrderPayment";
 const styles = {
     flex: { display: 'flex' },
     flexColumn: { display: 'flex', flexDirection: 'column' },
-    leftCol: { flex: 1, marginRight: '0.5em' },
+    leftCol: { flex: 1, marginRight: '0.5em' ,alignItems:"center",alignContent:"center"},
     rightCol: { flex: 1, marginLeft: '0.5em' },
-    singleCol: { marginTop: '1em', marginBottom: '1em' },
+    singleCol: { marginTop: '1em', marginBottom: '1em',alignItems:"center",alignContent:"center" },
 };
 
 const Spacer = () => <span style={{ width: '1em' }} />;
 const VerticalSpacer = () => <span style={{ height: '1em' }} />;
 
-const Dashboard = () => {
+const DashboardStaff = () => {
     const [state, setState] = useState({});
     const version = useVersion();
     const dataProvider = useDataProvider();
@@ -55,7 +56,6 @@ const Dashboard = () => {
                     if (order.status === 'non_payment') {
                         // stats.pendingPayment.push(order);
                         stats.pendingPayment++;
-                        console.log(stats.pendingPayment)
                     }
                     if (order.status === 'cancelled') {
                         stats.cancelledOrders.push(order);
@@ -148,15 +148,10 @@ const Dashboard = () => {
                 {/*<NbNewOrders value={nbNewOrders} />*/}
             </div>
             <div style={styles.singleCol}>
-                <OrderChart orders={recentOrders} />
-
-
+                <OrderChart30Day orders={recentOrders} />
             </div>
             <div style={styles.singleCol}>
-                {/*<PendingOrders*/}
-                {/*    orders={pendingOrders}*/}
-                {/*    customers={pendingOrdersCustomers}*/}
-                {/*/>*/}
+                <OrdersChartMonth />
             </div>
         </div>
     ) : (
@@ -165,8 +160,6 @@ const Dashboard = () => {
                 <MonthlyRevenue value={revenue} />
                 <Spacer />
                 <PendingOrders value={pendingPayment}/>
-                {/*<Spacer />*/}
-                {/*<CustomerCount value={12}/>*/}
                 <Spacer />
                 <OrdersPayment value={paymentOrders}/>
             </div>
@@ -174,24 +167,14 @@ const Dashboard = () => {
             <div style={styles.flex}>
                 <div style={styles.leftCol}>
                     <div style={styles.singleCol}>
-                        <OrderChart orders={recentOrders} />
+                        <OrderChart30Day orders={recentOrders} />
                     </div>
                     <div style={styles.singleCol}>
-                        {/*<PendingOrders*/}
-                        {/*    orders={pendingOrders}*/}
-                        {/*    customers={pendingOrdersCustomers}*/}
-                        {/*/>*/}
                     </div>
                 </div>
                 <div style={styles.rightCol}>
-                    <div style={styles.flex}>
-                        {/*<PendingReviews*/}
-                        {/*    nb={nbPendingReviews}*/}
-                        {/*    reviews={pendingReviews}*/}
-                        {/*    customers={pendingReviewsCustomers}*/}
-                        {/*/>*/}
-                        {/*<Spacer />*/}
-                        {/*<NewCustomers />*/}
+                    <div style={styles.singleCol}>
+                        <OrdersChartMonth />
                     </div>
                 </div>
             </div>
@@ -200,4 +183,4 @@ const Dashboard = () => {
 };
 
 
-export default Dashboard;
+export default DashboardStaff;
