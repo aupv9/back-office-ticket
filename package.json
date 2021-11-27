@@ -65,6 +65,7 @@
   },
   "devDependencies": {
     "@material-ui/core": "^4.12.3",
+    "@nivo/pie": "^0.74.0",
     "react-currency-formatter": "^1.1.0",
     "react-router-dom": "^5.3.0"
   }

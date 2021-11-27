@@ -344,8 +344,8 @@ const OrderForm = (props) => {
                             </Typography>
                             <Box>
                                 {
-                                    loaded ?  <Totals record={formProps.record} totalAmountCallBack={(amount) => amountCallBack(amount)} offer={offer}/>
-                                        :<Loading />
+                                    loaded  ?  <Totals record={formProps.record} totalAmountCallBack={(amount) => amountCallBack(amount)} offer={offer}/>
+                                        : null
                                 }
                             </Box>
                             <Spacer/>
@@ -381,7 +381,7 @@ const OrderForm = (props) => {
                             invalid={formProps.invalid}
                             handleSubmit={formProps.handleSubmit}
                             saving={formProps.saving}
-                            resource="commands"
+                            resource="orders"
                         />
                     </Card>
                 </Box>

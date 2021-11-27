@@ -26,7 +26,6 @@ export const OrdersChartMonth = () => {
         }
     );
 
-
     const [months, setMonths] = useState([]);
 
     useEffect(() => {
@@ -108,8 +107,8 @@ export const OrdersChartMonth = () => {
                     padding={0.3}
                     valueScale={{
                         type: 'linear',
-                        min: range.min * 1.2,
-                        max: range.max * 1.2,
+                        // min: range.min * 1.2,
+                        // max: range.max * 1.2,
                     }}
                     indexScale={{ type: 'band', round: true }}
                     colors={{ scheme: 'dark2' }}

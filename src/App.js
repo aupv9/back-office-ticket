@@ -51,6 +51,7 @@ import {RoleShow} from "./page/role/RoleShow";
 import {OfferHistoryList} from "./page/offer/OfferHistoryList";
 import {OfferShow} from "./page/offer/OfferShow";
 import DashboardStaff from "./page/dashboard/DashboardStaff";
+import {RoomChart} from "./page/dashboard/RoomChart";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -74,6 +75,7 @@ const dataProvider = customRequest(`http://localhost:8080/api/v1`,httpClient);
 
 const routes =  [
     <Route exact path="/dashboard-default" component={DashboardStaff} />,
+    <Route exact path="/statistics-room" component={RoomChart} />,
 
  ]
 
@@ -94,7 +96,7 @@ const MyLoginPage = () => (
 const App = () => {
     return (
         <Admin dataProvider={dataProvider}
-               // dashboard={DashboardStaff}
+               dashboard={DashboardStaff}
                authProvider={authProvider}
                customRoutes={routes}
                layout={Layout}

@@ -9,6 +9,7 @@ import PendingOrders from "./PendingOrders";
 import CustomerCount from "./CustomerCount";
 import OrdersPayment from "./OrderPayment";
 import {OrdersChartMonth} from "./OrdersChartMonth";
+import {RoomChart} from "./RoomChart";
 
 
 
@@ -38,9 +39,9 @@ const DashboardStaff = () => {
     const fetchOrders = useCallback(async () => {
         const aMonthAgo = subDays(new Date(), 30);
         const { data: recentOrders } = await dataProvider.getList(
-            'my-orders',
+            'orders-room',
                 {
-                    filter: { date_gte: aMonthAgo.toISOString() },
+                    filter: { date_gte: format(new Date(aMonthAgo),"yyyy-MM-dd") },
                     sort: { field: 'id', order: 'DESC' },
                     pagination: { page: 1, perPage: 10000 },
                 }
@@ -83,6 +84,9 @@ const DashboardStaff = () => {
             pendingPayment: aggregations.pendingPayment,
             paymentOrders:aggregations.paymentOrders
         }));
+
+
+
         // const { data: customers } = await dataProvider.getMany<Customer>(
         //     'customers',
         //         {
@@ -91,16 +95,7 @@ const DashboardStaff = () => {
         //             ),
         //         }
         // );
-        // setState(state => ({
-        //     ...state,
-        //     pendingOrdersCustomers: customers.reduce(
-        //         (prev, customer) => {
-        //             prev[customer.id] = customer; // eslint-disable-line no-param-reassign
-        //             return prev;
-        //         },
-        //         {}
-        //     ),
-        // }));
+
     }, [dataProvider]);
 
     useEffect(() => {
@@ -120,7 +115,7 @@ const DashboardStaff = () => {
     // },[state])
 
     const {
-        recentOrders,revenue,pendingPayment,paymentOrders
+        recentOrders,revenue,pendingPayment,paymentOrders,ordersRoom
     } = state;
 
     return isXSmall ? (
@@ -175,6 +170,22 @@ const DashboardStaff = () => {
                 <div style={styles.rightCol}>
                     <div style={styles.singleCol}>
                         <OrdersChartMonth />
+                    </div>
+                </div>
+            </div>
+            <div style={styles.flex}>
+                <div style={styles.leftCol}>
+                    <div style={styles.singleCol}>
+                        {
+                            recentOrders ? <RoomChart orders={recentOrders}/> : null
+                        }
+                    </div>
+                    <div style={styles.singleCol}>
+                    </div>
+                </div>
+                <div style={styles.rightCol}>
+                    <div style={styles.singleCol}>
+
                     </div>
                 </div>
             </div>

@@ -69,47 +69,37 @@ const Menu = ({ dense = false }) => {
             })}
         >
             {' '}
-            <SubMenu
-                handleToggle={() => handleToggle('menuStatistics')}
-                isOpen={state.menuStatistics}
-                name="Dash Board"
-                icon={<DashboardSharp/>}
-                dense={dense}
-            >
-                <MenuItemLink
-                    to={{
-                        pathname: '/dashboard-default',
-                        state: { _scrollToTop: true },
-                    }}
-                    primaryText={translate(`Default`, {
-                        smart_count: 2,
-                    })}
-                    leftIcon={<Reorder />}
-                    dense={dense}
-                />
-                <MenuItemLink
-                    to={{
-                        pathname: '/statistics-room',
-                        state: { _scrollToTop: true },
-                    }}
-                    primaryText={translate(`Room`, {
-                        smart_count: 2,
-                    })}
-                    leftIcon={<FormatListNumbered />}
-                    dense={dense}
-                />
-                {/*<MenuItemLink*/}
-                {/*    to={{*/}
-                {/*        pathname: '/rooms',*/}
-                {/*        state: { _scrollToTop: true },*/}
-                {/*    }}*/}
-                {/*    primaryText={translate(`Room`, {*/}
-                {/*        smart_count: 2,*/}
-                {/*    })}*/}
-                {/*    leftIcon={<MeetingRoom />}*/}
-                {/*    dense={dense}*/}
-                {/*/>*/}
-            </SubMenu>
+            <DashboardMenuItem />
+            {/*<SubMenu*/}
+            {/*    handleToggle={() => handleToggle('menuStatistics')}*/}
+            {/*    isOpen={state.menuStatistics}*/}
+            {/*    name="Dash Board"*/}
+            {/*    icon={<DashboardSharp/>}*/}
+            {/*    dense={dense}*/}
+            {/*>*/}
+            {/*    <MenuItemLink*/}
+            {/*        to={{*/}
+            {/*            pathname: '/dashboard-default',*/}
+            {/*            state: { _scrollToTop: true },*/}
+            {/*        }}*/}
+            {/*        primaryText={translate(`Default`, {*/}
+            {/*            smart_count: 2,*/}
+            {/*        })}*/}
+            {/*        leftIcon={<Reorder />}*/}
+            {/*        dense={dense}*/}
+            {/*    />*/}
+            {/*    <MenuItemLink*/}
+            {/*        to={{*/}
+            {/*            pathname: '/statistics-room',*/}
+            {/*            state: { _scrollToTop: true },*/}
+            {/*        }}*/}
+            {/*        primaryText={translate(`Room`, {*/}
+            {/*            smart_count: 2,*/}
+            {/*        })}*/}
+            {/*        leftIcon={<FormatListNumbered />}*/}
+            {/*        dense={dense}*/}
+            {/*    />*/}
+            {/*</SubMenu>*/}
             <SubMenu
                 handleToggle={() => handleToggle('menuManageBase')}
                 isOpen={state.menuManageBase}
