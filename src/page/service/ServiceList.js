@@ -9,11 +9,8 @@ import {
     TopToolbar,
     FilterButton, SortButton, CreateButton, ExportButton,AutocompleteInput, ReferenceInput
 } from "react-admin";
-import TheaterNameField from "./TheaterNameField";
 import {makeStyles} from "@material-ui/core/styles";
 import {Button, useMediaQuery} from "@material-ui/core";
-import Aside from "./Aside";
-import MobileGrid from "./MobileGrid";
 import * as React from "react";
 import CustomizableDatagrid from 'ra-customizable-datagrid';
 
@@ -49,33 +46,31 @@ const ListActions = (props) => (
     </TopToolbar>
 );
 
-export const ListRoom = (props) =>{
+export const ServiceList = (props) =>{
     const classes = useStyles();
     const isXsmall = useMediaQuery(theme =>
-            theme.breakpoints.down('xs')
+        theme.breakpoints.down('xs')
     );
     const isSmall = useMediaQuery(theme => theme.breakpoints.down('sm'));
     return (
         <List
             {...props}
+            basePath={"services"}
             filters={roomFilters}
             sort={{ field: 'id', order: 'ACS' }}
             perPage={25}
             // aside={<Aside />}
             actions={<ListActions/>}
+            hasCreate
         >
-            {isXsmall ? (
-                <MobileGrid />
-            ) : (
-                <CustomizableDatagrid rowClick={"show"}>
-                    <TextField source={"name"}/>
-                    {/*<TextField source={"code"}/>*/}
-                    {/*<ReferenceField reference={"theaters"} source={"theaterId"}>*/}
-                    {/*    <TheaterNameField />*/}
-                    {/*</ReferenceField>*/}
-                    <EditButton />
-                </CustomizableDatagrid>
-            )}
+            <CustomizableDatagrid rowClick={"show"}>
+                <TextField source={"name"}/>
+                <TextField source={"description"} aria-multiline/>
+                {/*<ReferenceField reference={"theaters"} source={"theaterId"}>*/}
+                {/*    <TheaterNameField />*/}
+                {/*</ReferenceField>*/}
+                <EditButton />
+            </CustomizableDatagrid>
         </List>
     );
 }

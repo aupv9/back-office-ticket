@@ -55,19 +55,19 @@ const tabs = [
 const useGetTotals = (filterValues) => {
     const { total: totalCancelled ,loaded : loadedTotalCancelled} = useGetList(
         'orders',
-        { perPage: 1, page: 1 },
+        { perPage: 1, page: 25 },
         { field: 'id', order: 'ASC' },
         { ...filterValues, status: 'cancelled' }
     );
     const { total: totalNonePayment ,loaded : loadedTotalNonePayment} = useGetList(
         'orders',
-        { perPage: 1, page: 1 },
+        { perPage: 1, page: 25 },
         { field: 'id', order: 'ASC' },
         { ...filterValues, status: 'non_payment' }
     );
     const { total: totalPayment,loaded : loadedTotalPayment } = useGetList(
         'orders',
-        { perPage: 1, page: 1 },
+        { perPage: 1, page: 25 },
         { field: 'id', order: 'ASC' },
         { ...filterValues, status: 'payment' }
     );
@@ -180,6 +180,9 @@ const TabbedDatagrid = (props) => {
                                     <TextField source={"email"}/>
                                 </ReferenceField>
 
+                                {
+
+                                }
                                 <UserDetail />
                                 <BooleanField source={"profile"} label={"Is User"}/>
                                 <TextField source={"note"} />
@@ -268,7 +271,6 @@ const TabbedDatagrid = (props) => {
                                 <UserDetail />
                                 <BooleanField source={"profile"} label={"Is User"}/>
                                 <TextField source={"note"} />
-                                {/*<AmountDetail {...props}/>*/}
                                 <ReferenceField
                                     source="id"
                                     reference="orders"
@@ -293,21 +295,11 @@ const TabbedDatagrid = (props) => {
     );
 };
 
-const AmountDetail = (props) =>{
-    const { record } = props;
-    const { data, loaded, error } = useGetOne('orders', record.id);
-    if(loaded){
-        // console.log(data)
-    }
 
-    return loaded ? (
-        <NumberFormat thousandSeparator={true} suffix={' đ'}  value={data.totalAmount}   displayType={'text'}/>
-    ) : null
-}
 const OrderList = (props) => (
     <List
         {...props}
-        filterDefaultValues={{ status: 'ordered' }}
+        filterDefaultValues={{ status: 'payment' }}
         sort={{ field: 'create_date', order: 'DESC' }}
         perPage={25}
         filters={orderFilters}
@@ -317,6 +309,7 @@ const OrderList = (props) => (
 );
 
 const UserDetail = ({record}) =>{
+    if(!record) return null;
     return record.profile ? (
         <ReferenceField reference={"users"} source={"userId"}>
             <TextField source={"email"}/>

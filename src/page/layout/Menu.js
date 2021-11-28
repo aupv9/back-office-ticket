@@ -23,7 +23,7 @@ import {
     LocationCityOutlined, MeetingRoom,
     MoneyTwoTone,
     MovieCreationSharp,
-    MovieFilter, PaymentSharp, People, QuestionAnswer, Reorder, RoomRounded,
+    MovieFilter, PaymentSharp, People, QuestionAnswer, Reorder, RoomRounded, RoomServiceOutlined,
     RoomServiceSharp, RoomSharp, Settings, SettingsCellSharp, SettingsPower, ShowChart,
     SupervisedUserCircle,
     SupervisedUserCircleRounded,
@@ -138,6 +138,17 @@ const Menu = ({ dense = false }) => {
                         smart_count: 2,
                     })}
                     leftIcon={<MeetingRoom />}
+                    dense={dense}
+                />
+                <MenuItemLink
+                    to={{
+                        pathname: '/services',
+                        state: { _scrollToTop: true },
+                    }}
+                    primaryText={translate(`Services Room`, {
+                        smart_count: 2,
+                    })}
+                    leftIcon={<RoomServiceOutlined   />}
                     dense={dense}
                 />
             </SubMenu>

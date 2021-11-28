@@ -28,7 +28,7 @@ const useStyles = makeStyles({
 });
 
 
-const RoomCreate= (props) =>{
+export const ServiceCreate= (props) =>{
     const classes = useStyles();
     const choices = [
         { value: 'Standard', name: 'Standard' },
@@ -38,18 +38,21 @@ const RoomCreate= (props) =>{
     return(
         <Create {...props} title={<RoomTitle />} >
             <SimpleForm >
-                    <TextInput source="name" validate={requiredValidate} />
+                <TextInput source="name" validate={requiredValidate} />
 
-                    {/*<TextInput source="code" validate={requiredValidate} />*/}
-                    {/*<ReferenceInput*/}
-                    {/*    source="theaterId"*/}
-                    {/*    reference="theaters"*/}
-                    {/*    validate={requiredValidate}*/}
-                    {/*>*/}
-                    {/*    <SelectInput source="name" />*/}
-                    {/*</ReferenceInput>*/}
+                <TextInput source="description" multiline/>
 
-                    {/*<SelectInput source="type" choices={choices} optionText="name" optionValue="value" />*/}
+                <TextInput source="thumbnail"/>
+
+                {/*<ReferenceInput*/}
+                {/*    source="theaterId"*/}
+                {/*    reference="theaters"*/}
+                {/*    validate={requiredValidate}*/}
+                {/*>*/}
+                {/*    <SelectInput source="name" />*/}
+                {/*</ReferenceInput>*/}
+
+                {/*<SelectInput source="type" choices={choices} optionText="name" optionValue="value" />*/}
 
             </SimpleForm>
         </Create>
@@ -57,4 +60,3 @@ const RoomCreate= (props) =>{
 };
 const requiredValidate = [required()];
 
-export default RoomCreate;

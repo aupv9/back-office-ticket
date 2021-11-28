@@ -52,6 +52,8 @@ import {OfferHistoryList} from "./page/offer/OfferHistoryList";
 import {OfferShow} from "./page/offer/OfferShow";
 import DashboardStaff from "./page/dashboard/DashboardStaff";
 import {RoomChart} from "./page/dashboard/RoomChart";
+import {ServiceList} from "./page/service/ServiceList";
+import {ServiceCreate} from "./page/service/ServiceCreate";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -134,6 +136,8 @@ const App = () => {
 
             <Resource name="roles" list={RoleList} show={RoleShow}/>
             <Resource name="privilege-role" />
+
+            <Resource name="services" list={ServiceList} create={ServiceCreate}/>
 
         </Admin>
     );
