@@ -1,27 +1,15 @@
 import {
-    Datagrid,
     EditButton,
     List,
     TextField,
-    TextInput,
-    ReferenceField,
     SearchInput,
     TopToolbar,
-    FilterButton,
-    SortButton,
-    CreateButton,
-    ExportButton,
-    AutocompleteInput,
-    ReferenceInput,
-    DateField,
-    ChipField,
-    BooleanField, useListContext, NumberField, ShowButton
+    FilterButton, SortButton, CreateButton, ExportButton, AutocompleteInput, ReferenceInput, ChipField
 } from "react-admin";
 import {makeStyles} from "@material-ui/core/styles";
-import {Typography, useMediaQuery} from "@material-ui/core";
+import {useMediaQuery} from "@material-ui/core";
 import * as React from "react";
 import CustomizableDatagrid from 'ra-customizable-datagrid';
-
 
 const useStyles = makeStyles(theme => ({
     nb_commands: { color: 'purple' },
@@ -33,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const roomFilters = [
+const seatsFilters = [
     <SearchInput source="q" alwaysOn />,
     <ReferenceInput source="theater_id" reference="theaters">
         <AutocompleteInput
@@ -50,12 +38,12 @@ const roomFilters = [
 const ListActions = (props) => (
     <TopToolbar>
         <FilterButton/>
+        <CreateButton/>
         <ExportButton/>
-        <CreateButton />
     </TopToolbar>
 );
 
-export const RoleList = (props) =>{
+export const SeatList = (props) =>{
     const classes = useStyles();
     const isXsmall = useMediaQuery(theme =>
         theme.breakpoints.down('xs')
@@ -64,39 +52,24 @@ export const RoleList = (props) =>{
     return (
         <List
             {...props}
-            filters={roomFilters}
+            filters={seatsFilters}
             sort={{ field: 'id', order: 'ACS' }}
             perPage={25}
             // aside={<Aside />}
             actions={<ListActions/>}
-            hasCreate={true}
         >
-            <CustomDataGrid {...props}/>
+            <CustomizableDatagrid rowClick={"show"}>
+                <TextField source={"tier"}/>
+                <TextField source={"numbers"}/>
+                <ChipField source={"seatType"}/>
+
+                {/*<TextField source={"code"}/>*/}
+                {/*<ReferenceField reference={"theaters"} source={"theaterId"}>*/}
+                {/*    <TheaterNameField />*/}
+                {/*</ReferenceField>*/}
+                <EditButton />
+            </CustomizableDatagrid>
+
         </List>
     );
 }
-
-const CustomDataGrid = (props) =>{
-
-    return (
-        <CustomizableDatagrid {...props} rowClick={"show"}>
-            <TextField source={"code"} label={"Role Name"}/>
-            <EditButton />
-        </CustomizableDatagrid>
-
-    )
-}
-
-const UserDetail = ({record}) =>{
-    console.log(record)
-    return record.profile ? (
-        <ReferenceField reference={"users"} source={"userId"}>
-            <TextField source={"email"}/>
-        </ReferenceField>
-    ) :(
-        <Typography>
-            {""}
-        </Typography>
-    )
-}
-

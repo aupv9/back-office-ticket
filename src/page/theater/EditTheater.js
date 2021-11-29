@@ -11,7 +11,7 @@ import {
     SelectInput,
     TabbedForm,
     TextField,
-    TextInput,
+    TextInput,BooleanInput
 } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 import ImageTheater from "./Image";
@@ -72,6 +72,7 @@ const EditTheater = (props) =>{
                         <SelectInput source="name" />
                     </ReferenceInput>
                     <TextInput source="address" validate={requiredValidate} />
+                    <BooleanInput source={"active"}/>
                     {/*<GMapField*/}
                     {/*    source=""*/}
                     {/*    googleKey=""*/}

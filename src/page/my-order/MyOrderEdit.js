@@ -334,7 +334,6 @@ const OrderForm = (props) => {
                                 {
                                     loaded ? <SeatTotals record={formProps.record} /> :
                                         <Loading />
-
                                 }
                             </Box>
                             <Spacer />

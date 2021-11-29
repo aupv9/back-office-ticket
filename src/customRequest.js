@@ -154,7 +154,8 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
             }));
         }
 
-        if (type === "updateManyArray") {
+        if (type === "updateMany") {
+
             return Promise.all(
                 params.ids.map(id =>
                     httpClient(`${apiUrl}/${resource}/${id}`, {
@@ -168,8 +169,11 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
         }
 
         if (type === "createMany") {
+            const items = params.data;
+
+            console.log(params)
             return Promise.all(
-                params.ids.map(id =>
+                items.map(item =>
                     httpClient(`${apiUrl}/${resource}`, {
                         method: "POST",
                         body: JSON.stringify(params.data)

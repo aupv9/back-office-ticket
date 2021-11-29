@@ -465,7 +465,7 @@ const CustomMyForm = props =>{
     const dataProvider = useDataProvider();
     const refresh = useRefresh();
     const redirect = useRedirect();
-    const {ids,data} = useGetList("seats-room", {},
+    const {ids,data} = useGetList("seats-room", {page:1,perPage:100},
         { field: 'id', order: 'DESC' }, {  showTimesId:record.id, room:record.roomId },{});
 
     const [arrSeat,setArrSeat] = useState([]);

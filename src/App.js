@@ -54,6 +54,8 @@ import DashboardStaff from "./page/dashboard/DashboardStaff";
 import {RoomChart} from "./page/dashboard/RoomChart";
 import {ServiceList} from "./page/service/ServiceList";
 import {ServiceCreate} from "./page/service/ServiceCreate";
+import {SeatList} from "./page/seat/SeatList";
+import RoleEdit from "./page/role/RoleEdit";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -72,6 +74,46 @@ const httpClient = (url, options = {}) => {
 
 
 const dataProvider = customRequest(`http://localhost:8080/api/v1`,httpClient);
+
+
+const customProvider = {
+    ...dataProvider,
+
+    updateMany: async (resource, params) => {
+        const items = params.data;
+        const idsToUpdate = params.ids;
+        console.log(items)
+
+        // Handle update many here
+    }
+}
+
+// if (type === "updateManyArray") {
+//     return Promise.all(
+//         params.ids.map(id =>
+//             httpClient(`${apiUrl}/${resource}/${id}`, {
+//                 method: "PUT",
+//                 body: JSON.stringify(params.data)
+//             })
+//         )
+//     ).then(responses => ({
+//         data: responses.map(response => response.json)
+//     }));
+// }
+//
+// if (type === "createMany") {
+//     return Promise.all(
+//         params.ids.map(id =>
+//             httpClient(`${apiUrl}/${resource}`, {
+//                 method: "POST",
+//                 body: JSON.stringify(params.data)
+//             })
+//         )
+//     ).then(responses => ({
+//         data: responses.map(response => response.json)
+//     }));
+// }
+
 
 // const dataProvider = customNewRequest(`http://localhost:8080/api/v1`);
 
@@ -98,7 +140,7 @@ const MyLoginPage = () => (
 const App = () => {
     return (
         <Admin dataProvider={dataProvider}
-               dashboard={DashboardStaff}
+               // dashboard={DashboardStaff}
                authProvider={authProvider}
                customRoutes={routes}
                layout={Layout}
@@ -108,7 +150,7 @@ const App = () => {
             {/*<Resource name="locations" list={Location} edit={LocationEdit} create={LocationCreate}/>*/}
             <Resource name="theaters" list={TheaterList} edit={EditTheater} create={TheaterCreate}/>
             <Resource name="rooms"  list={ListRoom} edit={RoomEdit} create={RoomCreate}/>
-            <Resource name="seats" edit={SeatEdit} create={ SeatCreateDialog }  />
+            <Resource name="seats" edit={SeatEdit} create={ SeatCreateDialog } list={SeatList} />
             <Resource name="locations" list={LocationList} show={LocationShow} edit={LocationEdit} create={LocationCreate}/>
             <Resource name="location-theater"/>
             <Resource name={"movies"} list={MovieList} />
@@ -134,8 +176,9 @@ const App = () => {
             <Resource name={"offers"} list={OfferList} create={OfferCreate} show={OfferShow}/>
             <Resource name={"offers-history"} list={OfferHistoryList} />
 
-            <Resource name="roles" list={RoleList} show={RoleShow}/>
+            <Resource name="roles" list={RoleList} show={RoleShow} edit={RoleEdit}/>
             <Resource name="privilege-role" />
+            <Resource name="privileges" />
 
             <Resource name="services" list={ServiceList} create={ServiceCreate}/>
 

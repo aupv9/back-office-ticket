@@ -16,9 +16,7 @@ import {
     useRedirect,
     BulkDeleteButton,
     BulkExportButton,
-    List,
-    ReferenceField,
-    TopToolbar, FilterButton, ExportButton, SearchInput, AutocompleteInput, useList, useGetList
+    TopToolbar, FilterButton, ExportButton, SearchInput, AutocompleteInput, useGetList, BooleanInput, ListToolbar
 } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 import ColoredNumberField from "./ColoredNumberField";
@@ -26,7 +24,7 @@ import {match, Route} from "react-router-dom";
 import {RoomCreateDialog} from "../seat/SeatCreateDialog";
 import {Button} from "@material-ui/core";
 import IconEvent from '@material-ui/icons/Event';
-import {Fragment} from "react";
+import {Fragment, useEffect} from "react";
 import MobileGrid from "./MobileGrid";
 import TheaterNameField from "./TheaterNameField";
 
@@ -75,6 +73,7 @@ const roomFilters = [
 
 const RoomEdit = (props) =>{
     const classes = useStyles();
+    const {actions,filters} = props;
     const redirect = useRedirect();
     const choices = [
         { value: 'Standard', name: 'Standard' },
@@ -91,6 +90,11 @@ const RoomEdit = (props) =>{
         { page: 1, perPage: 10 },
         { field: 'id', order: 'ASC' }
     );
+
+    useEffect(() =>{
+
+
+    },[ids,data]);
 
     return(
 
@@ -121,9 +125,8 @@ const RoomEdit = (props) =>{
                         {/*]} validate={requiredValidate} defaultValue={'Standard'} optionValue={"value"}/>*/}
                     </FormTab>
                     <FormTab label="seats" path="seats">
-                        <CreateButton label={"New Seat For Rom"} variant="contained" basePath={`/seats`} onClick={setIdUseRedirect}
-                                      classes={classes.btnCreate}/>
-
+                        {/*<CreateButton label={"New Seat For Rom"} variant="contained" basePath={`/seats`} onClick={setIdUseRedirect}*/}
+                        {/*              classes={classes.btnCreate}/>*/}
                         <ReferenceManyField
                             reference="seats"
                             target="room_id"
@@ -131,17 +134,13 @@ const RoomEdit = (props) =>{
                             pagination={<Pagination />}
                             fullWidth
                         >
-                            <Datagrid optimized>
+                            <Datagrid optimized >
                                 <TextField source="tier" />
                                 <TextField source="numbers" />
                                 <TextField
                                     source="seatType"
                                 />
-                                <ColoredNumberField
-                                    source="price"
-                                    options={{ style: 'currency', currency: 'VND' }}
-                                />
-                                <EditButton  onClick={setIdUseRedirect}/>
+                                {/*<EditButton  onClick={setIdUseRedirect}/>*/}
                             </Datagrid>
                         </ReferenceManyField>
 
@@ -149,20 +148,25 @@ const RoomEdit = (props) =>{
                 </TabbedForm>
 
             </Edit>
-            {/*<Route path="/deals/create">*/}
-            {/*    {({ match }) => <DealCreate open={!!match} />}*/}
-            {/*</Route>*/}
-            {/*<Route path="/deals/:id/show">*/}
-            {/*    {({ match }) =>*/}
-            {/*        !!match ? (*/}
-            {/*            <DealShow open={!!match} id={match?.params?.id} />*/}
-            {/*        ) : null*/}
-            {/*    }*/}
-            {/*</Route>*/}
         </>
 
     )
 };
-const requiredValidate = [required()];
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const requiredValidate = [required()];
 export default RoomEdit;

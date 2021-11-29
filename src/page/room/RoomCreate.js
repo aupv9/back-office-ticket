@@ -10,7 +10,7 @@ import {
     required,
     SelectInput,
     TabbedForm,
-    TextField,TextInput, Create,SimpleForm
+    TextField,TextInput, Create,SimpleForm,ReferenceArrayInput,SelectArrayInput
 } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -25,6 +25,9 @@ const useStyles = makeStyles({
         maxWidth: '40em',
         display: 'block',
     },
+    page:{
+        maxWidth:500
+    }
 });
 
 
@@ -36,19 +39,22 @@ const RoomCreate= (props) =>{
         { value: 'Super Vip', name: 'Super Vip'}
     ];
     return(
-        <Create {...props} title={<RoomTitle />} >
+        <Create {...props} title={<RoomTitle />} classes={classes.page}>
             <SimpleForm >
                     <TextInput source="name" validate={requiredValidate} />
 
-                    {/*<TextInput source="code" validate={requiredValidate} />*/}
-                    {/*<ReferenceInput*/}
-                    {/*    source="theaterId"*/}
-                    {/*    reference="theaters"*/}
-                    {/*    validate={requiredValidate}*/}
-                    {/*>*/}
-                    {/*    <SelectInput source="name" />*/}
-                    {/*</ReferenceInput>*/}
+                    <TextInput source="code" validate={requiredValidate} />
+                    <ReferenceInput
+                        source="theaterId"
+                        reference="theaters"
+                        validate={requiredValidate}
+                    >
+                        <SelectInput source="name" />
+                    </ReferenceInput>
 
+                <ReferenceArrayInput source="services" reference="services">
+                    <SelectArrayInput optionText="name" />
+                </ReferenceArrayInput>
                     {/*<SelectInput source="type" choices={choices} optionText="name" optionValue="value" />*/}
 
             </SimpleForm>

@@ -18,7 +18,7 @@ import {
     AccessibilityTwoTone, AddShoppingCart,
     AttachMoney, CardTravel,
     Category, CollectionsBookmark, ConfirmationNumber, DashboardSharp, DeleteForever,
-    EmojiPeopleOutlined,
+    EmojiPeopleOutlined, EventSeat,
     Fastfood, FormatListNumbered, History,
     LocationCityOutlined, MeetingRoom,
     MoneyTwoTone,
@@ -138,6 +138,17 @@ const Menu = ({ dense = false }) => {
                         smart_count: 2,
                     })}
                     leftIcon={<MeetingRoom />}
+                    dense={dense}
+                />
+                <MenuItemLink
+                    to={{
+                        pathname: '/seats',
+                        state: { _scrollToTop: true },
+                    }}
+                    primaryText={translate(`Seats`, {
+                        smart_count: 2,
+                    })}
+                    leftIcon={<EventSeat />}
                     dense={dense}
                 />
                 <MenuItemLink

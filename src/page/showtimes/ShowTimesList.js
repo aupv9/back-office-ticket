@@ -103,8 +103,8 @@ const ListActions = (props) => {
         postCommitCallback: reportItems => {
             console.log('reportItems', {reportItems});
         },
-        // disableImportNew: true,
-        // disableImportOverwrite: true,
+        disableImportNew: true,
+        disableImportOverwrite: true,
     };
     return (
         <TopToolbar className={className}>
@@ -116,7 +116,7 @@ const ListActions = (props) => {
                 filter={filterValues}
                 exporter={exporter}
             />
-            {/*<ImportButton {...props} {...config} parseConfig={{dynamicTyping: true}}/>*/}
+            <ImportButton {...props} {...config} parseConfig={{dynamicTyping: true}} />
         </TopToolbar>
     );
 };

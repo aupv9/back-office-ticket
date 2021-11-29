@@ -71,18 +71,18 @@ export const SeatEdit = (props) => {
 
                     <SelectInput source="seatType" formClassName={classes.name} choices={types} optionText="name" optionValue="value" validate={requiredValidate}/>
 
-                    <NumberInput
-                        source="price"
-                        className={classes.price}
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position="start">
-                                    vnd
-                                </InputAdornment>
-                            ),
-                        }}
-                        validate={requiredValidate}
-                    />
+                    {/*<NumberInput*/}
+                    {/*    source="price"*/}
+                    {/*    className={classes.price}*/}
+                    {/*    InputProps={{*/}
+                    {/*        endAdornment: (*/}
+                    {/*            <InputAdornment position="start">*/}
+                    {/*                vnd*/}
+                    {/*            </InputAdornment>*/}
+                    {/*        ),*/}
+                    {/*    }}*/}
+                    {/*    validate={requiredValidate}*/}
+                    {/*/>*/}
                 </SimpleForm>
             </Edit>
     );

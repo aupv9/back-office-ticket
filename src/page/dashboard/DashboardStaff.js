@@ -143,51 +143,51 @@ const DashboardStaff = () => {
                 {/*<NbNewOrders value={nbNewOrders} />*/}
             </div>
             <div style={styles.singleCol}>
-                <OrderChart30Day orders={recentOrders} />
+                {/*<OrderChart30Day orders={recentOrders} />*/}
             </div>
             <div style={styles.singleCol}>
-                <OrdersChartMonth />
+                {/*<OrdersChartMonth />*/}
             </div>
         </div>
     ) : (
         <>
             <div style={styles.flex}>
-                <MonthlyRevenue value={revenue} />
-                <Spacer />
-                <PendingOrders value={pendingPayment}/>
-                <Spacer />
-                <OrdersPayment value={paymentOrders}/>
+                {/*<MonthlyRevenue value={revenue} />*/}
+                {/*<Spacer />*/}
+                {/*<PendingOrders value={pendingPayment}/>*/}
+                {/*<Spacer />*/}
+                {/*<OrdersPayment value={paymentOrders}/>*/}
             </div>
             {/*<Welcome />*/}
             <div style={styles.flex}>
-                <div style={styles.leftCol}>
-                    <div style={styles.singleCol}>
-                        <OrderChart30Day orders={recentOrders} />
-                    </div>
-                    <div style={styles.singleCol}>
-                    </div>
-                </div>
-                <div style={styles.rightCol}>
-                    <div style={styles.singleCol}>
-                        <OrdersChartMonth />
-                    </div>
-                </div>
+                {/*<div style={styles.leftCol}>*/}
+                {/*    <div style={styles.singleCol}>*/}
+                {/*        <OrderChart30Day orders={recentOrders} />*/}
+                {/*    </div>*/}
+                {/*    <div style={styles.singleCol}>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
+                {/*<div style={styles.rightCol}>*/}
+                {/*    <div style={styles.singleCol}>*/}
+                {/*        <OrdersChartMonth />*/}
+                {/*    </div>*/}
+                {/*</div>*/}
             </div>
             <div style={styles.flex}>
-                <div style={styles.leftCol}>
-                    <div style={styles.singleCol}>
-                        {
-                            recentOrders ? <RoomChart orders={recentOrders}/> : null
-                        }
-                    </div>
-                    <div style={styles.singleCol}>
-                    </div>
-                </div>
-                <div style={styles.rightCol}>
-                    <div style={styles.singleCol}>
+                {/*<div style={styles.leftCol}>*/}
+                {/*    <div style={styles.singleCol}>*/}
+                {/*        {*/}
+                {/*            recentOrders ? <RoomChart orders={recentOrders}/> : null*/}
+                {/*        }*/}
+                {/*    </div>*/}
+                {/*    <div style={styles.singleCol}>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
+                {/*<div style={styles.rightCol}>*/}
+                {/*    <div style={styles.singleCol}>*/}
 
-                    </div>
-                </div>
+                {/*    </div>*/}
+                {/*</div>*/}
             </div>
         </>
     );
