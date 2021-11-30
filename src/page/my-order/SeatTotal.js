@@ -7,7 +7,8 @@ import {
     TableRow,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Link, useTranslate } from 'react-admin';
+import {Link, useGetOne, useTranslate} from 'react-admin';
+import {useEffect, useState} from "react";
 
 
 const useStyles = makeStyles({
@@ -18,9 +19,10 @@ const useStyles = makeStyles({
 });
 
 const SeatTotals = (props) => {
-    const { record } = props;
+    const { record, show } = props;
     const classes = useStyles();
     const translate = useTranslate();
+
     return (
         <Table>
             <TableHead>
@@ -37,7 +39,7 @@ const SeatTotals = (props) => {
                     </TableCell>
                     <TableCell className={classes.rightAlignedCell}>
                         {translate(
-                            'Unit Price'
+                            'Price'
                         )}
                     </TableCell>
                 </TableRow>
@@ -62,7 +64,7 @@ const SeatTotals = (props) => {
                                         }
                                     </TableCell>
                                     <TableCell className={classes.rightAlignedCell}>
-                                        {item["price"].toLocaleString(undefined, {
+                                        {show["price"].toLocaleString(undefined, {
                                             style: 'currency',
                                             currency: 'VND',
                                         })}

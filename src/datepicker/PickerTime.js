@@ -6,7 +6,7 @@ import {
     TimePicker,
     DateTimePicker,
     MuiPickersUtilsProvider,
-    KeyboardDatePicker
+    KeyboardDatePicker, KeyboardTimePicker
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
@@ -88,5 +88,5 @@ PickerTime.defaultProps = {
 
 
 
-export const TimeInput = props => <PickerTime PickerComponent={TimePicker} {...props} />
+export const TimeInput = props => <PickerTime PickerComponent={KeyboardTimePicker} {...props} />
 

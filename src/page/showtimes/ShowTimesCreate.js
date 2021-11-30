@@ -4,7 +4,7 @@ import {
     FormTab,
     ReferenceInput,
     required,
-    TabbedForm
+    TabbedForm,DateInput
 } from "react-admin";
 import * as React from "react";
 import {makeStyles} from "@material-ui/core/styles";
@@ -27,6 +27,9 @@ const useStyles = makeStyles({
         maxWidth: '40em',
         display: 'block',
     },
+    root:{
+        width:1000
+    }
 });
 
 
@@ -34,7 +37,9 @@ export const ShowTimesCreate = (props) =>{
     const classes = useStyles();
 
     return(
-        <Create {...props} >
+        <Create {...props}
+                className={classes.root}
+        >
             <TabbedForm >
                 <FormTab
                     label="summary"
@@ -57,6 +62,7 @@ export const ShowTimesCreate = (props) =>{
                     </ReferenceInput>
 
                     <DateKeyInput source="timeStart" label="Start date"  />
+                    <DateInput source={"date"}/>
                 </FormTab>
 
                 <FormTab

@@ -171,12 +171,11 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
         if (type === "createMany") {
             const items = params.data;
 
-            console.log(params)
             return Promise.all(
                 items.map(item =>
                     httpClient(`${apiUrl}/${resource}`, {
                         method: "POST",
-                        body: JSON.stringify(params.data)
+                        body: JSON.stringify(item)
                     })
                 )
             ).then(responses => ({

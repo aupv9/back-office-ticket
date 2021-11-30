@@ -29,15 +29,15 @@ const useStyles = makeStyles(theme => ({
 
 const roomFilters = [
     <SearchInput source="q" alwaysOn />,
-    <ReferenceInput source="theater_id" reference="theaters">
-        <AutocompleteInput
-            optionText={(choice) =>
-                choice.id
-                    ? `${choice.name}`
-                    : ''
-            }
-        />
-    </ReferenceInput>,
+    // <ReferenceInput source="theater_id" reference="theaters">
+    //     <AutocompleteInput
+    //         optionText={(choice) =>
+    //             choice.id
+    //                 ? `${choice.name}`
+    //                 : ''
+    //         }
+    //     />
+    // </ReferenceInput>,
 
 ];
 

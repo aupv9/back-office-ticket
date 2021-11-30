@@ -136,6 +136,7 @@ export const ShowTimesList = (props) =>{
             perPage={10}
             // aside={<ShowTimesAside />}
             actions={<ListActions/>}
+            hasCreate
         >
             <Datagrid optimized rowClick="show">
                 <ReferenceField label="Movie Name" source="movieId" reference="movies">

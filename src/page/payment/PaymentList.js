@@ -20,6 +20,7 @@ import {
 import {makeStyles} from "@material-ui/core/styles";
 import {Typography, useMediaQuery} from "@material-ui/core";
 import * as React from "react";
+import CustomizableDatagrid from 'ra-customizable-datagrid';
 
 
 
@@ -79,7 +80,7 @@ export const PaymentList = (props) => {
 const CustomDataGrid = (props) =>{
 
     return (
-        <Datagrid optimized rowClick="show">
+        <CustomizableDatagrid optimized rowClick="show">
             <DateField source={"createdDate"} showTime/>
             <ReferenceField reference={"my-orders"} source={"partId"}>
                 <TextField source={"id"}/>
@@ -101,10 +102,7 @@ const CustomDataGrid = (props) =>{
                     currency: 'VND',
                 }}
             />
-
-            {/*<DateField source={"expirePayment"} showTime/>*/}
-            {/*<TextField source={"note"}/>*/}
-        </Datagrid>
+        </CustomizableDatagrid>
 
     )
 }

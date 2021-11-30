@@ -140,7 +140,7 @@ const MyLoginPage = () => (
 const App = () => {
     return (
         <Admin dataProvider={dataProvider}
-               // dashboard={DashboardStaff}
+               dashboard={DashboardStaff}
                authProvider={authProvider}
                customRoutes={routes}
                layout={Layout}

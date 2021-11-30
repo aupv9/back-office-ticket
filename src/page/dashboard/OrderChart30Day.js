@@ -22,7 +22,7 @@ const dateFormatter = (date) =>
 
 const aggregateOrdersByDay = (orders) =>
     orders
-    .filter((order) => order.status !== 'cancelled')
+    .filter((order) => order.status === 'payment' )
     .reduce((acc, curr) => {
         const createdDate = new Date(curr.createdDate);
         const day = format(createdDate, 'yyyy-MM-dd');

@@ -28,7 +28,7 @@ export const RoomChart = (props) => {
         setRoom(rooms);
         const aggregateOrdersByRoom= (orders) =>
             orders
-                .filter((order) => order.status !== 'cancelled')
+                .filter((order) => order.status !== 'cancelled' && order.status !== 'non_payment')
                 .reduce((acc, curr) => {
                     const room = curr["roomName"];
                     if (!acc[room]) {

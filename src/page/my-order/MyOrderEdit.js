@@ -18,7 +18,7 @@ import {
     useQuery,
     useNotify,
     useDataProvider,
-    useRefresh
+    useRefresh, useGetOne
 } from 'react-admin';
 import {Link as RouterLink, Route} from 'react-router-dom';
 import {
@@ -37,7 +37,6 @@ import {MyOrderAside} from "./MyOrderAside";
 import Totals from "./Totals";
 import SeatTotals from "./SeatTotal";
 import RichTextInput from "ra-input-rich-text";
-import {CodeOutlined, Money} from "@material-ui/icons";
 import LocalOfferIcon from "@material-ui/icons/LocalOfferOutlined";
 import axios from "axios";
 
@@ -136,7 +135,20 @@ const OrderForm = (props) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState();
     const [offerCode, setOfferCode] = useState("");
+    const [seatsPrice, setSeatsPrice] = useState(0);
+    const [showTime,setShowTime] = useState();
+    const {data:show} = useGetOne("showTimesDetails",record["showTimesDetailId"]);
 
+
+    useEffect(() =>{
+        if(show && record.seats){
+            setSeatsPrice(show.price * record.seats.length);
+        }
+    },[record,showTime])
+
+    useEffect(() =>{
+        setShowTime(show);
+    },[show])
 
     const amountCallBack = (amount) =>{
         props.amountCallBack(amount);
@@ -332,7 +344,7 @@ const OrderForm = (props) => {
                             </Typography>
                             <Box>
                                 {
-                                    loaded ? <SeatTotals record={formProps.record} /> :
+                                    loaded && record && show ? <SeatTotals record={formProps.record} show = {show}/> :
                                         <Loading />
                                 }
                             </Box>
@@ -343,7 +355,10 @@ const OrderForm = (props) => {
                             </Typography>
                             <Box>
                                 {
-                                    loaded  ?  <Totals record={formProps.record} totalAmountCallBack={(amount) => amountCallBack(amount)} offer={offer}/>
+                                    loaded  && record && show ?  <Totals show = {show} record={formProps.record}
+                                                                         totalAmountCallBack={(amount) => amountCallBack(amount)}
+                                                                         seatsPrice={seatsPrice}
+                                                                         offer={offer}/>
                                         : null
                                 }
                             </Box>

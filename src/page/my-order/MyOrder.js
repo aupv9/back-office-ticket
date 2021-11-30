@@ -20,6 +20,7 @@ import {
 import {makeStyles} from "@material-ui/core/styles";
 import {Typography, useMediaQuery} from "@material-ui/core";
 import * as React from "react";
+import CustomizableDatagrid from 'ra-customizable-datagrid';
 
 
 
@@ -78,7 +79,7 @@ export const MyOrder = (props) =>{
 const CustomDataGrid = (props) =>{
     const {data,ids} = useListContext();
     return (
-        <Datagrid optimized rowClick="show">
+        <CustomizableDatagrid optimized rowClick="show">
             <DateField source={"createdDate"} showTime/>
 
             <ReferenceField reference={"showTimesDetails"} source={"showTimesDetailId"}>
@@ -93,7 +94,7 @@ const CustomDataGrid = (props) =>{
             <DateField source={"expirePayment"} showTime/>
             <TextField source={"note"}/>
             <EditButton />
-        </Datagrid>
+        </CustomizableDatagrid>
 
     )
 }
@@ -104,9 +105,8 @@ const UserDetail = ({record}) =>{
             <TextField source={"email"}/>
         </ReferenceField>
     ) :(
-        <Typography>
-            {""}
-        </Typography>
+        <TextField source={""} label={"User"}/>
+
     )
 }
 

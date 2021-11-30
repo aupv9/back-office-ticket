@@ -49,11 +49,10 @@ export const SeatCreateDialog = ({ open} ) => {
         {id:data.id,name:data.name}
     ];
     const handleClose = () => {
-        redirect('edit', '/rooms', parseInt(localStorage.getItem("idRoom")));
+        redirect('list', '/seats');
     };
 
     return (
-        <Dialog open={true} onClose={handleClose}>
             <Create
                 resource="seats"
                 basePath="/seats"
@@ -74,22 +73,29 @@ export const SeatCreateDialog = ({ open} ) => {
 
                     <SelectInput source="seatType" formClassName={classes.name} choices={types} optionText="name" optionValue="value" validate={requiredValidate}/>
 
-                    <NumberInput
-                        source="price"
-                        className={classes.price}
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position="start">
-                                    vnd
-                                </InputAdornment>
-                            ),
-                        }}
-                        validate={requiredValidate}
-                    />
-                    <SelectInput source="roomId"  optionText={"name"} choices={rooms} optionValue="id" validate={requiredValidate} defaultValue={rooms[0]}/>
+                    {/*<NumberInput*/}
+                    {/*    source="price"*/}
+                    {/*    className={classes.price}*/}
+                    {/*    InputProps={{*/}
+                    {/*        endAdornment: (*/}
+                    {/*            <InputAdornment position="start">*/}
+                    {/*                vnd*/}
+                    {/*            </InputAdornment>*/}
+                    {/*        ),*/}
+                    {/*    }}*/}
+                    {/*    validate={requiredValidate}*/}
+                    {/*/>*/}
+                    <ReferenceInput source="roomId" reference="rooms" >
+                        <AutocompleteInput
+                            optionText={(choice) =>
+                                choice.id
+                                    ? `${choice.name}`
+                                    : ''
+                            }
+                        />
+                    </ReferenceInput>
                 </SimpleForm>
             </Create>
-        </Dialog>
     );
 };
 

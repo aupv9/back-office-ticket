@@ -2,7 +2,7 @@ import * as React from 'react';
 import classnames from 'classnames';
 import { Table, TableBody, TableCell, TableRow } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import {useRefresh, useTranslate} from 'react-admin';
+import {useGetOne, useRefresh, useTranslate} from 'react-admin';
 import {useEffect, useState} from "react";
 
 
@@ -13,7 +13,7 @@ const useStyles = makeStyles({
 });
 
 const Totals = (props) => {
-    const { record,offer } = props;
+    const { record, offer, seatsPrice } = props;
     const classes = useStyles();
     const translate = useTranslate();
     const [totalSeats,setTotalSeats] = useState(0);
@@ -22,11 +22,6 @@ const Totals = (props) => {
     const [total,setTotal] = useState(0);
     const [discount,setDiscount] = useState( 0);
     const refresh = useRefresh();
-    const calSeat = () => {
-        return record["seats"] ? record["seats"].reduce(((previousValue, currentValue) => {
-            return previousValue + currentValue["price"]
-        }),0) : 0
-    }
 
     const calConcession = () =>{
         return  record["concessions"] ? record["concessions"].reduce(((previousValue, currentValue) => {
@@ -35,7 +30,7 @@ const Totals = (props) => {
     }
 
     const percentage = (num, per) => {
-        return (num/100) * per;
+        return ( num / 100 ) * per;
     }
 
     const calDiscount = () => {
@@ -43,22 +38,23 @@ const Totals = (props) => {
             return offer["discountAmount"];
         }else if(offer && offer.type === "Percentage"){
             const total = totalSeats + totalConcessions;
-            return  percentage(total,offer["percentage"]);
+            return percentage(total,offer["percentage"]);
         }else
         return 0;
     }
 
     useEffect(() =>{
-        setTotalSeats(calSeat());
+        setTotalSeats(seatsPrice);
         setTotalConcessions(calConcession());
-        setTax(percentage(totalConcessions + totalSeats,10));
+        setTax(percentage(totalConcessions + totalSeats,record.tax ? record.tax : 10));
         setDiscount(calDiscount ? calDiscount : discount);
         setTotal(totalSeats + totalConcessions + tax - discount);
-    },[record,totalSeats,totalConcessions,tax,discount]);
+    },[record,totalSeats,totalConcessions,tax,discount,seatsPrice]);
 
     useEffect(() =>{
         props.totalAmountCallBack(total);
-    },[total])
+    },[total]);
+
 
 
 

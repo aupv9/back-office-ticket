@@ -4,12 +4,21 @@ import {
     TextField,
     SearchInput,
     TopToolbar,
-    FilterButton, SortButton, CreateButton, ExportButton, AutocompleteInput, ReferenceInput, ChipField
+    FilterButton,
+    SortButton,
+    CreateButton,
+    ExportButton,
+    AutocompleteInput,
+    ReferenceInput,
+    ChipField,
+    ReferenceField,
+    Pagination
 } from "react-admin";
 import {makeStyles} from "@material-ui/core/styles";
 import {useMediaQuery} from "@material-ui/core";
 import * as React from "react";
 import CustomizableDatagrid from 'ra-customizable-datagrid';
+import {ImportButton} from "react-admin-import-csv";
 
 const useStyles = makeStyles(theme => ({
     nb_commands: { color: 'purple' },
@@ -23,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 
 const seatsFilters = [
     <SearchInput source="q" alwaysOn />,
-    <ReferenceInput source="theater_id" reference="theaters">
+    <ReferenceInput source="room_id" reference="rooms" >
         <AutocompleteInput
             optionText={(choice) =>
                 choice.id
@@ -31,17 +40,52 @@ const seatsFilters = [
                     : ''
             }
         />
-    </ReferenceInput>,
+    </ReferenceInput>
 
 ];
 
-const ListActions = (props) => (
-    <TopToolbar>
-        <FilterButton/>
-        <CreateButton/>
-        <ExportButton/>
-    </TopToolbar>
-);
+const ListActions = (props) => {
+    const {
+        className,
+        basePath,
+        total,
+        resource,
+        currentSort,
+        filterValues,
+        exporter,
+    } = props;
+    const config = {
+        logging: true,
+        validateRow: async (row) => {
+            if (row.id) {
+                // throw new Error("AAAA");
+            }
+        },
+        postCommitCallback: reportItems => {
+            console.log('reportItems', {reportItems});
+        },
+        disableImportNew: true,
+        disableImportOverwrite: true,
+
+    };
+    return (
+        <TopToolbar className={className}>
+            <FilterButton />
+            <CreateButton basePath={basePath} />
+            <ExportButton
+                disabled={total === 0}
+                resource={resource}
+                sort={currentSort}
+                filter={filterValues}
+                exporter={exporter}
+            />
+            {/*<ImportButton {...props} {...config} parseConfig={{dynamicTyping: true}} />*/}
+            <ImportButton {...props} />
+        </TopToolbar>
+    );
+};
+
+const PostPagination = props => <Pagination rowsPerPageOptions={[10, 25, 50, 100]} {...props} />;
 
 export const SeatList = (props) =>{
     const classes = useStyles();
@@ -53,8 +97,8 @@ export const SeatList = (props) =>{
         <List
             {...props}
             filters={seatsFilters}
+            pagination={<PostPagination />}
             sort={{ field: 'id', order: 'ACS' }}
-            perPage={25}
             // aside={<Aside />}
             actions={<ListActions/>}
         >
@@ -64,9 +108,9 @@ export const SeatList = (props) =>{
                 <ChipField source={"seatType"}/>
 
                 {/*<TextField source={"code"}/>*/}
-                {/*<ReferenceField reference={"theaters"} source={"theaterId"}>*/}
-                {/*    <TheaterNameField />*/}
-                {/*</ReferenceField>*/}
+                <ReferenceField reference={"rooms"} source={"roomId"}>
+                    <TextField source={"name"} />
+                </ReferenceField>
                 <EditButton />
             </CustomizableDatagrid>
 
