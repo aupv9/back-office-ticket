@@ -1,26 +1,14 @@
 import * as React from 'react';
 import {
     Edit,
-    ReferenceInput,
     required,
     TextInput,
-    CreateButton,
-    useRedirect,
-    BulkDeleteButton,
-    BulkExportButton,
-    TopToolbar,
-    FilterButton,
-    ExportButton,
-    SearchInput,
-    AutocompleteInput,
     SelectArrayInput,
     SimpleForm,
     ReferenceArrayInput,
-    AutocompleteArrayInput
 } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
-
-import {Fragment, useEffect} from "react";
+import {PrivilegeReferenceInput} from "./PrivilegeReferenceInput";
 
 
 const RoomTitle = ({ record }) => record ? <span>Room #{record.name}</span> : null;
@@ -46,14 +34,19 @@ const RoleEdit = (props) =>{
 
     return(
         <Edit {...props} title={<RoomTitle />}>
-            <SimpleForm>
+            <SimpleForm >
                 <TextInput source={"name"} />
                 <TextInput source={"code"} />
 
-                <ReferenceArrayInput source="privileges" reference="privileges" >
-                    <SelectArrayInput optionText="name" />
-                </ReferenceArrayInput>
+                <PrivilegeReferenceInput
+                    source="privileges"
+                    reference="privileges"
+                    allowEmpty
+                    // validate={required()}
+                    perPage={10000}
+                    sort={{field:"name",order:"ASC"}}
 
+                />
             </SimpleForm>
         </Edit>
     )

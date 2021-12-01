@@ -37,7 +37,7 @@ export const EmployeeList = props => {
                     <UserLinkField />
                 </ReferenceField>
                 <ReferenceField reference="roles" source="roleId" label="Role">
-                    <ChipField source="code"/>
+                    <ChipField source="name"/>
                 </ReferenceField>
                 <ReferenceField reference="users" source="createdBy" label="Created By">
                     <UserLinkField />

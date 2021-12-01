@@ -1,7 +1,7 @@
 import './App.css';
 import {
     Admin, fetchUtils, ListGuesser, Login,
-    Resource, ShowGuesser
+    Resource, ShowGuesser, usePermissions
 } from 'react-admin';
 import customRequest from "./customRequest";
 import authProvider from "./authProvider";
@@ -56,6 +56,9 @@ import {ServiceList} from "./page/service/ServiceList";
 import {ServiceCreate} from "./page/service/ServiceCreate";
 import {SeatList} from "./page/seat/SeatList";
 import RoleEdit from "./page/role/RoleEdit";
+import {RoleCreate} from "./page/role/RoleCreate";
+import {useEffect, useState} from "react";
+import * as _ from 'lodash';
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -118,10 +121,11 @@ const customProvider = {
 // const dataProvider = customNewRequest(`http://localhost:8080/api/v1`);
 
 const routes =  [
-    <Route exact path="/dashboard-default" component={DashboardStaff} />,
-    <Route exact path="/statistics-room" component={RoomChart} />,
+    // <Route exact path="/dashboard-default" component={DashboardStaff} />,
+    // <Route exact path="/statistics-room" component={RoomChart} />,
+    <Route exact path="/profile" component={RoomChart} />,
 
- ]
+]
 
 
 const MyLoginPage = () => (
@@ -138,6 +142,9 @@ const MyLoginPage = () => (
 // });
 
 const App = () => {
+
+
+
     return (
         <Admin dataProvider={dataProvider}
                dashboard={DashboardStaff}
@@ -176,7 +183,12 @@ const App = () => {
             <Resource name={"offers"} list={OfferList} create={OfferCreate} show={OfferShow}/>
             <Resource name={"offers-history"} list={OfferHistoryList} />
 
-            <Resource name="roles" list={RoleList} show={RoleShow} edit={RoleEdit}/>
+            <Resource name="roles"
+                      list={RoleList}
+                      show={RoleShow}
+                      edit={RoleEdit}
+                      create={RoleCreate}
+            />
             <Resource name="privilege-role" />
             <Resource name="privileges" />
 

@@ -4,7 +4,7 @@ import {
     ExportButton,
     TopToolbar,
     CreateButton,
-    Pagination,
+    Pagination, usePermissions,
 } from 'react-admin';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,6 +12,8 @@ import { Link } from 'react-router-dom';
 import { formatDistance } from 'date-fns';
 import {LocationFilter} from "./LocationFilter";
 import {GridList} from "./GridList";
+import {useEffect, useState} from "react";
+import * as _ from "lodash";
 
 const useActionStyles = makeStyles(theme => ({
     createButton: {
@@ -39,7 +41,17 @@ const LocationListActions = () => {
 
 
 export const LocationList = (props) =>{
-    return  (
+    const { loaded, permissions } = usePermissions();
+    const [arrPermission,setArrPermission] = useState([]);
+    const isHavePermission = (permission) =>{
+        console.log(arrPermission)
+        return _.includes(arrPermission,permission);
+    }
+    useEffect(() =>{
+        setArrPermission(permissions);
+    },[permissions]);
+
+    return isHavePermission("READ_LOCATION") && (
         <RAList {...props}
               actions={<LocationListActions/>}
               aside={<LocationFilter />}

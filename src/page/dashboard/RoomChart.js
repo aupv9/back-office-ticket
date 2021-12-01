@@ -52,7 +52,6 @@ export const RoomChart = (props) => {
 
     if (!orders) return null;
 
-    console.log(dataChart)
 
 
     return (

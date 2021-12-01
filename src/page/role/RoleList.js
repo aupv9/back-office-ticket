@@ -1,21 +1,15 @@
 import {
-    Datagrid,
     EditButton,
     List,
     TextField,
-    TextInput,
     ReferenceField,
     SearchInput,
     TopToolbar,
     FilterButton,
-    SortButton,
     CreateButton,
     ExportButton,
     AutocompleteInput,
     ReferenceInput,
-    DateField,
-    ChipField,
-    BooleanField, useListContext, NumberField, ShowButton
 } from "react-admin";
 import {makeStyles} from "@material-ui/core/styles";
 import {Typography, useMediaQuery} from "@material-ui/core";
@@ -80,7 +74,7 @@ const CustomDataGrid = (props) =>{
 
     return (
         <CustomizableDatagrid {...props} rowClick={"show"}>
-            <TextField source={"code"} label={"Role Name"}/>
+            <TextField source={"name"} label={"Role Name"}/>
             <EditButton />
         </CustomizableDatagrid>
 

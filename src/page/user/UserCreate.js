@@ -1,6 +1,12 @@
 import * as React from 'react';
 import {
-    Create, SimpleForm, TextInput, useTranslate, PasswordInput, required, email,
+    Create,
+    SimpleForm,
+    TextInput,
+    useTranslate,
+    PasswordInput,
+    required,
+    email,
 } from 'react-admin';
 import { Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -37,6 +43,7 @@ export const validatePasswords = ({password, confirm_password}) => {
 };
 
 export const UserCreate = (props) => {
+
     const classes = useStyles(props);
 
     return (
@@ -61,6 +68,7 @@ export const UserCreate = (props) => {
                     fullWidth
                     formClassName={classes.email}
                     validate={[required(), email()]}
+                    defaultValue={""}
                 />
                 <Separator />
                 <SectionTitle label="Address" />
@@ -87,6 +95,8 @@ export const UserCreate = (props) => {
                     source="password"
                     formClassName={classes.password}
                     validate={required()}
+                    defaultValue={""}
+
                 />
                 <PasswordInput
                     source="confirm_password"
@@ -98,6 +108,11 @@ export const UserCreate = (props) => {
         </Create>
     );
 };
+
+
+
+
+
 
 const requiredValidate = [required()];
 

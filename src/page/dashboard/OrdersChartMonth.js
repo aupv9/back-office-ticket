@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Box, Link } from '@material-ui/core';
+import {Box, Link, useMediaQuery} from '@material-ui/core';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import { useGetList } from 'react-admin';
+import {useDataProvider, useGetList, usePermissions, useVersion} from 'react-admin';
 import { startOfMonth, format } from 'date-fns';
 import { ResponsiveBar } from '@nivo/bar';
+import * as _ from "lodash";
 
 
 const multiplier = {
@@ -17,6 +18,17 @@ const multiplier = {
 
 
 export const OrdersChartMonth = () => {
+    const { permissions } = usePermissions();
+    const [arrPermission,setArrPermission] = useState([]);
+
+    const isHavePermission = (permission) =>{
+        return _.includes(arrPermission,permission);
+    }
+    useEffect(() =>{
+        setArrPermission(permissions);
+    },[permissions])
+    
+
     const { data, ids, loaded } = useGetList(
         'my-orders',
         { perPage: 100, page: 1 },
@@ -66,11 +78,10 @@ export const OrdersChartMonth = () => {
 
             };
         });
-        console.log(amountByMonth)
         setMonths(amountByMonth);
 
     }, [ids, data]);
-
+    console.log(months)
     if (!loaded) return null;
 
     const range = months.reduce(
@@ -107,8 +118,8 @@ export const OrdersChartMonth = () => {
                     padding={0.3}
                     valueScale={{
                         type: 'linear',
-                        // min: range.min * 1.2,
-                        // max: range.max * 1.2,
+                        min: range.min * 1.2,
+                        max: range.max * 1.2,
                     }}
                     indexScale={{ type: 'band', round: true }}
                     colors={{ scheme: 'dark2' }}

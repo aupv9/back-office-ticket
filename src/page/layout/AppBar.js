@@ -6,7 +6,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import { makeStyles } from '@material-ui/core/styles';
 import Logo from "./Logo";
 import {useGoogleLogout} from "react-google-login";
-import {PowerInput, PowerOff, PowerSettingsNew} from "@material-ui/icons";
+import {MyLocation, PowerInput, PowerOff, PowerSettingsNew} from "@material-ui/icons";
 import {useGetIdentity} from "ra-core";
 
 
@@ -36,6 +36,21 @@ const ConfigurationMenu = forwardRef((props, ref) => {
     );
 });
 
+const UserProfile = forwardRef((props, ref) => {
+    const translate = useTranslate();
+    return (
+        <MenuItemLink
+            ref={ref}
+            to="/profile"
+            primaryText={translate('Profile')}
+            leftIcon={<MyLocation />}
+            onClick={props.onClick}
+            sidebarIsOpen
+        />
+    );
+});
+
+
 const clientId = '765454672866-ogngmccn89t4b7nkf24glnk87e3mn5e5.apps.googleusercontent.com';
 
 const LogoutCustom = forwardRef((props,ref) =>{
@@ -45,7 +60,7 @@ const LogoutCustom = forwardRef((props,ref) =>{
 
     };
     const onLogoutSuccess = (res) => {
-        const email = JSON.parse(localStorage.getItem("email"));
+        const email = JSON.parse(localStorage.getItem("emailUser"));
         dataProvider.update('update-status-login', { id:0,data:{email: email}},)
             .then(({ data }) => {
                 localStorage.removeItem('token');
@@ -86,6 +101,7 @@ const CustomUserMenu = (props) => {
                   logout={<LogoutCustom />}
         >
             <ConfigurationMenu />
+            <UserProfile />
         </UserMenu>
     );
 }

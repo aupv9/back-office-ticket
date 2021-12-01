@@ -19,7 +19,6 @@ export default {
             return fetch(request)
                 .then(response => {
                     if (response.status < 200 || response.status >= 300) {
-
                         throw new Error(response.statusText);
                     }
                     return response.json();
@@ -31,7 +30,7 @@ export default {
                         id:auth["id"],
                         avatar:auth["photo"]
                     }
-                    localStorage.setItem("email",JSON.stringify(auth["email"]));
+                    localStorage.setItem("emailUser",JSON.stringify(auth["email"]));
                     localStorage.setItem('auth', JSON.stringify(authenticate));
 
                     localStorage.setItem('token', JSON.stringify(auth["token"]));
@@ -68,7 +67,7 @@ export default {
                         id:auth["id"],
                         avatar:auth["photo"]
                     };
-                    localStorage.setItem("email",JSON.stringify(auth["email"]));
+                    localStorage.setItem("emailUser",JSON.stringify(auth["email"]));
                     localStorage.setItem('auth', JSON.stringify(authenticate));
                     localStorage.setItem('token', JSON.stringify(auth["token"]));
                     localStorage.setItem('privilege', JSON.stringify(auth["privileges"]));
@@ -100,8 +99,6 @@ export default {
             ? Promise.resolve()
             : Promise.reject();
     },
-    // called when the user navigates to a new location, to check for permissions / roles
-    getPermissions: () => Promise.resolve(),
     getIdentity:  () => {
         try {
 
@@ -111,5 +108,9 @@ export default {
             console.log(error)
             return Promise.reject(error);
         }
+    },
+    getPermissions: () => {
+        const role = JSON.parse(localStorage.getItem('privilege'));
+        return role ? Promise.resolve(role) : Promise.reject();
     }
 };

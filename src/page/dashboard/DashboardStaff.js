@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, CSSProperties } from 'react';
-import { useVersion, useDataProvider } from 'react-admin';
+import {useVersion, useDataProvider, usePermissions} from 'react-admin';
 import {useMediaQuery, Theme} from '@material-ui/core';
 import { format, subDays, addDays } from 'date-fns';
 import {Area, CartesianGrid, XAxis, YAxis, AreaChart, ResponsiveContainer, Legend, Line,LineChart,Tooltip} from "recharts";
@@ -10,6 +10,7 @@ import CustomerCount from "./CustomerCount";
 import OrdersPayment from "./OrderPayment";
 import {OrdersChartMonth} from "./OrdersChartMonth";
 import {RoomChart} from "./RoomChart";
+import * as _ from "lodash";
 
 
 
@@ -26,6 +27,8 @@ const Spacer = () => <span style={{ width: '1em' }} />;
 const VerticalSpacer = () => <span style={{ height: '1em' }} />;
 
 const DashboardStaff = () => {
+    const { loaded, permissions } = usePermissions();
+    const [arrPermission,setArrPermission] = useState([]);
     const [state, setState] = useState({});
     const version = useVersion();
     const dataProvider = useDataProvider();
@@ -35,6 +38,12 @@ const DashboardStaff = () => {
     const isSmall = useMediaQuery((theme) =>
         theme.breakpoints.down('md')
     );
+    const isHavePermission = (permission) =>{
+        return _.includes(arrPermission,permission);
+    }
+    useEffect(() =>{
+        setArrPermission(permissions);
+    },[permissions])
 
     const fetchOrders = useCallback(async () => {
         const aMonthAgo = subDays(new Date(), 30);
