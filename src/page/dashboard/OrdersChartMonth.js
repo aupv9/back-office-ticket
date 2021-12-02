@@ -27,7 +27,7 @@ export const OrdersChartMonth = () => {
     useEffect(() =>{
         setArrPermission(permissions);
     },[permissions])
-    
+
 
     const { data, ids, loaded } = useGetList(
         'my-orders',
@@ -41,9 +41,9 @@ export const OrdersChartMonth = () => {
     const [months, setMonths] = useState([]);
 
     useEffect(() => {
-        const deals = ids.map(id => data[id]);
+        const orders = ids.map(id => data[id]);
 
-        const dealsByMonth = deals.reduce((acc, order) => {
+        const ordersByMonth = orders.reduce((acc, order) => {
             const month = startOfMonth(new Date(order.createdDate)).toISOString();
             if (!acc[month]) {
                 acc[month] = [];
@@ -52,16 +52,16 @@ export const OrdersChartMonth = () => {
             return acc;
         }, {});
 
-        const amountByMonth = Object.keys(dealsByMonth).map(month => {
+        const amountByMonth = Object.keys(ordersByMonth).map(month => {
             return {
                 date: format(new Date(month), 'MMM'),
-                pending: dealsByMonth[month]
+                pending: ordersByMonth[month]
                     .filter((order) => order.status === 'non_payment')
                     .reduce((acc, order) => {
                         acc += order.total;
                         return acc;
                     }, 0),
-                payment: dealsByMonth[month]
+                payment: ordersByMonth[month]
                     .filter(
                         (order) => !['non_payment', 'cancelled'].includes(order.status)
                     )
@@ -69,7 +69,7 @@ export const OrdersChartMonth = () => {
                         acc += order.total;
                         return acc;
                     }, 0),
-                cancelled: dealsByMonth[month]
+                cancelled: ordersByMonth[month]
                     .filter((order) => order.status === 'cancelled')
                     .reduce((acc, order) => {
                         acc += order.total;
@@ -103,8 +103,6 @@ export const OrdersChartMonth = () => {
                     underline="none"
                     variant="h5"
                     color="textSecondary"
-                    component={RouterLink}
-                    to="/deals"
                 >
                     Upcoming Revenue This Year
                 </Link>

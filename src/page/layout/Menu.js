@@ -331,7 +331,7 @@ const Menu = ({ dense = false }) => {
 
 
             {
-                isHavePermission("READ_ORDER") &&
+                isHavePermission("READ_SHOW") &&
                 <SubMenu
                     handleToggle={() => handleToggle('menuOrders')}
                     isOpen={state.menuOrders}
@@ -339,17 +339,21 @@ const Menu = ({ dense = false }) => {
                     icon={<AddShoppingCart   />}
                     dense={dense}
                 >
-                    <MenuItemLink
-                        to={{
-                            pathname: '/orders',
-                            state: { _scrollToTop: true },
-                        }}
-                        primaryText={translate(`Orders`, {
-                            smart_count: 2,
-                        })}
-                        leftIcon={<MoneyTwoTone/>}
-                        dense={dense}
-                    />
+                    {
+                        isHavePermission("READ_ORDER") &&
+                        <MenuItemLink
+                            to={{
+                                pathname: '/orders',
+                                state: { _scrollToTop: true },
+                            }}
+                            primaryText={translate(`Orders`, {
+                                smart_count: 2,
+                            })}
+                            leftIcon={<MoneyTwoTone/>}
+                            dense={dense}
+                        />
+                    }
+
                     {
                         isHavePermission("READ_MY_ORDER") &&
                         <MenuItemLink
@@ -371,7 +375,7 @@ const Menu = ({ dense = false }) => {
                                 pathname: '/shows',
                                 state: { _scrollToTop: true },
                             }}
-                            primaryText={translate(`Show Times`, {
+                            primaryText={translate(`Shows Theater`, {
                                 smart_count: 2,
                             })}
                             leftIcon={<TimelapseOutlined/>}

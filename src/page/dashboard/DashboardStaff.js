@@ -56,7 +56,6 @@ const DashboardStaff = () => {
                 }
         );
         const aggregations = recentOrders
-            .filter(order => order.status !== 'cancelled' )
             .reduce(
                 (stats, order) => {
                     if (order.status === 'payment') {
@@ -160,44 +159,87 @@ const DashboardStaff = () => {
         </div>
     ) : (
         <>
-            <div style={styles.flex}>
-                <MonthlyRevenue value={revenue} />
-                <Spacer />
-                <PendingOrders value={pendingPayment}/>
-                <Spacer />
-                <OrdersPayment value={paymentOrders}/>
-            </div>
-            {/*<Welcome />*/}
-            <div style={styles.flex}>
-                <div style={styles.leftCol}>
-                    <div style={styles.singleCol}>
-                        <OrderChart30Day orders={recentOrders} />
-                    </div>
-                    <div style={styles.singleCol}>
-                    </div>
-                </div>
-                <div style={styles.rightCol}>
-                    <div style={styles.singleCol}>
-                        <OrdersChartMonth />
-                    </div>
-                </div>
-            </div>
-            <div style={styles.flex}>
-                <div style={styles.leftCol}>
-                    <div style={styles.singleCol}>
+
+            {/*<div style={styles.flex}>*/}
+            {/*    <div style={styles.leftCol}>*/}
+            {/*        <div style={styles.singleCol}>*/}
+            {/*            <OrderChart30Day orders={recentOrders} />*/}
+            {/*        </div>*/}
+            {/*        <div style={styles.singleCol}>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*    <div style={styles.rightCol}>*/}
+            {/*        <div style={styles.singleCol}>*/}
+            {/*            <OrdersChartMonth />*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
+            {/*<div style={styles.flex}>*/}
+            {/*    <div style={styles.leftCol}>*/}
+            {/*        <div style={styles.singleCol}>*/}
+            {/*            {*/}
+            {/*                recentOrders ? <RoomChart orders={recentOrders}/> : null*/}
+            {/*            }*/}
+            {/*        </div>*/}
+            {/*        <div style={styles.singleCol}>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*    <div style={styles.rightCol}>*/}
+            {/*        <div style={styles.singleCol}>*/}
+
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
+            {
+
+                <div style={styles.flex}>
+                    <div style={styles.leftCol}>
+                        <div style={styles.flex}>
+                            {
+                                isHavePermission("READ_CHART_STAFF") && <MonthlyRevenue value={revenue} />
+                            }
+                            {
+                                isHavePermission("READ_CHART_MANAGER") && <MonthlyRevenue value={revenue} />
+                            }
+                            <Spacer />
+                            {
+                                isHavePermission("READ_CHART_STAFF") &&<PendingOrders value={pendingPayment}/>
+                            }
+                            <Spacer />
+                            {
+                                isHavePermission("READ_CHART_STAFF") && <OrdersPayment value={paymentOrders}/>
+                            }
+                        </div>
+                        <div style={styles.singleCol}>
+                            {
+                                isHavePermission("READ_CHART_STAFF") && <OrderChart30Day orders={recentOrders} />
+                            }
+                            {
+                                isHavePermission("READ_CHART_MANAGER") && <OrderChart30Day orders={recentOrders} />
+                            }
+                        </div>
+                        <div style={styles.singleCol}>
+                            {
+                                isHavePermission("READ_CHART_STAFF") && <OrdersChartMonth />
+                            }
+                            {
+                                isHavePermission("READ_CHART_MANAGER") && <OrdersChartMonth />
+                            }
+                        </div>
                         {
-                            recentOrders ? <RoomChart orders={recentOrders}/> : null
+                            isHavePermission("READ_CHART_MANAGER") &&
+                            <div style={styles.singleCol}>
+                                {
+                                    recentOrders && <RoomChart orders={recentOrders}/>
+                                }
+                            </div>
                         }
-                    </div>
-                    <div style={styles.singleCol}>
-                    </div>
-                </div>
-                <div style={styles.rightCol}>
-                    <div style={styles.singleCol}>
 
                     </div>
+
                 </div>
-            </div>
+            }
+
         </>
     );
 };
