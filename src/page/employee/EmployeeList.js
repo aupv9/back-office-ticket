@@ -6,7 +6,7 @@ import {
     ReferenceField,
     DateField,
     ChipField,
-    BooleanField, SearchInput, EditButton, AutocompleteInput, ReferenceInput
+    BooleanField, SearchInput, EditButton, AutocompleteInput, ReferenceInput, SingleFieldList, ReferenceArrayField
 } from 'react-admin';
 import * as React from "react";
 import UserLinkField from "../user/UserLinkField";
@@ -36,9 +36,11 @@ export const EmployeeList = props => {
                 <ReferenceField reference="users" source="userId" label="User Account">
                     <UserLinkField />
                 </ReferenceField>
-                <ReferenceField reference="roles" source="roleId" label="Role">
-                    <ChipField source="name"/>
-                </ReferenceField>
+                <ReferenceArrayField label="Roles" reference="roles" source="roleIds">
+                    <SingleFieldList>
+                        <ChipField source="name" />
+                    </SingleFieldList>
+                </ReferenceArrayField>
                 <ReferenceField reference="users" source="createdBy" label="Created By">
                     <UserLinkField />
                 </ReferenceField>

@@ -91,32 +91,6 @@ const customProvider = {
     }
 }
 
-// if (type === "updateManyArray") {
-//     return Promise.all(
-//         params.ids.map(id =>
-//             httpClient(`${apiUrl}/${resource}/${id}`, {
-//                 method: "PUT",
-//                 body: JSON.stringify(params.data)
-//             })
-//         )
-//     ).then(responses => ({
-//         data: responses.map(response => response.json)
-//     }));
-// }
-//
-// if (type === "createMany") {
-//     return Promise.all(
-//         params.ids.map(id =>
-//             httpClient(`${apiUrl}/${resource}`, {
-//                 method: "POST",
-//                 body: JSON.stringify(params.data)
-//             })
-//         )
-//     ).then(responses => ({
-//         data: responses.map(response => response.json)
-//     }));
-// }
-
 
 // const dataProvider = customNewRequest(`http://localhost:8080/api/v1`);
 
@@ -154,7 +128,6 @@ const App = () => {
                 loginPage={MyLoginPage}
                theme={theme}
         >
-            {/*<Resource name="locations" list={Location} edit={LocationEdit} create={LocationCreate}/>*/}
             <Resource name="theaters" list={TheaterList} edit={EditTheater} create={TheaterCreate}/>
             <Resource name="rooms"  list={ListRoom} edit={RoomEdit} create={RoomCreate}/>
             <Resource name="seats" edit={SeatEdit} create={ SeatCreateDialog } list={SeatList} />
@@ -165,7 +138,7 @@ const App = () => {
                       options={{ label: 'Show Times' }} />
             <Resource name={"count-showTimesDetails"} />
             <Resource name={"timeShowTimes"}/>
-            <Resource name="seats-AvaiableInRoom" />
+            {/*<Resource name="seats-AvaiableInRoom" />*/}
             <Resource name="seats-room" />
             <Resource name="categories" options={{label:'Category'}} list={CategoryList} edit={CategoryEdit} create={CategoryCreate}/>
             <Resource name="concessions" list={ConcessionList} create={ConcessionCreate}   options={{label:'Concessions'}} />

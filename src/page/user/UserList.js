@@ -15,7 +15,17 @@ import {
     TextField,
     TextInput,
     useGetList,
-    useListContext, ChipField, EmailField, EditButton,SingleFieldList,ReferenceArrayField,BulkExportButton,BulkDeleteButton
+    useListContext,
+    ChipField,
+    EmailField,
+    EditButton,
+    SingleFieldList,
+    ReferenceArrayField,
+    BulkExportButton,
+    BulkDeleteButton,
+    ExportButton,
+    CreateButton,
+    Toolbar,TopToolbar
 } from 'react-admin';
 import { useMediaQuery, Divider, Tabs, Tab, Theme } from '@material-ui/core';
 import CustomizableDatagrid from 'ra-customizable-datagrid';
@@ -158,11 +168,11 @@ const TabbedDatagrid = (props) => {
 
                                 <ReferenceArrayField label="Roles" reference="roles" source="roleIds">
                                     <SingleFieldList>
-                                        <ChipField source="code" />
+                                        <ChipField source="name" />
                                     </SingleFieldList>
                                 </ReferenceArrayField>
 
-                                <ReferenceField reference="uas" source="uasId" label="Status">
+                                <ReferenceField reference="uas" source="uasId" label="Status" link={false}>
                                     <ChipField source="name" />
                                 </ReferenceField>
 
@@ -203,6 +213,13 @@ const BulkActionButtons = ({ basePath }) => (
     </Fragment>
 );
 
+const ListActions = ({ basePath, data, resource }) => (
+    <TopToolbar>
+        <ExportButton />
+        <CreateButton />
+    </TopToolbar>
+);
+
 const UserList = (props) => (
     <List
         {...props}
@@ -210,6 +227,7 @@ const UserList = (props) => (
         sort={{ field: 'id', order: 'DESC' }}
         perPage={25}
         filters={orderFilters}
+        actions={<ListActions />}
         hasCreate={true}
         bulkActionButtons={<BulkActionButtons />}
     >

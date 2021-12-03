@@ -8,7 +8,7 @@ import {
 } from "react-admin";
 import * as React from "react";
 import {makeStyles} from "@material-ui/core/styles";
-
+import IconButton from '@material-ui/core/IconButton';
 import {useEffect, useState} from "react";
 
 
@@ -20,7 +20,7 @@ import {
     Typography
 } from "@material-ui/core";
 
-import {Bookmark, Delete, Error, Fastfood, Money, RemoveCircle} from "@material-ui/icons";
+import {Bookmark, Delete, Error, EventSeat, Fastfood, Money, RemoveCircle} from "@material-ui/icons";
 import findIndex from 'lodash/findIndex';
 import NumberFormat from "react-number-format";
 import useCountDown from "react-countdown-hook";
@@ -89,14 +89,12 @@ export const ShowEdit = (props) =>{
         const arrSeat = localStorage.getItem("seats");
         if(arrSeat){
             setYourSeats(JSON.parse(arrSeat));
-
         }
     },[refresh])
 
-    useEffect(()=>{
-        localStorage.removeItem("reserved");
-
-    },[]);
+    // useEffect(()=>{
+    //     localStorage.removeItem("reserved");
+    // },[]);
 
 
     return(
@@ -232,7 +230,7 @@ const ConcessionsItem = ({data,addConcession}) =>{
 const initialTime = 50 * 1000; // initial time in milliseconds, defaults to 60000
 const interval = 1000; // interval to change remaining time amount, defaults to 1000
 
-const Aside = ({seats,price,id}) =>{
+const Aside = ({seats,price,id}) => {
     const classes = useAsideStyles();
     const [arrSeat,setSeats] = useState([]);
     const [yourPriceSeats,setPriceSeats] = useState(0);
@@ -263,14 +261,12 @@ const Aside = ({seats,price,id}) =>{
     };
 
     const handleOrder = () => {
-
         const arrConcession = concessions.map((value =>  value.id));
         const seats = arrSeat.map((value =>  value.id));
         if(seats.length === 0){
             notify("Please select seat !!","warning")
             return;
         }
-
         const order = {
             seats:seats,
             concessionId:arrConcession,
@@ -290,10 +286,9 @@ const Aside = ({seats,price,id}) =>{
 
             })
             .catch(reason => {
-
+                notify("Booking ticket fail !!","warning")
+                refresh();
             })
-
-
     }
 
     const removeConcession = (value) =>{
@@ -379,7 +374,6 @@ const Aside = ({seats,price,id}) =>{
                                                         {
                                                             value["name"]
                                                         }
-
                                                     </Box>
                                                 )) : null
                                             }
@@ -438,7 +432,6 @@ const Aside = ({seats,price,id}) =>{
                                     </Box>
                                     <Box flexGrow={1}>
                                         <NumberFormat value={subTotal} displayType={'text'} thousandSeparator={true} suffix={' vnd'} />
-
                                     </Box>
                                 </Box>
                             </Box>
@@ -465,41 +458,13 @@ const CustomMyForm = props =>{
     const dataProvider = useDataProvider();
     const refresh = useRefresh();
     const redirect = useRedirect();
-    const {ids,data} = useGetList("seats-room", {page:1,perPage:100},
-        { field: 'id', order: 'DESC' }, {  showTimesId:record.id, room:record.roomId },{});
+
+    const {ids,data} = useGetList("seats-room", {page:1,perPage:1000},
+        { field: 'id', order: 'ASC' }, {  showTimesId:record.id, room:record.roomId },{});
 
     const [arrSeat,setArrSeat] = useState([]);
     const [arrSeatSelected,setArrSeatSelected] = useState([]);
     const [price,setPrice] = useState(0);
-    const [reserved,setReserved] = useState(true);
-
-    // const  handleUpdate = value =>{
-    //     const arrSeat = arrSeatSelected.map((value) => value["id"]);
-    //     localStorage.setItem("seats",JSON.stringify(arrSeatSelected));
-    //     setArrSeatSelected([]);
-    //         dataProvider
-    //             .update('reserved', { id: record.id, data: {
-    //                         seats: arrSeat,
-    //                         showTime:record.id,
-    //                         room:record.roomId,
-    //                         user:0 }
-    //                 }
-    //             )
-    //             .then(response => {
-    //                 refresh();
-    //                 if(response && response.data && response.data.id){
-    //                     localStorage.setItem("reserved",JSON.stringify(response.data["data"]))
-    //
-    //                 }
-    //             })
-    //             .catch(error => {
-    //                 // failure side effects go here
-    //                 // notify(`Comment approval error: ${error.message}`, { type: 'warning' });
-    //             });
-    //
-    //
-    // };
-
 
     const calSeat = (arrSeatSelected) => {
         return arrSeatSelected.reduce(((previousValue, currentValue) => {
@@ -547,7 +512,7 @@ const CustomMyForm = props =>{
             const arr = arrUpdate[tier];
             for (const arrElement of arr) {
                 if(arrElement["id"] === idSeat){
-                    arrElement["status"] = 2;
+                    arrElement["status"] = "Available";
                     break;
                 }
             }
@@ -561,7 +526,7 @@ const CustomMyForm = props =>{
             const arr = arrUpdate[tier];
             for (const arrElement of arr) {
                 if(arrElement["id"] === idSeat){
-                    arrElement["status"] = 1;
+                    arrElement["status"] = "Reserved";
                     arrSelectedUpdate.push(arrElement);
                     break;
                 }
@@ -574,46 +539,25 @@ const CustomMyForm = props =>{
 
     }
 
-    const [value, setValue] = React.useState(2);
-
-
     return  (
         <FormWithRedirect
             {...props}
             render={formProps => (
                         <form >
                             <Box>
-                                {/*<Box style={{marginTop:"0px !important"}}>*/}
-                                {/*    <Toolbar >*/}
-                                {/*        <Box display="flex" justifyContent="space-between" width="100%" height={"auto"}>*/}
-                                {/*            <SaveButton*/}
-                                {/*                saving={formProps.saving}*/}
-                                {/*                handleSubmitWithRedirect={formProps.handleSubmitWithRedirect}*/}
-                                {/*                onSave={handleUpdate}*/}
-                                {/*                label={"Reserved"}*/}
-                                {/*            />*/}
-                                {/*            /!*<DeleteButton record={formProps.record} />*!/*/}
-                                {/*        </Box>*/}
-
-                                {/*    </Toolbar>*/}
-                                {/*</Box>*/}
                                 <Screen />
                                 <Box display="flex" justifyContent="center" p={5} flexWrap={"noWrap"}>
                                     <Stage arrSeatRow={arrSeat} onSelectedSeat={(idSeat,row) => onSelectedSeat(idSeat,row)}/>
                                 </Box>
-
                             </Box>
                         </form>
             )}
         />
 
-
     )
 }
 
-
 const Screen = () =>{
-
     return (
         <Box display="flex" justifyContent="center" p={5} flexWrap={"noWrap"} >
             <Box bgcolor={"#ede7f6"} p={5} width={"500px"} borderRadius={"5px"}>
@@ -624,7 +568,6 @@ const Screen = () =>{
         </Box>
     )
 }
-
 
 const Stage = ({arrSeatRow,onSelectedSeat}) =>{
     const classes = useStyles();
@@ -654,21 +597,41 @@ const Row = ({data,onSelectedSeat}) =>{
     return (
         <Box className={classes.gridList}  flexDirection={"row-reverse"} flexWrap={"noWrap"}  >
             {data.map((value, key) => (
-                <Button className={classes.seat} key={key} disabled={value["isSelected"]}
-                     onClick={(idSeat) => onSelected(data[key]["id"])}
-
-                        variant={"contained"}
-                        color={ value["status"] === 1
+                <IconButton
+                    key={key}
+                    aria-label="more"
+                    aria-controls="user-preference-menu"
+                    aria-haspopup="true"
+                    onClick={(idSeat) => onSelected(data[key]["id"])}
+                    size="medium"
+                    disabled={value["isSelected"]}
+                    title={value["tier"] + " " +value["numbers"] }
+                >
+                    <EventSeat  color={ value["status"] === "Available"
+                        ? 'secondary'
+                        :  value["status"] === "Reserved"
                             ? 'primary'
-                            :  value["status"] === 2
-                                ? 'secondary'
-                                :  value["status"] === 3
-                                    ? 'default'
-                                    : ''}
-                    >
+                            :  value["status"] === "Unavailable"
+                                ? 'action'
+                                : ''}
+                    />
+                </IconButton>
 
-                    {value["tier"]}{' '}{value["numbers"]}
-                </Button>
+                // <Button className={classes.seat} key={key} disabled={value["isSelected"]}
+                //      onClick={(idSeat) => onSelected(data[key]["id"])}
+                //
+                //         variant={"contained"}
+                //         color={ value["status"] === 1
+                //             ? 'primary'
+                //             :  value["status"] === 2
+                //                 ? 'secondary'
+                //                 :  value["status"] === 3
+                //                     ? 'default'
+                //                     : ''}
+                //     >
+                //
+                //     {value["tier"]}{' '}{value["numbers"]}
+                // </Button>
             ))}
         </Box>
     )

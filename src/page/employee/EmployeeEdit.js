@@ -1,17 +1,11 @@
 import * as React from 'react';
 import {
-    DateInput,
-    Edit,
-    Toolbar,
-    useTranslate,
-    FormWithRedirect,
-    required,SelectInput,ReferenceInput
+    DateInput, Edit, Toolbar, useTranslate, FormWithRedirect, required,SelectInput,ReferenceInput,TextInput
 } from 'react-admin';
 import { Box, Card, CardContent, Typography } from '@material-ui/core';
 
 import FullNameField from "../room/TheaterNameField";
 import {validatePasswords} from "../user/UserCreate";
-import RichTextInput from 'ra-input-rich-text';
 
 
 const EmployeeEdit = (props) => {
@@ -71,41 +65,24 @@ const EmployeeForm = (props ) => {
                                     <Box mt="1em" />
                                 </Box>
                                 <Box
-                                    flex={1}
+                                    flex={2}
                                     ml={{ xs: 0, lg: '1em' }}
                                     mt={{ xs: '1em', lg: 0 }}
                                 >
-                                    <Typography variant="h6" gutterBottom>
-                                        {translate(
-                                            'Stats'
-                                        )}
-                                    </Typography>
-
-                                    <div>
-                                        <ReferenceInput
-                                            source="roleId"
-                                            reference="roles"
-                                            validate={requiredValidate}
-                                        >
-                                            <SelectInput source="name" />
-                                        </ReferenceInput>
-                                    </div>
-                                    <div>
-                                        <SelectInput source="name" />
-                                    </div>
+                                   <TextInput source={"notes"}/>
                                 </Box>
-                                <Box
-                                    flex={1}
-                                    ml={{ xs: 0, lg: '1em' }}
-                                    mt={{ xs: '1em', lg: 0 }}
-                                >
-                                    <Typography variant="h6" gutterBottom>
-                                        {translate(
-                                            'Description'
-                                        )}
-                                    </Typography>
-                                    <RichTextInput source={"notes"} />
-                                </Box>
+                                {/*<Box*/}
+                                {/*    flex={1}*/}
+                                {/*    ml={{ xs: 0, lg: '1em' }}*/}
+                                {/*    mt={{ xs: '1em', lg: 0 }}*/}
+                                {/*>*/}
+                                {/*    <Typography variant="h6" gutterBottom>*/}
+                                {/*        {translate(*/}
+                                {/*            'Description'*/}
+                                {/*        )}*/}
+                                {/*    </Typography>*/}
+                                {/*    <RichTextInput source={"notes"} />*/}
+                                {/*</Box>*/}
                             </Box>
                         </CardContent>
                         <Toolbar

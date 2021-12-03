@@ -4,7 +4,6 @@ import { Link } from 'react-admin';
 import FullNameField from './FullNameField';
 
 const UserLinkField = (props) => {
-    console.log(props)
     return (
         props.record ? (
             <Link to={ `/users/${props.record.id}`}>

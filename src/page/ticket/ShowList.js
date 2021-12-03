@@ -71,9 +71,6 @@ const roomFilters = [
 ];
 
 
-
-
-
 const ListActions = (props) => (
     <TopToolbar>
         <FilterButton/>
@@ -83,6 +80,8 @@ const ListActions = (props) => (
 
 
 export const ShowList = (props) =>{
+
+
     const classes = useStyles();
     const isXsmall = useMediaQuery(theme =>
         theme.breakpoints.down('xs')
