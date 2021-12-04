@@ -1,19 +1,15 @@
 import {
-    AutocompleteInput,
     Create,
     FormTab,
     ReferenceInput,
     required,
     TabbedForm,
     useRedirect,
-    useRefresh,
-    TextInput,
     NumberInput,
     ReferenceField,
     TextField,
     DateField,
-    SelectInput,
-    useCreateContext
+    SelectInput, useCreateContext
 } from "react-admin";
 import * as React from "react";
 import {makeStyles} from "@material-ui/core/styles";
@@ -27,6 +23,7 @@ import TimerStyled from "./TimerStyled";
 import {CountdownCircleTimer} from "react-countdown-circle-timer";
 import {useHistory} from "react-router-dom";
 import { sub,subMinutes } from 'date-fns'
+import {useRecordContext} from "ra-core";
 
 const useStyles = makeStyles({
     widthFormGroup: { display: 'inline-block' },
@@ -59,7 +56,6 @@ const renderTime = ({ remainingTime }) => {
 
 export const PaymentCreate = (props) =>{
     const [duration,setDuration] = useState(0);
-
     // useEffect(() =>{
     //     if(props.location.state.record.expire){
     //         const duration = new Date(props.location.state.record.expire).getTime() - new Date().getTime();

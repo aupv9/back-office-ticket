@@ -138,8 +138,6 @@ const OrderForm = (props) => {
     const [seatsPrice, setSeatsPrice] = useState(0);
     const [showTime,setShowTime] = useState();
     const {data:show} = useGetOne("showTimesDetails",record["showTimesDetailId"]);
-
-
     useEffect(() =>{
         if(show && record.seats){
             setSeatsPrice(show.price * record.seats.length);
@@ -179,7 +177,7 @@ const OrderForm = (props) => {
             notify("Please enter a promo code","warning");
             return;
         }
-        axios.get(`http://localhost:8080/api/v1/check-promoCode?code=${promoCode}`)
+        axios.get(`http://localhost:8080/api/v1/check-promoCode?code=${promoCode}&movie=${show?show["movieId"] : 0}`)
             .then(response =>{
                 if(response.data){
                     dataProvider.getOne('offers', { id: response.data.offerId })
@@ -199,7 +197,6 @@ const OrderForm = (props) => {
                 }else{
                     setOffer(null);
                     notify("Hmm, that's an invalid code. Check for typos and try again.","error");
-
                     refresh();
 
                 }
@@ -208,7 +205,6 @@ const OrderForm = (props) => {
                 notify("Hmm, that's an invalid code. Check for typos and try again.","error")
                 setOffer(null);
                 refresh();
-
             })
 
     }
@@ -409,7 +405,7 @@ const OrderEdit = (props) => {
     const classes = useEditStyles();
     const [totalAmount,setTotalAmount] = useState(0);
     const [code,setCode] = useState("");
-
+    const {record} = useEditContext();
     const amountCallBack = amount =>{
         setTotalAmount(amount);
     }
@@ -420,7 +416,7 @@ const OrderEdit = (props) => {
         <Fragment>
             <Edit
                 title={<OrderTitle />}
-                aside={<MyOrderAside amount={totalAmount} code={code}/>}
+                aside={<MyOrderAside amount={totalAmount} code={code} record={record}/>}
                 classes={classes}
                 {...props}
                 component="div"

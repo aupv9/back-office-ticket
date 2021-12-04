@@ -13,13 +13,13 @@ import {
     ChipField,
     BooleanField,
     NumberField,
-    Loading,
+    Loading,DatagridBody,
     ShowButton, useRedirect, useQuery, useDataProvider, List, useList,ListContextProvider
 } from 'react-admin'
 
-import {Fragment, useCallback, useEffect, useState} from "react";
+import {Children, Fragment, useCallback, useEffect, useState} from "react";
 import keyBy from 'lodash/keyBy';
-import {Button, Typography} from "@material-ui/core";
+import {Button, Checkbox, TableCell, TableHead, TableRow, Typography} from "@material-ui/core";
 import CustomizableDatagrid from 'ra-customizable-datagrid';
 import {format} from "date-fns";
 
@@ -135,17 +135,21 @@ const SeatContent = ({showtime}) => {
     if (error) {
         return <p>ERROR: {error}</p>
     }
-
+    const onToggleItem = (id,event) =>{
+        console.log(id)
+    }
     return (
         <Fragment>
             <Datagrid
+                isRowSelectable={ record => record.id <0 }
                 data={keyBy(data, 'id')}
                 ids={data.map(({id}) => id)}
                 currentSort={sort}
                 setSort={(field, order) => setSort({ field, order })}
                 rowClick={"show"}
-                hasBulkActions={true}
+                hasBulkActions
                 optimized
+                onToggleItem={onToggleItem}
             >
                 <TextField source="tier" />
                 <NumberField source="numbers"textAlign="left" />
@@ -166,6 +170,55 @@ const SeatContent = ({showtime}) => {
         </Fragment>
     )
 }
+
+const DataGridHeader = ({ children, onToggleItem,selectable,selected,id}) => (
+    <TableHead>
+        <TableRow>
+            <TableCell>
+                <Checkbox
+                    disabled={selectable}
+                    checked={selected}
+                    onClick={event => onToggleItem(id, event)}
+                />
+            </TableCell> {/* empty cell to account for the select row checkbox in the body */}
+            {Children.map(children, child => (
+                <TableCell key={child.props.source}>
+                    {child.props.source}
+                </TableCell>
+            ))}
+        </TableRow>
+    </TableHead>
+);
+
+
+const MyDataGridBody = props => <DatagridBody {...props} row={<MyDataGridRow />} />;
+const MyDataGrid = props => <Datagrid {...props}
+                                      body={<MyDataGridBody />}
+                                      // header={<DatagridHeader />}
+/>;
+
+const MyDataGridRow = ({ record, resource, id, onToggleItem, children, selected, selectable, basePath }) => (
+    <TableRow key={id}>
+        {/* first column: selection checkbox */}
+        <TableCell padding="none">
+            <Checkbox
+                disabled={selectable}
+                checked={selected}
+                onClick={event => onToggleItem(id, event)}
+            />
+        </TableCell>
+        {/* data columns based on children */}
+        {React.Children.map(children, field => (
+            <TableCell key={`${id}-${field.props.source}`}>
+                {React.cloneElement(field, {
+                    record,
+                    basePath,
+                    resource,
+                })}
+            </TableCell>
+        ))}
+    </TableRow>
+);
 
 
 

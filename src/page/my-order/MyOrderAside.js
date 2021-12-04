@@ -1,56 +1,57 @@
 import * as React from 'react';
 import {
+    CreateButton,
     EditButton,
     ShowButton, useEditContext, useRedirect,
 } from 'react-admin';
 import {Box, Button} from '@material-ui/core';
 import {Link as RouterLink} from "react-router-dom";
 import {CodeRounded, Money, Queue, TheatersSharp} from "@material-ui/icons";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 
 
-export const MyOrderAside = ({amount,code}) => {
-    const {record,loaded} = useEditContext();
+export const MyOrderAside = ({amount,code,record}) => {
+    // const {record,loaded} = useEditContext();
     // const [record2,setRecord2] = useState({});
     //
-    // useState(() =>{
+    // useEffect(() =>{
     //     if(loaded){
-    //         const record = {
-    //
+    //         const record2 = {
+    //             code:code,partId: record.id ,amount:amount,userId:record.userId,
+    //             expire:record["expirePayment"],createdDate:record["createdDate"]
     //         }
-    //         setRecord2(record);
+    //         setRecord2(record2);
     //     }
-    // },[record])
+    // },[record]);
     return (
         <>
             {
-                loaded && record.status === "non_payment"?
+                record && record.status === "non_payment"?
                     <Box ml={4} width={250} minWidth={250}>
                         <Box textAlign="center" mb={2}>
-                        {
-                            loaded ?  <Button
-                                component={RouterLink}
-                                to={{
-                                    pathname: '/payments/create',
-                                    state: { record: { code:code,partId: record.id ,amount:amount,userId:record.userId,
-                                            expire:record["expirePayment"],createdDate:record["createdDate"]} },
-                                }}
-                                color="primary"
-                                variant="contained"
-                                size="small"
-                                startIcon={<Money />}
-                            >
-                                Make Payment
-                            </Button> :null
-                        }
+                            {
+                                record ?  <Button
+                                    component={RouterLink}
+                                    to={{
+                                        pathname: '/payments/create',
+                                        state: { record: { partId: record.id ,amount:amount,userId:record.userId,expire:record["expirePayment"],createdDate:record["createdDate"]} },
+                                    }}
+                                    color="primary"
+                                    variant="contained"
+                                    size="small"
+                                    startIcon={<CodeRounded />}
+                                >
+                                    Make Payment
+                                </Button> :null
+                            }
                         </Box>
                     </Box>
-                    : loaded && record.status === "payment" ?
+                    : record && record.status === "payment" ?
                         <Box ml={4} width={250} minWidth={250}>
                             <Box textAlign="center" mb={2}>
                                 {
-                                    loaded ?  <Button
+                                    record ?  <Button
                                         component={RouterLink}
                                         to={{
                                             pathname: '/payments/create',

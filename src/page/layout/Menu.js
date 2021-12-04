@@ -312,6 +312,20 @@ const Menu = ({ dense = false }) => {
                         />
                     }
                     {
+                        isHavePermission("READ_OFFER_DETAIL") &&
+                        <MenuItemLink
+                            to={{
+                                pathname: '/offers-detail',
+                                state: { _scrollToTop: true },
+                            }}
+                            primaryText={translate(`Offer Detail`, {
+                                smart_count: 2,
+                            })}
+                            leftIcon={<LocalOfferIcon />}
+                            dense={dense}
+                        />
+                    }
+                    {
                         isHavePermission("READ_OFFER_HISTORY") &&
                         <MenuItemLink
                             to={{
@@ -325,6 +339,7 @@ const Menu = ({ dense = false }) => {
                             dense={dense}
                         />
                     }
+
 
                 </SubMenu>
             }

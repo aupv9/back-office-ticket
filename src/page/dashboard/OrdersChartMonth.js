@@ -17,7 +17,7 @@ const multiplier = {
 };
 
 
-export const OrdersChartMonth = () => {
+export const OrdersChartMonth = ({theaterName}) => {
     const { permissions } = usePermissions();
     const [arrPermission,setArrPermission] = useState([]);
 
@@ -27,7 +27,6 @@ export const OrdersChartMonth = () => {
     useEffect(() =>{
         setArrPermission(permissions);
     },[permissions])
-
 
     const { data, ids, loaded } = useGetList(
         'my-orders',

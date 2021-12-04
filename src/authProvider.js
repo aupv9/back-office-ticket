@@ -87,7 +87,9 @@ export default {
     // called when the API returns an error
     checkError: ({ status }) => {
         if (status === 401 || status === 403) {
-            localStorage.removeItem('username');
+            localStorage.removeItem('emailUser');
+            localStorage.removeItem('auth');
+            localStorage.removeItem('privilege');
 
             return Promise.reject();
         }

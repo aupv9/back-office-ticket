@@ -59,6 +59,7 @@ import RoleEdit from "./page/role/RoleEdit";
 import {RoleCreate} from "./page/role/RoleCreate";
 import {useEffect, useState} from "react";
 import * as _ from 'lodash';
+import {OfferDetailList} from "./page/offer/OfferDetailList";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -166,6 +167,7 @@ const App = () => {
             <Resource name="privileges" />
 
             <Resource name="services" list={ServiceList} create={ServiceCreate}/>
+            <Resource name="offers-detail" list={OfferDetailList}/>
 
         </Admin>
     );

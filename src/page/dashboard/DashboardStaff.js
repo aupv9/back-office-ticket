@@ -32,6 +32,7 @@ const DashboardStaff = () => {
     const [state, setState] = useState({});
     const version = useVersion();
     const dataProvider = useDataProvider();
+
     const isXSmall = useMediaQuery((theme) =>
         theme.breakpoints.down('xs')
     );
@@ -41,7 +42,7 @@ const DashboardStaff = () => {
     const isHavePermission = (permission) =>{
         return _.includes(arrPermission,permission);
     }
-    useEffect(() =>{
+    useEffect(() => {
         setArrPermission(permissions);
     },[permissions])
 
@@ -93,34 +94,11 @@ const DashboardStaff = () => {
             paymentOrders:aggregations.paymentOrders
         }));
 
-
-
-        // const { data: customers } = await dataProvider.getMany<Customer>(
-        //     'customers',
-        //         {
-        //             ids: aggregations.pendingOrders.map(
-        //                 (order) => order.customer_id
-        //             ),
-        //         }
-        // );
-
     }, [dataProvider]);
 
     useEffect(() => {
         fetchOrders();
     }, [version]);
-    // useEffect(() =>{
-    //     if(state.recentOrders){
-    //         state.recentOrders
-    //             .forEach((acc, curr) => {
-    //                 const createdDate = new Date(acc.createdDate);
-    //                 const day = format(createdDate, 'yyyy-MM-dd');
-    //                 console.log(day);
-    //             });
-    //     }
-    //
-    //
-    // },[state])
 
     const {
         recentOrders,revenue,pendingPayment,paymentOrders,ordersRoom
@@ -217,6 +195,9 @@ const DashboardStaff = () => {
                             {
                                 isHavePermission("READ_CHART_MANAGER") && <OrderChart30Day orders={recentOrders} />
                             }
+                            {
+                                isHavePermission("READ_CHART_SENIOR_MANAGER") && <OrderChart30Day orders={recentOrders} />
+                            }
                         </div>
                         <div style={styles.singleCol}>
                             {
@@ -225,6 +206,7 @@ const DashboardStaff = () => {
                             {
                                 isHavePermission("READ_CHART_MANAGER") && <OrdersChartMonth />
                             }
+
                         </div>
                         {
                             isHavePermission("READ_CHART_MANAGER") &&

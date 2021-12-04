@@ -5,7 +5,7 @@ import {
     Show,
     ReferenceField,
     TextField,
-    DateField, useGetList, useShowContext, Datagrid, Pagination,ChipField,BooleanField,NumberField,Loading
+    DateField, useGetList, useShowContext, Datagrid, Pagination,ChipField,BooleanField,NumberField,Loading,List
 } from 'react-admin'
 
 
@@ -20,7 +20,13 @@ export const OfferShow = (props) => {
 
 const OfferContent = () =>{
     const { record } = useShowContext();
-    console.log(record)
+    const { data, ids, loading, error } = useGetList(
+        'offers-detail',
+        { page: 1, perPage: 1000 },
+        { field: 'offerId', order: 'ASC' }
+    );
+    if (loading) { return <Loading />; }
+    if (error) { return <p>ERROR</p>; }
     return(
 
         <TabbedShowLayout>
@@ -40,15 +46,24 @@ const OfferContent = () =>{
                 />
                 <TextField source={"percentage"} label={"%"}/>
             </Tab>
-            <Tab label="Send User" path="send">
-
+            <Tab label="Code" path="code">
+                {/*<List basePath={"offers-detail"}*/}
+                {/*      filter={{offerId:record["id"]}}*/}
+                {/*      perPage={25}*/}
+                {/*      sort={{ field: 'offerId', order: 'ASC' }}*/}
+                {/*      pagination={<OfferDetailPagination />}*/}
+                {/*>*/}
+                {/*    <Datagrid>*/}
+                {/*        <TextField source="code" />*/}
+                {/*    </Datagrid>*/}
+                {/*</List>*/}
             </Tab>
 
         </TabbedShowLayout>
     )
 }
 
-
+const OfferDetailPagination = props => <Pagination rowsPerPageOptions={[10, 25, 50, 100]} {...props} />;
 
 
 

@@ -92,7 +92,7 @@ const OfferBulkActionButtons = props => {
 }
 
 
-export const OfferList = (props) =>{
+export const OfferDetailList = (props) =>{
     const classes = useStyles();
     const isXsmall = useMediaQuery(theme =>
         theme.breakpoints.down('xs')
@@ -103,7 +103,7 @@ export const OfferList = (props) =>{
             bulkActionButtons={<OfferBulkActionButtons />}
             {...props}
             filters={roomFilters}
-            sort={{ field: 'id', order: 'ACS' }}
+            sort={{ field: 'offerId', order: 'ACS' }}
             perPage={25}
             // aside={<Aside />}
             actions={<ListActions/>}
@@ -118,21 +118,21 @@ const CustomDataGrid = (props) =>{
 
     return (
         <CustomizableDatagrid rowClick={"show"} {...props}>
-            <DateField source={"creationDate"} showTime/>
-            <TextField source={"name"}/>
-            <ChipField source={"method"} label={"Mode"}/>
-            <ChipField source={"type"}/>
-            <ChipField source={"status"}/>
-            <NumberField
-                source="discountAmount"
-                options={{
-                    style: 'currency',
-                    currency: 'VND',
-                }}
-                label={"Amount"}
-            />
-            <TextField source={"percentage"} label={"%"}/>
-            <EditButton />
+            {/*<DateField source={"creationDate"} showTime/>*/}
+            <TextField source={"offerId"}/>
+            <ChipField source={"code"} label={"Code"}/>
+            {/*<ChipField source={"type"}/>*/}
+            {/*<ChipField source={"status"}/>*/}
+            {/*<NumberField*/}
+            {/*    source="discountAmount"*/}
+            {/*    options={{*/}
+            {/*        style: 'currency',*/}
+            {/*        currency: 'VND',*/}
+            {/*    }}*/}
+            {/*    label={"Amount"}*/}
+            {/*/>*/}
+            {/*<TextField source={"percentage"} label={"%"}/>*/}
+            {/*<EditButton />*/}
         </CustomizableDatagrid>
     )
 }

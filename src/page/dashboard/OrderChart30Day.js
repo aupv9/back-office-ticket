@@ -42,13 +42,13 @@ const getRevenuePerDay = (orders) => {
 };
 
 const OrderChart30Day = (props) => {
-    const { orders } = props;
+    const { orders ,theaterName } = props;
     const translate = useTranslate();
     if (!orders) return null;
 
     return (
         <Card>
-            <CardHeader title={translate('30 Day Revenue History')} />
+            <CardHeader title={translate(`30 Day Revenue History ${orders[0].theaterName}`)} />
             <CardContent>
                 <div style={{ width: '100%', height: 500 }}>
                     <ResponsiveContainer>
