@@ -48,7 +48,7 @@ const OrderChart30Day = (props) => {
 
     return (
         <Card>
-            <CardHeader title={translate(`30 Day Revenue History ${orders[0].theaterName}`)} />
+            <CardHeader title={translate(`30 Day Revenue History ${orders[0] && orders[0].theaterName}`)} />
             <CardContent>
                 <div style={{ width: '100%', height: 500 }}>
                     <ResponsiveContainer>

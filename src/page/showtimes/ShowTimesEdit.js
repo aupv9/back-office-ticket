@@ -1,7 +1,7 @@
 import {
     AutocompleteInput,
     Edit,
-    FormTab,
+    FormTab, NumberInput,
     ReferenceInput,
     required,
     TabbedForm, useEditContext
@@ -12,6 +12,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import {useState} from "react";
 
 import { DateKeyInput} from '../../datepicker/Picker';
+import {InputAdornment} from "@material-ui/core";
 
 
 const useStyles = makeStyles({
@@ -61,9 +62,20 @@ export const ShowTimesEdit = (props) =>{
                         />
                     </ReferenceInput>
 
-
-
                     <DateKeyInput source="timeStart" label="Start date"  />
+                    <NumberInput
+                        source="price"
+                        className={classes.price}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="start">
+                                    vnd
+                                </InputAdornment>
+                            ),
+                        }}
+                        validate={requiredValidate}
+                    />
+
                 </FormTab>
 
             </TabbedForm>

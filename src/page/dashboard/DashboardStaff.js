@@ -179,6 +179,9 @@ const DashboardStaff = () => {
                             {
                                 isHavePermission("READ_CHART_MANAGER") && <MonthlyRevenue value={revenue} />
                             }
+                            {
+                                isHavePermission("READ_CHART_SENIOR_MANAGER") && <MonthlyRevenue value={revenue} />
+                            }
                             <Spacer />
                             {
                                 isHavePermission("READ_CHART_STAFF") &&<PendingOrders value={pendingPayment}/>
