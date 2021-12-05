@@ -9,9 +9,11 @@ import {
     CartesianGrid,
     Tooltip,
 } from 'recharts';
-import { useTranslate } from 'react-admin';
+import {downloadCSV, useDataProvider, useTranslate} from 'react-admin';
 import { format, subDays, addDays } from 'date-fns';
-
+import IconButton from "@material-ui/core/IconButton";
+import {ArrowDownward, ImportExport, ImportExportTwoTone} from "@material-ui/icons";
+import jsonExport from 'jsonexport/dist';
 
 const lastDay = new Date();
 const lastMonthDays = Array.from({ length: 30 }, (_, i) => subDays(lastDay, i));
@@ -40,15 +42,45 @@ const getRevenuePerDay = (orders) => {
         total: daysWithRevenue[format(date, 'yyyy-MM-dd')] || 0,
     }));
 };
+const getExportRevenuePerDay = (orders) => {
+    const daysWithRevenue = aggregateOrdersByDay(orders);
+    return lastMonthDays.map(date => ({
+        date: date,
+        total: daysWithRevenue[format(date, 'yyyy-MM-dd')] || 0,
+    }));
+};
 
 const OrderChart30Day = (props) => {
-    const { orders ,theaterName } = props;
+    const { orders ,role } = props;
     const translate = useTranslate();
+    const dataProvider = useDataProvider();
     if (!orders) return null;
+    console.log(role)
+    const exportChart = () =>{
+        const nameCSV = role === 1 ?  translate(`30 Day Revenue History All Theater`)  : role === 2 ?
+            translate(`30 Day Revenue History`):
+            translate(`30 Day Revenue History ${orders[0] && orders[0].theaterName}`);
+        jsonExport(getExportRevenuePerDay(orders), {
+            headers: ['date', 'total'],
+        }, (err, csv) => {
+            downloadCSV(csv, nameCSV);
+        });
+    }
 
     return (
         <Card>
-            <CardHeader title={translate(`30 Day Revenue History ${orders[0] && orders[0].theaterName}`)} />
+            <CardHeader title={ role === 1 ?  translate(`30 Day Revenue History All Theater`)  : role === 2 ?
+                        translate(`30 Day Revenue History `):
+                        translate(`30 Day Revenue History ${orders[0] && orders[0].theaterName}`) }
+                        action={
+                            <IconButton aria-label="settings"
+                                onClick={exportChart}
+                                title={"Export To CSV"}
+                            >
+                                <ArrowDownward />
+                            </IconButton>
+                        }
+            />
             <CardContent>
                 <div style={{ width: '100%', height: 500 }}>
                     <ResponsiveContainer>

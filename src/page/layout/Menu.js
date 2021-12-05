@@ -114,7 +114,8 @@ const Menu = ({ dense = false }) => {
             {/*    />*/}
             {/*</SubMenu>*/}
             {
-                isHavePermission("SETUP_BASE") &&
+                isHavePermission("SETUP_BASE") &&  !isHavePermission("READ_USER") &&
+
                 <SubMenu
                     handleToggle={() => handleToggle('menuManageBase')}
                     isOpen={state.menuManageBase}
@@ -226,7 +227,7 @@ const Menu = ({ dense = false }) => {
             }
 
             {
-                isHavePermission("READ_MOVIE") &&
+                isHavePermission("READ_MOVIE") &&  !isHavePermission("READ_USER") &&
                 <SubMenu
                     handleToggle={() => handleToggle('menuFilm')}
                     isOpen={state.menuFilm}
@@ -263,7 +264,7 @@ const Menu = ({ dense = false }) => {
             }
 
             {
-                isHavePermission("READ_SHOWTIME") &&
+                isHavePermission("READ_SHOWTIME") &&  !isHavePermission("READ_USER") &&
                 <SubMenu
                     handleToggle={() => handleToggle('menuShowTimes')}
                     isOpen={state.menuShowTimes}
@@ -290,7 +291,7 @@ const Menu = ({ dense = false }) => {
             }
 
             {
-                isHavePermission("READ_OFFER") &&
+                isHavePermission("READ_OFFER") &&  !isHavePermission("READ_USER") &&
                 <SubMenu
                     handleToggle={() => handleToggle('menuOffer')}
                     isOpen={state.menuOffer}
@@ -346,7 +347,7 @@ const Menu = ({ dense = false }) => {
 
 
             {
-                isHavePermission("READ_SHOW") &&
+                isHavePermission("READ_SHOW") &&  !isHavePermission("READ_USER") &&
                 <SubMenu
                     handleToggle={() => handleToggle('menuOrders')}
                     isOpen={state.menuOrders}

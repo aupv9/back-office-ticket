@@ -50,7 +50,7 @@ import {RoleList} from "./page/role/RoleList";
 import {RoleShow} from "./page/role/RoleShow";
 import {OfferHistoryList} from "./page/offer/OfferHistoryList";
 import {OfferShow} from "./page/offer/OfferShow";
-import DashboardStaff from "./page/dashboard/DashboardStaff";
+import Dashboard from "./page/dashboard/Dashboard";
 import {RoomChart} from "./page/dashboard/RoomChart";
 import {ServiceList} from "./page/service/ServiceList";
 import {ServiceCreate} from "./page/service/ServiceCreate";
@@ -96,7 +96,7 @@ const customProvider = {
 // const dataProvider = customNewRequest(`http://localhost:8080/api/v1`);
 
 const routes =  [
-    // <Route exact path="/dashboard-default" component={DashboardStaff} />,
+    // <Route exact path="/dashboard-default" component={Dashboard} />,
     // <Route exact path="/statistics-room" component={RoomChart} />,
     <Route exact path="/profile" component={RoomChart} />,
 
@@ -122,7 +122,7 @@ const App = () => {
 
     return (
         <Admin dataProvider={dataProvider}
-               dashboard={DashboardStaff}
+               dashboard={Dashboard}
                authProvider={authProvider}
                customRoutes={routes}
                layout={Layout}

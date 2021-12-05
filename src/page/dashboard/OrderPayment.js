@@ -6,11 +6,11 @@ import CardWithIcon from './CardWithIcon';
 
 
 const OrdersPayment = (props) => {
-    const { value } = props;
+    const { value,role } = props;
     const translate = useTranslate();
     return (
         <CardWithIcon
-            to="/my-orders"
+            to={role === 2 ? "my-orders" : role === 3 ? "orders" :"orders"}
             icon={ShoppingCartIcon}
             title={translate('pos.dashboard.orders_payment')}
             subtitle={value}

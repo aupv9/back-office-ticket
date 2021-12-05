@@ -36,6 +36,10 @@ export const EmployeeList = props => {
                 <ReferenceField reference="users" source="userId" label="User Account">
                     <UserLinkField />
                 </ReferenceField>
+                <ReferenceField reference="users" source="userId" label="Email">
+                    <EmailField source={"email"} />
+                </ReferenceField>
+
                 <ReferenceArrayField label="Roles" reference="roles" source="roleIds">
                     <SingleFieldList>
                         <ChipField source="name" />
@@ -50,9 +54,9 @@ export const EmployeeList = props => {
                 {/*<ReferenceField reference="employees" source="theaterId" label="Theater">*/}
                 {/*    <TextField source="name" />*/}
                 {/*</ReferenceField>*/}
-                <DateField source="createdAt"/>
-                <DateField source="updatedAt"/>
-                <DateField source="startsAt"/>
+                <DateField source="createdAt" showTime/>
+                <DateField source="updatedAt" showTime/>
+                <DateField source="startsAt" />
                 <DateField source="endsAt"/>
                 <ChipField source="status" />
 

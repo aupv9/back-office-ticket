@@ -29,7 +29,7 @@ export const OrdersChartMonth = ({theaterName}) => {
     },[permissions])
 
     const { data, ids, loaded } = useGetList(
-        'my-orders',
+        'orders-room',
         { perPage: 100, page: 1 },
         {
             field: 'id',

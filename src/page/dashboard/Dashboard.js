@@ -26,7 +26,7 @@ const styles = {
 const Spacer = () => <span style={{ width: '1em' }} />;
 const VerticalSpacer = () => <span style={{ height: '1em' }} />;
 
-const DashboardStaff = () => {
+const Dashboard = () => {
     const { loaded, permissions } = usePermissions();
     const [arrPermission,setArrPermission] = useState([]);
     const [state, setState] = useState({});
@@ -174,32 +174,45 @@ const DashboardStaff = () => {
                     <div style={styles.leftCol}>
                         <div style={styles.flex}>
                             {
-                                isHavePermission("READ_CHART_STAFF") && <MonthlyRevenue value={revenue} />
+                                isHavePermission("READ_CHART_STAFF") && <MonthlyRevenue value={revenue} role={2}/>
                             }
                             {
-                                isHavePermission("READ_CHART_MANAGER") && <MonthlyRevenue value={revenue} />
+                                isHavePermission("READ_CHART_MANAGER") && <MonthlyRevenue value={revenue} role={3}/>
                             }
                             {
-                                isHavePermission("READ_CHART_SENIOR_MANAGER") && <MonthlyRevenue value={revenue} />
+                                isHavePermission("READ_CHART_SENIOR_MANAGER") && <MonthlyRevenue value={revenue} role={1} />
                             }
                             <Spacer />
                             {
-                                isHavePermission("READ_CHART_STAFF") &&<PendingOrders value={pendingPayment}/>
+                                isHavePermission("READ_CHART_STAFF") && <PendingOrders value={pendingPayment} role={2}/>
+                            }
+                            {
+                                isHavePermission("READ_CHART_MANAGER") && <PendingOrders value={pendingPayment} role={3}/>
+                            }
+                            {
+                                isHavePermission("READ_CHART_SENIOR_MANAGER") && <PendingOrders value={pendingPayment} role={1}/>
                             }
                             <Spacer />
                             {
-                                isHavePermission("READ_CHART_STAFF") && <OrdersPayment value={paymentOrders}/>
+                                isHavePermission("READ_CHART_STAFF") && <OrdersPayment value={paymentOrders} role={2}/>
                             }
+                            {
+                                isHavePermission("READ_CHART_MANAGER") && <OrdersPayment value={paymentOrders} role={3}/>
+                            }
+                            {
+                                isHavePermission("READ_CHART_SENIOR_MANAGER") && <OrdersPayment value={paymentOrders} role={1}/>
+                            }
+
                         </div>
                         <div style={styles.singleCol}>
                             {
-                                isHavePermission("READ_CHART_STAFF") && <OrderChart30Day orders={recentOrders} />
+                                isHavePermission("READ_CHART_STAFF") && <OrderChart30Day orders={recentOrders} role={2}/>
                             }
                             {
-                                isHavePermission("READ_CHART_MANAGER") && <OrderChart30Day orders={recentOrders} />
+                                isHavePermission("READ_CHART_MANAGER") && <OrderChart30Day orders={recentOrders} role={3}/>
                             }
                             {
-                                isHavePermission("READ_CHART_SENIOR_MANAGER") && <OrderChart30Day orders={recentOrders} />
+                                isHavePermission("READ_CHART_SENIOR_MANAGER") && <OrderChart30Day orders={recentOrders} role={1}/>
                             }
                         </div>
                         <div style={styles.singleCol}>
@@ -209,7 +222,9 @@ const DashboardStaff = () => {
                             {
                                 isHavePermission("READ_CHART_MANAGER") && <OrdersChartMonth />
                             }
-
+                            {
+                                isHavePermission("READ_CHART_SENIOR_MANAGER") && <OrdersChartMonth />
+                            }
                         </div>
                         {
                             isHavePermission("READ_CHART_MANAGER") &&
@@ -230,4 +245,4 @@ const DashboardStaff = () => {
 };
 
 
-export default DashboardStaff;
+export default Dashboard;
