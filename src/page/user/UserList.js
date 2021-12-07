@@ -25,13 +25,14 @@ import {
     BulkDeleteButton,
     ExportButton,
     CreateButton,
-    Toolbar,TopToolbar
+    Toolbar, TopToolbar, useRefresh
 } from 'react-admin';
 import { useMediaQuery, Divider, Tabs, Tab, Theme } from '@material-ui/core';
 import CustomizableDatagrid from 'ra-customizable-datagrid';
 
 import { makeStyles } from '@material-ui/core/styles';
 import UserLinkField from "./UserLinkField";
+import SockJsClient from "react-stomp";
 
 
 const orderFilters = [
@@ -92,6 +93,8 @@ const TabbedDatagrid = (props) => {
     const [userSocial, setUserSocial] = useState([]);
     const totals = useGetTotals(filterValues);
 
+    const refresh = useRefresh();
+
     useEffect(() => {
         if (ids && ids !== filterValues.status) {
             switch (filterValues.status) {
@@ -120,6 +123,8 @@ const TabbedDatagrid = (props) => {
         filterValues.status === 'userRegister'
             ? userRegister
             : userSocial;
+
+
 
     return (
         <Fragment>

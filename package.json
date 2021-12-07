@@ -36,9 +36,13 @@
     "react-google-login": "^5.2.2",
     "react-number-format": "^4.7.3",
     "react-scripts": "4.0.3",
+    "react-stomp": "^5.1.0",
     "react-timer-hook": "^3.0.5",
     "react-to-print": "^2.14.1",
+    "react-use-websocket": "^2.9.1",
     "recharts": "^2.1.6",
+    "sockjs": "^0.3.24",
+    "sockjs-client": "^1.5.2",
     "styled-components": "^5.3.3",
     "web-vitals": "^1.0.1"
   },

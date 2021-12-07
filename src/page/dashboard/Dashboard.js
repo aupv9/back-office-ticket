@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, CSSProperties } from 'react';
-import {useVersion, useDataProvider, usePermissions} from 'react-admin';
+import {useVersion, useDataProvider, usePermissions, useRefresh} from 'react-admin';
 import {useMediaQuery, Theme} from '@material-ui/core';
 import { format, subDays, addDays } from 'date-fns';
 import {Area, CartesianGrid, XAxis, YAxis, AreaChart, ResponsiveContainer, Legend, Line,LineChart,Tooltip} from "recharts";
@@ -11,6 +11,7 @@ import OrdersPayment from "./OrderPayment";
 import {OrdersChartMonth} from "./OrdersChartMonth";
 import {RoomChart} from "./RoomChart";
 import * as _ from "lodash";
+import SockJsClient from "react-stomp";
 
 
 
@@ -46,17 +47,9 @@ const Dashboard = () => {
         setArrPermission(permissions);
     },[permissions])
 
-    const fetchOrders = useCallback(async () => {
-        const aMonthAgo = subDays(new Date(), 30);
-        const { data: recentOrders } = await dataProvider.getList(
-            'orders-room',
-                {
-                    filter: { date_gte: format(new Date(aMonthAgo),"yyyy-MM-dd") },
-                    sort: { field: 'id', order: 'DESC' },
-                    pagination: { page: 1, perPage: 10000 },
-                }
-        );
-        const aggregations = recentOrders
+
+    const processOrders = (order) =>{
+        return order
             .reduce(
                 (stats, order) => {
                     if (order.status === 'payment') {
@@ -64,7 +57,6 @@ const Dashboard = () => {
                         stats.paymentOrders++;
                     }
                     if (order.status === 'non_payment') {
-                        // stats.pendingPayment.push(order);
                         stats.pendingPayment++;
                     }
                     if (order.status === 'cancelled') {
@@ -80,6 +72,20 @@ const Dashboard = () => {
                     cancelledOrders:[]
                 }
             );
+    }
+
+    const fetchOrders = useCallback(async () => {
+        const aMonthAgo = subDays(new Date(), 30);
+        const { data: recentOrders } = await dataProvider.getList(
+            'orders-room',
+                {
+                    filter: { date_gte: format(new Date(aMonthAgo),"yyyy-MM-dd") },
+                    sort: { field: 'id', order: 'DESC' },
+                    pagination: { page: 1, perPage: 10000 },
+                }
+        );
+        const aggregations = processOrders(recentOrders);
+
         setState(state => ({
             ...state,
             recentOrders,
@@ -96,6 +102,8 @@ const Dashboard = () => {
 
     }, [dataProvider]);
 
+
+
     useEffect(() => {
         fetchOrders();
     }, [version]);
@@ -103,6 +111,34 @@ const Dashboard = () => {
     const {
         recentOrders,revenue,pendingPayment,paymentOrders,ordersRoom
     } = state;
+
+    const refresh = useRefresh();
+
+
+    let onConnected = () => {
+        console.log("Connected!!")
+    }
+
+    let onMessageReceived = (msg) => {
+        if(msg && msg.payload){
+
+            const aggregations = processOrders(msg.payload);
+            setState(state => ({
+                ...state,
+                recentOrders,
+                revenue: aggregations.revenue.toLocaleString(undefined, {
+                    style: 'currency',
+                    currency: 'vnd',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                }),
+                nbNewOrders: aggregations.nbNewOrders,
+                pendingPayment: aggregations.pendingPayment,
+                paymentOrders:aggregations.paymentOrders
+            }));
+        }
+    }
+
 
     return isXSmall ? (
         <div>
@@ -137,7 +173,14 @@ const Dashboard = () => {
         </div>
     ) : (
         <>
-
+            <SockJsClient
+                url={'http://localhost:8080/real-time-service/'}
+                topics={['/topic/chart']}
+                onConnect={onConnected}
+                onDisconnect={console.log("Disconnected!")}
+                onMessage={msg => onMessageReceived(msg)}
+                debug={false}
+            />
             {/*<div style={styles.flex}>*/}
             {/*    <div style={styles.leftCol}>*/}
             {/*        <div style={styles.singleCol}>*/}
@@ -177,7 +220,9 @@ const Dashboard = () => {
                                 isHavePermission("READ_CHART_STAFF") && <MonthlyRevenue value={revenue} role={2}/>
                             }
                             {
-                                isHavePermission("READ_CHART_MANAGER") && <MonthlyRevenue value={revenue} role={3}/>
+                                isHavePermission("READ_CHART_MANAGER") &&
+                                <MonthlyRevenue value={revenue} role={3}/>
+
                             }
                             {
                                 isHavePermission("READ_CHART_SENIOR_MANAGER") && <MonthlyRevenue value={revenue} role={1} />
@@ -217,13 +262,13 @@ const Dashboard = () => {
                         </div>
                         <div style={styles.singleCol}>
                             {
-                                isHavePermission("READ_CHART_STAFF") && <OrdersChartMonth />
+                                isHavePermission("READ_CHART_STAFF") && <OrdersChartMonth orders={recentOrders} role={2}/>
                             }
                             {
-                                isHavePermission("READ_CHART_MANAGER") && <OrdersChartMonth />
+                                isHavePermission("READ_CHART_MANAGER") && <OrdersChartMonth orders={recentOrders} role={3}/>
                             }
                             {
-                                isHavePermission("READ_CHART_SENIOR_MANAGER") && <OrdersChartMonth />
+                                isHavePermission("READ_CHART_SENIOR_MANAGER") && <OrdersChartMonth orders={recentOrders} role={1}/>
                             }
                         </div>
                         {
