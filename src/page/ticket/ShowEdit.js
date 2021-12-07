@@ -24,6 +24,7 @@ import {Bookmark, Delete, Error, EventSeat, Fastfood, Money, RemoveCircle} from 
 import findIndex from 'lodash/findIndex';
 import NumberFormat from "react-number-format";
 import useCountDown from "react-countdown-hook";
+import SockJsClient from "react-stomp";
 
 
 const useStyles = makeStyles(theme=> ({
@@ -526,7 +527,7 @@ const CustomMyForm = props =>{
             const arr = arrUpdate[tier];
             for (const arrElement of arr) {
                 if(arrElement["id"] === idSeat){
-                    arrElement["status"] = "Reserved";
+                    arrElement["status"] = "Unavailable";
                     arrSelectedUpdate.push(arrElement);
                     break;
                 }
@@ -539,20 +540,57 @@ const CustomMyForm = props =>{
 
     }
 
+    let onConnected = () => {
+        console.log("Connected!!")
+    }
+
+    let onMessageReceived = (msg) => {
+        if(msg && msg.payload && msg.domain === "seat"){
+            let seats = new Map();
+                for (const seat of msg.payload) {
+                    const key = seat["tier"];
+                    if(seats.get(key)){
+                        let arr = seats.get(key);
+                        arr.push(seat);
+                        seats.set(key,arr);
+                    }else{
+                        seats.set(key,[]);
+                        let arr = seats.get(key);
+                        arr.push(seat);
+                        seats.set(key,arr);
+                    }
+                }
+                const arrSeatRow = Array.from(seats.values());
+                setArrSeat(arrSeatRow);
+                setArrSeatSelected([]);
+            }
+
+    }
+
     return  (
-        <FormWithRedirect
-            {...props}
-            render={formProps => (
-                        <form >
-                            <Box>
-                                <Screen />
-                                <Box display="flex" justifyContent="center" p={5} flexWrap={"noWrap"}>
-                                    <Stage arrSeatRow={arrSeat} onSelectedSeat={(idSeat,row) => onSelectedSeat(idSeat,row)}/>
-                                </Box>
+        <>
+            <SockJsClient
+                url={'http://localhost:8080/real-time-service/'}
+                topics={['/topic/notification']}
+                onConnect={onConnected}
+                onDisconnect={console.log("Disconnected!")}
+                onMessage={msg => onMessageReceived(msg)}
+                debug={false}
+            />
+            <FormWithRedirect
+                {...props}
+                render={formProps => (
+                    <form >
+                        <Box>
+                            <Screen />
+                            <Box display="flex" justifyContent="center" p={5} flexWrap={"noWrap"}>
+                                <Stage arrSeatRow={arrSeat} onSelectedSeat={(idSeat,row) => onSelectedSeat(idSeat,row)}/>
                             </Box>
-                        </form>
-            )}
-        />
+                        </Box>
+                    </form>
+                )}
+            />
+        </>
 
     )
 }

@@ -120,8 +120,8 @@ const Dashboard = () => {
     }
 
     let onMessageReceived = (msg) => {
-        if(msg && msg.payload){
-
+        if(msg && msg.payload && msg.domain === "order"){
+            console.log(msg)
             const aggregations = processOrders(msg.payload);
             setState(state => ({
                 ...state,
@@ -175,7 +175,7 @@ const Dashboard = () => {
         <>
             <SockJsClient
                 url={'http://localhost:8080/real-time-service/'}
-                topics={['/topic/chart']}
+                topics={['/topic/notification']}
                 onConnect={onConnected}
                 onDisconnect={console.log("Disconnected!")}
                 onMessage={msg => onMessageReceived(msg)}
