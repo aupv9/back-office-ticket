@@ -545,7 +545,7 @@ const CustomMyForm = props =>{
     }
 
     let onMessageReceived = (msg) => {
-        if(msg && msg.payload && msg.domain === "seat"){
+        if(msg && msg.payload && msg.domain === "seat" && msg.id === record.id){
             let seats = new Map();
                 for (const seat of msg.payload) {
                     const key = seat["tier"];

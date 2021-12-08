@@ -133,7 +133,6 @@ const Dashboard = () => {
 
     let onMessageReceived = (msg) => {
         if(msg && msg.payload && msg.domain === "order"){
-            console.log(msg)
             const aggregations = processOrders(msg.payload);
             setState(state => ({
                 ...state,
