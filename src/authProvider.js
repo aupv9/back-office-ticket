@@ -56,7 +56,7 @@ export default {
             return fetch(request)
                 .then(response => {
                     if (response.status < 200 || response.status >= 300) {
-                        throw new Error(response.statusText);
+                        // throw new Error(response.statusText);
                     }
                     return response.json();
                 })

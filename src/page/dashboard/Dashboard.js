@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, CSSProperties } from 'react';
-import {useVersion, useDataProvider, usePermissions, useRefresh} from 'react-admin';
+import {useVersion, useDataProvider, usePermissions, useRefresh, useGetList} from 'react-admin';
 import {useMediaQuery, Theme} from '@material-ui/core';
 import { format, subDays, addDays } from 'date-fns';
 import {Area, CartesianGrid, XAxis, YAxis, AreaChart, ResponsiveContainer, Legend, Line,LineChart,Tooltip} from "recharts";
@@ -76,6 +76,16 @@ const Dashboard = () => {
 
     const fetchOrders = useCallback(async () => {
         const aMonthAgo = subDays(new Date(), 30);
+
+        const { data: ordersAll } = await dataProvider.getList(
+            'orders-room',
+            {
+                filter: {} ,
+                sort: { field: 'id', order: 'DESC' },
+                pagination: { page: 1, perPage: 10000 },
+            }
+        );
+
         const { data: recentOrders } = await dataProvider.getList(
             'orders-room',
                 {
@@ -84,10 +94,12 @@ const Dashboard = () => {
                     pagination: { page: 1, perPage: 10000 },
                 }
         );
+
         const aggregations = processOrders(recentOrders);
 
         setState(state => ({
             ...state,
+            ordersAll,
             recentOrders,
             revenue: aggregations.revenue.toLocaleString(undefined, {
                 style: 'currency',
@@ -109,7 +121,7 @@ const Dashboard = () => {
     }, [version]);
 
     const {
-        recentOrders,revenue,pendingPayment,paymentOrders,ordersRoom
+        ordersAll,recentOrders,revenue,pendingPayment,paymentOrders
     } = state;
 
     const refresh = useRefresh();
@@ -251,24 +263,24 @@ const Dashboard = () => {
                         </div>
                         <div style={styles.singleCol}>
                             {
-                                isHavePermission("READ_CHART_STAFF") && <OrderChart30Day orders={recentOrders} role={2}/>
+                                isHavePermission("READ_CHART_STAFF") && recentOrders && <OrderChart30Day orders={recentOrders} role={2}/>
                             }
                             {
-                                isHavePermission("READ_CHART_MANAGER") && <OrderChart30Day orders={recentOrders} role={3}/>
+                                isHavePermission("READ_CHART_MANAGER")  && recentOrders && <OrderChart30Day orders={recentOrders} role={3}/>
                             }
                             {
-                                isHavePermission("READ_CHART_SENIOR_MANAGER") && <OrderChart30Day orders={recentOrders} role={1}/>
+                                isHavePermission("READ_CHART_SENIOR_MANAGER")  && recentOrders && <OrderChart30Day orders={recentOrders} role={1}/>
                             }
                         </div>
                         <div style={styles.singleCol}>
                             {
-                                isHavePermission("READ_CHART_STAFF") && <OrdersChartMonth orders={recentOrders} role={2}/>
+                                isHavePermission("READ_CHART_STAFF") && ordersAll && <OrdersChartMonth orders={ordersAll} role={2}/>
                             }
                             {
-                                isHavePermission("READ_CHART_MANAGER") && <OrdersChartMonth orders={recentOrders} role={3}/>
+                                isHavePermission("READ_CHART_MANAGER") && ordersAll && <OrdersChartMonth  orders={ordersAll} role={3}/>
                             }
                             {
-                                isHavePermission("READ_CHART_SENIOR_MANAGER") && <OrdersChartMonth orders={recentOrders} role={1}/>
+                                isHavePermission("READ_CHART_SENIOR_MANAGER")&& ordersAll && <OrdersChartMonth orders={ordersAll} role={1}/>
                             }
                         </div>
                         {

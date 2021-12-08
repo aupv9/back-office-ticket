@@ -10,9 +10,9 @@ import {
     Tooltip,
 } from 'recharts';
 import {downloadCSV, useDataProvider, useTranslate} from 'react-admin';
-import { format, subDays, addDays } from 'date-fns';
+import {format, subDays, addDays, startOfMonth} from 'date-fns';
 import IconButton from "@material-ui/core/IconButton";
-import {ArrowDownward, ImportExport, ImportExportTwoTone} from "@material-ui/icons";
+import {ArrowDownward} from "@material-ui/icons";
 import jsonExport from 'jsonexport/dist';
 
 const lastDay = new Date();
@@ -42,6 +42,7 @@ const getRevenuePerDay = (orders) => {
         total: daysWithRevenue[format(date, 'yyyy-MM-dd')] || 0,
     }));
 };
+
 const getExportRevenuePerDay = (orders) => {
     const daysWithRevenue = aggregateOrdersByDay(orders);
     return lastMonthDays.map(date => ({
@@ -51,11 +52,11 @@ const getExportRevenuePerDay = (orders) => {
 };
 
 const OrderChart30Day = (props) => {
+
     const { orders ,role } = props;
     const translate = useTranslate();
     const dataProvider = useDataProvider();
     if (!orders) return null;
-    console.log(role)
     const exportChart = () =>{
         const nameCSV = role === 1 ?  translate(`30 Day Revenue History All Theater`)  : role === 2 ?
             translate(`30 Day Revenue History`):
@@ -147,3 +148,47 @@ const OrderChart30Day = (props) => {
 
 
 export default OrderChart30Day;
+
+
+
+
+// const ordersByMonth = (orders) => {
+//     return orders.reduce((acc, order) => {
+//         const month = startOfMonth(new Date(order.createdDate)).toISOString();
+//         if (!acc[month]) {
+//             acc[month] = [];
+//         }
+//         acc[month].push(order);
+//         return acc;
+//     }, {});
+// }
+//
+// const  amountByMonth = (orders) => {
+//     return Object.keys(ordersByMonth(orders)).map(month => {
+//         return {
+//             date: format(new Date(month), 'MMM'),
+//             pending: ordersByMonth[month]
+//                 .filter((order) => order.status === 'non_payment')
+//                 .reduce((acc, order) => {
+//                     acc += order.total;
+//                     return acc;
+//                 }, 0),
+//             payment: ordersByMonth[month]
+//                 .filter(
+//                     (order) => !['non_payment', 'cancelled'].includes(order.status)
+//                 )
+//                 .reduce((acc, order) => {
+//                     acc += order.total;
+//                     return acc;
+//                 }, 0),
+//             cancelled: ordersByMonth[month]
+//                 .filter((order) => order.status === 'cancelled')
+//                 .reduce((acc, order) => {
+//                     acc += order.total;
+//                     return acc;
+//                 }, 0),
+//
+//         };
+//     });
+// }
+
