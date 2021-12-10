@@ -17,6 +17,8 @@ import { ResponsiveBar } from '@nivo/bar';
 import * as _ from "lodash";
 import jsonExport from 'jsonexport/dist';
 import {ResponsivePieCanvas} from "@nivo/pie";
+import IconButton from "@material-ui/core/IconButton";
+import {ArrowDownward} from "@material-ui/icons";
 
 
 const multiplier = {
@@ -34,11 +36,11 @@ export const OrdersChartMonth = (props) => {
     const translate = useTranslate();
 
     const exportChart = () =>{
-        const nameCSV = role === 1 ?  translate(`30 Day Revenue History All Theater`)  : role === 2 ?
-            translate(`30 Day Revenue History`):
-            translate(`30 Day Revenue History ${orders[0] && orders[0].theaterName}`);
+        const nameCSV = role === 1 ?  translate(`Revenue History This Year All Theater`)  : role === 2 ?
+            translate(`Revenue History This Year`):
+            translate(`Revenue History This Year ${orders[0] && orders[0].theaterName}`);
         jsonExport(months, {
-            headers: ['date', 'total'],
+            headers: ['date', 'pending','payment','cancelled'],
         }, (err, csv) => {
             downloadCSV(csv, nameCSV);
         });
@@ -109,7 +111,19 @@ export const OrdersChartMonth = (props) => {
 
     return (
         <Card>
-            <CardHeader title={translate('Revenue History This Year')} />
+            <CardHeader title={ role === 1 ?  translate(`Revenue History This Year All Theater`)  : role === 2 ?
+                            translate(`Revenue History This Year`):
+                            translate(`Revenue History This Year ${orders[0] && orders[0].theaterName}`) }
+                        action={
+                            <IconButton aria-label="settings"
+                                        onClick={exportChart}
+                                        title={"Export To CSV"}
+                            >
+                                <ArrowDownward />
+                            </IconButton>
+                        }
+
+            />
             <CardContent>
                 <div style={{ width: '100%', height: 500 }}>
                     <ResponsiveBar
