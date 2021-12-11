@@ -133,10 +133,12 @@ const Dashboard = () => {
 
     let onMessageReceived = (msg) => {
         if(msg && msg.payload && msg.domain === "order"){
-            const aggregations = processOrders(msg.payload);
+            const aggregations = processOrders(msg.payload[0]);
+
             setState(state => ({
                 ...state,
-                recentOrders,
+                ordersAll:msg.payload[1],
+                recentOrders:msg.payload[0],
                 revenue: aggregations.revenue.toLocaleString(undefined, {
                     style: 'currency',
                     currency: 'vnd',

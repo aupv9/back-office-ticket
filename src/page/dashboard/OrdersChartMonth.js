@@ -35,7 +35,7 @@ export const OrdersChartMonth = (props) => {
     const [arrPermission,setArrPermission] = useState([]);
     const translate = useTranslate();
 
-    const exportChart = () =>{
+    const exportChart = () => {
         const nameCSV = role === 1 ?  translate(`Revenue History This Year All Theater`)  : role === 2 ?
             translate(`Revenue History This Year`):
             translate(`Revenue History This Year ${orders[0] && orders[0].theaterName}`);

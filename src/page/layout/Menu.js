@@ -264,7 +264,7 @@ const Menu = ({ dense = false }) => {
             }
 
             {
-                isHavePermission("READ_SHOWTIME") &&  !isHavePermission("READ_USER") &&
+                isHavePermission("READ_SHOWTIME") &&  !isHavePermission("READ_USER") && isHavePermission("READ_ORDER")  &&
                 <SubMenu
                     handleToggle={() => handleToggle('menuShowTimes')}
                     isOpen={state.menuShowTimes}
