@@ -66,7 +66,7 @@ export const MyOrder = (props) =>{
             {...props}
             filter={{showTimes_id:0,creation:0}}
             filters={roomFilters}
-            sort={{ field: 'id', order: 'ACS' }}
+            sort={{ field: 'createdDate', order: 'DESC' }}
             perPage={25}
             // aside={<Aside />}
             actions={<ListActions/>}
@@ -81,6 +81,7 @@ const CustomDataGrid = (props) =>{
     return (
         <CustomizableDatagrid optimized rowClick="show">
             <DateField source={"createdDate"} showTime/>
+            <DateField source={"updatedAt"} showTime/>
 
             <ReferenceField reference={"showTimesDetails"} source={"showTimesDetailId"}>
                 <TextField source={"id"}/>

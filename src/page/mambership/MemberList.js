@@ -1,5 +1,14 @@
 import {
-    List, TextField, ReferenceField, SearchInput, TopToolbar, FilterButton, ExportButton, DateField, ChipField, NumberField,DateInput
+    List,
+    TextField,
+    ReferenceField,
+    SearchInput,
+    TopToolbar,
+    FilterButton,
+    ExportButton,
+    DateField,
+    ChipField,
+    NumberField, DateInput, CreateButton
 } from "react-admin";
 import {makeStyles} from "@material-ui/core/styles";
 import {Typography, useMediaQuery} from "@material-ui/core";
@@ -35,12 +44,13 @@ const roomFilters = [
 
 const ListActions = (props) => (
     <TopToolbar>
-        <FilterButton/>
-        <ExportButton/>
+        <FilterButton />
+        <ExportButton />
+        <CreateButton />
     </TopToolbar>
 );
 
-export const PaymentList = (props) => {
+export const MemberList = (props) => {
     const classes = useStyles();
     const isXsmall = useMediaQuery(theme =>
         theme.breakpoints.down('xs')
@@ -55,6 +65,7 @@ export const PaymentList = (props) => {
             perPage={25}
             // aside={<Aside />}
             actions={<ListActions/>}
+            hasCreate
         >
             <CustomDataGrid {...props}/>
         </List>
@@ -65,7 +76,7 @@ const CustomDataGrid = (props) =>{
 
     return (
         <CustomizableDatagrid optimized rowClick="show">
-            <DateField source={"createdDate"} showTime/>
+            <DateField source={"creationDate"} showTime/>
             <ReferenceField reference={"my-orders"} source={"partId"}>
                 <TextField source={"id"}/>
             </ReferenceField>

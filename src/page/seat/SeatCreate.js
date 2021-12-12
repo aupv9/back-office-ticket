@@ -43,13 +43,13 @@ export const SeatCreate = props => {
     const classes = useStyles(props);
     const history = useHistory();
     const notify = useNotify();
-    const goBack = () =>{
-        notify("Create Success",'success');
-        setTimeout(()=>{
-            history.goBack();
-        },1500)
-
-    }
+    // const goBack = () =>{
+    //     notify("Create Success",'success');
+    //     setTimeout(()=>{
+    //         history.goBack();
+    //     },1500)
+    //
+    // }
     return (
         <Create {...props} onSuccess={goBack}>
             <SimpleForm>

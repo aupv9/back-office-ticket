@@ -15,7 +15,7 @@ import {
     TextField,
     TextInput,
     useGetList,
-    useListContext, ChipField, ReferenceField, useGetOne,
+    useListContext, ChipField, ReferenceField, useGetOne, EmailField,
 } from 'react-admin';
 import {useMediaQuery, Divider, Tabs, Tab, Typography} from '@material-ui/core';
 
@@ -53,24 +53,25 @@ const tabs = [
 
 
 const useGetTotals = (filterValues) => {
+    const { total: totalPayment,loaded : loadedTotalPayment } = useGetList(
+        'orders',
+        { perPage: 1, page: 25 },
+        { field: 'createdDate', order: 'DESC' },
+        { ...filterValues, status: 'payment' }
+    );
     const { total: totalCancelled ,loaded : loadedTotalCancelled} = useGetList(
         'orders',
         { perPage: 1, page: 25 },
-        { field: 'id', order: 'ASC' },
+        { field: 'createdDate', order: 'DESC' },
         { ...filterValues, status: 'cancelled' }
     );
     const { total: totalNonePayment ,loaded : loadedTotalNonePayment} = useGetList(
         'orders',
         { perPage: 1, page: 25 },
-        { field: 'id', order: 'ASC' },
+        { field: 'createdDate', order: 'DESC' },
         { ...filterValues, status: 'non_payment' }
     );
-    const { total: totalPayment,loaded : loadedTotalPayment } = useGetList(
-        'orders',
-        { perPage: 1, page: 25 },
-        { field: 'id', order: 'ASC' },
-        { ...filterValues, status: 'payment' }
-    );
+
 
 
     return {
@@ -222,26 +223,20 @@ const TabbedDatagrid = (props) => {
                                     source="creation"
                                     reference="users"
                                 >
-                                    <TextField source={"email"}/>
+                                    <EmailField source={"email"}/>
                                 </ReferenceField>
 
                                 <UserDetail />
                                 <BooleanField source={"profile"} label={"Is User"}/>
                                 <TextField source={"note"} />
-                                <ReferenceField
-                                    source="id"
-                                    reference="orders"
-                                    label={"Total"}
-                                >
-                                    <NumberField
-                                        source="totalAmount"
-                                        options={{
-                                            style: 'currency',
-                                            currency: 'VND',
-                                        }}
-                                        className={classes.total}
-                                    />
-                                </ReferenceField>
+                                <NumberField
+                                    source="total"
+                                    options={{
+                                        style: 'currency',
+                                        currency: 'VND',
+                                    }}
+                                    className={classes.total}
+                                />
 
                             </CustomizableDatagrid>
                         </ListContextProvider>
@@ -271,20 +266,28 @@ const TabbedDatagrid = (props) => {
                                 <UserDetail />
                                 <BooleanField source={"profile"} label={"Is User"}/>
                                 <TextField source={"note"} />
-                                <ReferenceField
-                                    source="id"
-                                    reference="orders"
-                                    label={"Total"}
-                                >
-                                    <NumberField
-                                        source="totalAmount"
-                                        options={{
-                                            style: 'currency',
-                                            currency: 'VND',
-                                        }}
-                                        className={classes.total}
-                                    />
-                                </ReferenceField>
+                                <NumberField
+                                    source="total"
+                                    options={{
+                                        style: 'currency',
+                                        currency: 'VND',
+                                    }}
+                                    className={classes.total}
+                                />
+                                {/*<ReferenceField*/}
+                                {/*    source="id"*/}
+                                {/*    reference="orders"*/}
+                                {/*    label={"Total"}*/}
+                                {/*>*/}
+                                {/*    <NumberField*/}
+                                {/*        source="totalAmount"*/}
+                                {/*        options={{*/}
+                                {/*            style: 'currency',*/}
+                                {/*            currency: 'VND',*/}
+                                {/*        }}*/}
+                                {/*        className={classes.total}*/}
+                                {/*    />*/}
+                                {/*</ReferenceField>*/}
                             </CustomizableDatagrid>
                         </ListContextProvider>
                     )}
@@ -299,9 +302,6 @@ const TabbedDatagrid = (props) => {
 const OrderList = (props) => (
     <List
         {...props}
-        filterDefaultValues={{ status: 'payment' }}
-        sort={{ field: 'create_date', order: 'DESC' }}
-        perPage={25}
         filters={orderFilters}
     >
         <TabbedDatagrid />

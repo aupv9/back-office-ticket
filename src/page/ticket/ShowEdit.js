@@ -490,7 +490,7 @@ const CustomMyForm = props =>{
                     seats.set(key,arr);
                 }
             }
-            const arrSeatRow = Array.from(seats.values());
+            const arrSeatRow = Array.from(seats.values()).map(value => value.sort((a, b) =>  a["numbers"] - b["numbers"]));
             setArrSeat(arrSeatRow);
             setArrSeatSelected([]);
         }

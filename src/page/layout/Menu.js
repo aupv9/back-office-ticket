@@ -17,7 +17,7 @@ import {
 import SubMenu from './SubMenu';
 import {
     AccessibilityTwoTone, AddShoppingCart,
-    AttachMoney, CardTravel,
+    AttachMoney, CardMembership, CardTravel,
     Category, CollectionsBookmark, ConfirmationNumber, DashboardSharp, DeleteForever,
     EmojiPeopleOutlined, EventSeat,
     Fastfood, FormatListNumbered, History,
@@ -43,8 +43,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 
 
 const Menu = ({ dense = false }) => {
-    const { loaded, permissions } = usePermissions();
-    const [arrPermission,setArrPermission] = useState([]);
+
     const [state, setState] = useState({
         menuManageBase: false,
         menuFilm: false,
@@ -67,6 +66,8 @@ const Menu = ({ dense = false }) => {
         setState(state => ({ ...state, [menu]: !state[menu] }));
     };
 
+    const { loaded, permissions } = usePermissions();
+    const [arrPermission,setArrPermission] = useState([]);
     const isHavePermission = (permission) =>{
         return _.includes(arrPermission,permission);
     }
@@ -223,6 +224,20 @@ const Menu = ({ dense = false }) => {
                             dense={dense}
                         />
                     }
+                    {
+                        isHavePermission("READ_MEMBERSHIP") &&
+                        <MenuItemLink
+                            to={{
+                                pathname: '/members',
+                                state: { _scrollToTop: true },
+                            }}
+                            primaryText={translate(`Membership`, {
+                                smart_count: 2,
+                            })}
+                            leftIcon={<CardMembership/>}
+                            dense={dense}
+                        />
+                    }
                 </SubMenu>
             }
 
@@ -231,7 +246,7 @@ const Menu = ({ dense = false }) => {
                 <SubMenu
                     handleToggle={() => handleToggle('menuFilm')}
                     isOpen={state.menuFilm}
-                    name="Manage Movie"
+                    name="Movie & Show Times"
                     icon={<MovieCreationSharp />}
                     dense={dense}
                 >
@@ -249,30 +264,8 @@ const Menu = ({ dense = false }) => {
                         />
                     }
 
-                    {/*<MenuItemLink*/}
-                    {/*    to={{*/}
-                    {/*        pathname: '/categories',*/}
-                    {/*        state: { _scrollToTop: true },*/}
-                    {/*    }}*/}
-                    {/*    primaryText={translate(`resources.categories.name`, {*/}
-                    {/*        smart_count: 2,*/}
-                    {/*    })}*/}
-                    {/*    // leftIcon={<categories.icon />}*/}
-                    {/*    dense={dense}*/}
-                    {/*/>*/}
-                </SubMenu>
-            }
-
-            {
-                isHavePermission("READ_SHOWTIME") &&  !isHavePermission("READ_USER") && isHavePermission("READ_ORDER")  &&
-                <SubMenu
-                    handleToggle={() => handleToggle('menuShowTimes')}
-                    isOpen={state.menuShowTimes}
-                    name="Show Times"
-                    icon={<ViewHeadline   />}
-                    dense={dense}
-                >
                     {
+                        isHavePermission("READ_SHOWTIME") &&  !isHavePermission("READ_USER") && isHavePermission("READ_ORDER")  &&
                         <MenuItemLink
                             to={{
                                 pathname: '/showTimesDetails',
@@ -285,11 +278,8 @@ const Menu = ({ dense = false }) => {
                             dense={dense}
                         />
                     }
-
-
                 </SubMenu>
             }
-
             {
                 isHavePermission("READ_OFFER") &&  !isHavePermission("READ_USER") &&
                 <SubMenu

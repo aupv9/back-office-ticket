@@ -60,6 +60,8 @@ import {RoleCreate} from "./page/role/RoleCreate";
 import {useEffect, useState} from "react";
 import * as _ from 'lodash';
 import {OfferDetailList} from "./page/offer/OfferDetailList";
+import {MemberList} from "./page/mambership/MemberList";
+import {MemberCreate} from "./page/mambership/MemberCreate";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -131,7 +133,7 @@ const App = () => {
         >
             <Resource name="theaters" list={TheaterList} edit={EditTheater} create={TheaterCreate}/>
             <Resource name="rooms"  list={ListRoom} edit={RoomEdit} create={RoomCreate}/>
-            <Resource name="seats" edit={SeatEdit} create={ SeatCreateDialog } list={SeatList} />
+            <Resource name="seats" edit={SeatEdit} list={SeatList} />
             <Resource name="locations" list={LocationList} show={LocationShow} edit={LocationEdit} create={LocationCreate}/>
             <Resource name="location-theater"/>
             <Resource name={"movies"} list={MovieList} />
@@ -168,6 +170,7 @@ const App = () => {
 
             <Resource name="services" list={ServiceList} create={ServiceCreate}/>
             <Resource name="offers-detail" list={OfferDetailList}/>
+            <Resource name="members" list={MemberList} create={MemberCreate}/>
 
         </Admin>
     );

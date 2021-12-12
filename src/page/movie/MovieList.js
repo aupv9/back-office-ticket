@@ -7,10 +7,12 @@ import {
     SearchInput,
     SelectInput,
     SortButton, Title,
-    TopToolbar, useListContext
+    TopToolbar, useListContext, usePermissions
 } from "react-admin";
 import * as React from "react";
 import MovieGridView from "./MovieGridView";
+import {useEffect, useState} from "react";
+import * as _ from "lodash";
 
 const MovieList = (props) => {
     const isSmall = useMediaQuery(theme => theme.breakpoints.down('sm'));
@@ -36,14 +38,32 @@ export const productFilters = [
     </ReferenceInput>,
 ];
 
-const ListActions = ({ isSmall }) => (
-    <TopToolbar>
-        {isSmall && <FilterButton />}
-        <SortButton fields={['id', 'name']} />
-        <CreateButton basePath="/movies" />
-        <ExportButton />
-    </TopToolbar>
-);
+const ListActions = ({ isSmall }) =>{
+    const { loaded, permissions } = usePermissions();
+    const [arrPermission,setArrPermission] = useState([]);
+    const isHavePermission = (permission) =>{
+        return _.includes(arrPermission,permission);
+    }
+    useEffect(() =>{
+        setArrPermission(permissions);
+    },[permissions])
+
+    return  isHavePermission("CREATE_MOVIE") ? (
+        <TopToolbar>
+            {isSmall && <FilterButton />}
+            <SortButton fields={['id', 'name']} />
+            <CreateButton basePath="/movies" />
+            <ExportButton />
+        </TopToolbar>
+    ) :(
+        <TopToolbar>
+            {isSmall && <FilterButton />}
+            <SortButton fields={['id', 'name']} />
+            <ExportButton />
+        </TopToolbar>
+    );
+}
+
 
 
 const MovieListView = ({ isSmall }) => {
