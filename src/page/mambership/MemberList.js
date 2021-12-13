@@ -1,14 +1,7 @@
 import {
-    List,
-    TextField,
-    ReferenceField,
-    SearchInput,
-    TopToolbar,
-    FilterButton,
-    ExportButton,
-    DateField,
-    ChipField,
-    NumberField, DateInput, CreateButton
+    List, TextField, ReferenceField,
+    SearchInput, TopToolbar, FilterButton, ExportButton, DateField, ChipField,
+    BooleanField, DateInput, CreateButton, NullableBooleanInput,EditButton
 } from "react-admin";
 import {makeStyles} from "@material-ui/core/styles";
 import {Typography, useMediaQuery} from "@material-ui/core";
@@ -28,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const roomFilters = [
-    <SearchInput source="q" alwaysOn />,
+    // <SearchInput source="q" alwaysOn />,
     // <ReferenceInput source="theater_id" reference="theaters">
     //     <AutocompleteInput
     //         optionText={(choice) =>
@@ -38,8 +31,10 @@ const roomFilters = [
     //         }
     //     />
     // </ReferenceInput>,
-    <DateInput source={"created_date"} />
-
+    <DateInput source={"creationDate"} />,
+    <DateInput source={"startDate"} />,
+    <DateInput source={"endDate"} />,
+    <NullableBooleanInput label="Is Profile" source="profile" />
 ];
 
 const ListActions = (props) => (
@@ -59,7 +54,6 @@ export const MemberList = (props) => {
     return (
         <List
             {...props}
-            filter={{creation:0,method:0}}
             filters={roomFilters}
             sort={{ field: 'id', order: 'ACS' }}
             perPage={25}
@@ -76,27 +70,21 @@ const CustomDataGrid = (props) =>{
 
     return (
         <CustomizableDatagrid optimized rowClick="show">
-            <DateField source={"creationDate"} showTime/>
-            <ReferenceField reference={"my-orders"} source={"partId"}>
-                <TextField source={"id"}/>
+            <ChipField source={"number"}/>
+            <ChipField source={"cmnd"}/>
+
+            <ReferenceField reference={"users"} source={"userId"} >
+                <TextField source={"fullName"}/>
             </ReferenceField>
-            <ChipField source={"useFor"} label={"Type"}/>
-            <ReferenceField reference={"payments-method"} source={"paymentMethodId"} link={false}>
-                <ChipField source={"name"}/>
-            </ReferenceField>
-            {/*<BooleanField source={"profile"} label={"Is User"}/>*/}
-            {/*<UserDetail {...props}/>*/}
-            <ReferenceField reference={"users"} source={"creation"}>
-                <TextField source={"email"} />
-            </ReferenceField>
-            <ChipField source={"status"}/>
-            <NumberField
-                source="amount"
-                options={{
-                    style: 'currency',
-                    currency: 'VND',
-                }}
-            />
+
+            <DateField source={"startDate"} />
+            <DateField source={"endDate"} />
+            <DateField source={"birthday"} />
+
+            <TextField source={"point"}/>
+            <ChipField source={"level"} />
+            <BooleanField source="profile" />
+            <EditButton />
         </CustomizableDatagrid>
 
     )

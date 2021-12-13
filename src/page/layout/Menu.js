@@ -125,7 +125,7 @@ const Menu = ({ dense = false }) => {
                     dense={dense}
                 >
                     {
-                        isHavePermission("READ_LOCATION") &&
+                        isHavePermission("READ_LOCATION") && isHavePermission("CREATE_LOCATION") &&
                         <MenuItemLink
                             to={{
                                 pathname: '/locations',

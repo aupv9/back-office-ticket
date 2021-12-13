@@ -7,7 +7,7 @@ import {
     ReferenceField,
     SearchInput,
     TopToolbar,
-    FilterButton, SortButton, CreateButton, ExportButton,AutocompleteInput, ReferenceInput
+    FilterButton, SortButton, CreateButton, ExportButton,AutocompleteInput, ReferenceInput,ImageField
 } from "react-admin";
 import {makeStyles} from "@material-ui/core/styles";
 import {Button, useMediaQuery} from "@material-ui/core";
@@ -69,6 +69,7 @@ export const ServiceList = (props) =>{
                 {/*<ReferenceField reference={"theaters"} source={"theaterId"}>*/}
                 {/*    <TheaterNameField />*/}
                 {/*</ReferenceField>*/}
+                <ImageField source={"thumbnail"} />
                 <EditButton />
             </CustomizableDatagrid>
         </List>

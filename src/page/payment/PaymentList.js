@@ -1,5 +1,5 @@
 import {
-    List, TextField, ReferenceField, SearchInput, TopToolbar, FilterButton, ExportButton, DateField, ChipField, NumberField,DateInput
+    List, TextField, ReferenceField, SearchInput, TopToolbar, FilterButton, ExportButton, DateField, ChipField, NumberField,DateInput,EditButton
 } from "react-admin";
 import {makeStyles} from "@material-ui/core/styles";
 import {Typography, useMediaQuery} from "@material-ui/core";
@@ -86,6 +86,7 @@ const CustomDataGrid = (props) =>{
                     currency: 'VND',
                 }}
             />
+            <EditButton />
         </CustomizableDatagrid>
 
     )

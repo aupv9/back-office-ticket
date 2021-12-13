@@ -49,15 +49,6 @@ const renderTime = ({ remainingTime }) => {
 };
 
 export const MemberCreate = (props) =>{
-    const [duration,setDuration] = useState(0);
-    // useEffect(() =>{
-    //     if(props.location.state.record.expire){
-    //         const duration = new Date(props.location.state.record.expire).getTime() - new Date().getTime();
-    //         console.log(duration)
-    //         setDuration(duration);
-    //     }
-    // },[]);
-    console.log(props)
     const redirect = useRedirect();
     const history = useHistory();
     const  handleExpire = () =>{
@@ -95,7 +86,7 @@ export const MemberCreate = (props) =>{
                 <DateInput source={"creationDate"}/>
                 <DateInput source={"startDate"}/>
                 <DateInput source={"endDate"}/>
-                <DateInput source={"birtdDay"}/>
+                <DateInput source={"birthday"}/>
 
                 <TextInput source={"cmnd"} validate={validateId} label={"CMND"}/>
             </SimpleForm>

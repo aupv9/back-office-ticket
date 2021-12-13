@@ -62,6 +62,7 @@ import * as _ from 'lodash';
 import {OfferDetailList} from "./page/offer/OfferDetailList";
 import {MemberList} from "./page/mambership/MemberList";
 import {MemberCreate} from "./page/mambership/MemberCreate";
+import PaymentEdit from "./page/payment/PaymentEdit";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -153,7 +154,7 @@ const App = () => {
             <Resource name={"uas"} />
             <Resource name="employees" list={EmployeeList} edit={EmployeeEdit}/>
             <Resource name="shows"  list={ShowList}  edit={ShowEdit} />
-            <Resource name="payments"  create={PaymentCreate} list={PaymentList}/>
+            <Resource name="payments"  create={PaymentCreate} list={PaymentList} edit={PaymentEdit}/>
             <Resource name="payments-method" />
             <Resource name={"paymentOrder"} />
             <Resource name={"offers"} list={OfferList} create={OfferCreate} show={OfferShow}/>
