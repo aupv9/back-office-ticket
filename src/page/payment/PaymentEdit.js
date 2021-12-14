@@ -33,7 +33,7 @@ const PaymentEdit = (props) =>{
 
 
     return(
-        <Edit {...props} title={<RoomTitle />}>
+        <Edit {...props} >
             <SimpleForm >
                 <ReferenceInput reference={"payments-method"} source={"paymentMethodId"}>
                     <SelectInput source={"name"} />

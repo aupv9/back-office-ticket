@@ -56,7 +56,7 @@ const Dashboard = () => {
                         stats.revenue += order.total;
                         stats.paymentOrders++;
                     }
-                    if (order.status === 'non_payment') {
+                    if (order.status === 'non_payment' || order.status === "ordered") {
                         stats.pendingPayment++;
                     }
                     if (order.status === 'cancelled') {
@@ -109,7 +109,8 @@ const Dashboard = () => {
             }),
             nbNewOrders: aggregations.nbNewOrders,
             pendingPayment: aggregations.pendingPayment,
-            paymentOrders:aggregations.paymentOrders
+            paymentOrders:aggregations.paymentOrders,
+            ordered:aggregations.ordered
         }));
 
     }, [dataProvider]);
