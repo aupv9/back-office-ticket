@@ -172,7 +172,7 @@ const App = () => {
             <Resource name="services" list={ServiceList} create={ServiceCreate}/>
             <Resource name="offers-detail" list={OfferDetailList}/>
             <Resource name="members" list={MemberList} create={MemberCreate}/>
-
+            <Resource name={"movies-showHaveOfWeek"} />
         </Admin>
     );
 }

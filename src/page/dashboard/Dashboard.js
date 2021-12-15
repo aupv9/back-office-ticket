@@ -12,6 +12,9 @@ import {OrdersChartMonth} from "./OrdersChartMonth";
 import {RoomChart} from "./RoomChart";
 import * as _ from "lodash";
 import SockJsClient from "react-stomp";
+import {RevenueMonthTheater} from "./RevenueMonthTheater";
+import {DivRevenueChart} from "./DivRevenueChart";
+import {MovieRevenue} from "./MovieRevenue";
 
 
 
@@ -82,7 +85,7 @@ const Dashboard = () => {
             {
                 filter: {} ,
                 sort: { field: 'id', order: 'DESC' },
-                pagination: { page: 1, perPage: 10000 },
+                pagination: { page: 1, perPage: 1000000 },
             }
         );
 
@@ -91,7 +94,7 @@ const Dashboard = () => {
                 {
                     filter: { date_gte: format(new Date(aMonthAgo),"yyyy-MM-dd") },
                     sort: { field: 'id', order: 'DESC' },
-                    pagination: { page: 1, perPage: 10000 },
+                    pagination: { page: 1, perPage: 1000000 },
                 }
         );
 
@@ -285,11 +288,59 @@ const Dashboard = () => {
                                 isHavePermission("READ_CHART_SENIOR_MANAGER")&& ordersAll && <OrdersChartMonth orders={ordersAll} role={1}/>
                             }
                         </div>
+                        <div style={styles.singleCol}>
+                            {
+                                isHavePermission("READ_CHART_MANAGER") &&
+                                <div style={styles.singleCol}>
+                                    {
+                                        ordersAll && <DivRevenueChart orders={ordersAll}/>
+                                    }
+                                </div>
+                            }
+                            {
+                                isHavePermission("READ_CHART_SENIOR_MANAGER") &&
+                                <div style={styles.singleCol}>
+                                    {
+                                        ordersAll && <DivRevenueChart orders={ordersAll}/>
+                                    }
+                                </div>
+                            }
+                        </div>
+                        <div style={styles.singleCol}>
+                            {
+                                isHavePermission("READ_CHART_MANAGER") &&
+                                <div style={styles.singleCol}>
+                                    {
+                                        ordersAll && <MovieRevenue orders={ordersAll } role={1}/>
+                                    }
+                                </div>
+                            }
+                            {
+                                isHavePermission("READ_CHART_SENIOR_MANAGER") &&
+                                <div style={styles.singleCol}>
+                                    {
+                                        ordersAll && <MovieRevenue orders={ordersAll} role={2}/>
+                                    }
+                                </div>
+                            }
+                        </div>
+                        <div style={styles.singleCol}>
+                            {
+                                isHavePermission("READ_CHART_MANAGER") &&
+                                <div style={styles.singleCol}>
+                                    {
+                                        recentOrders && <RoomChart orders={recentOrders}/>
+                                    }
+                                </div>
+                            }
+                        </div>
+
+
                         {
-                            isHavePermission("READ_CHART_MANAGER") &&
+                            isHavePermission("READ_CHART_SENIOR_MANAGER") &&
                             <div style={styles.singleCol}>
                                 {
-                                    recentOrders && <RoomChart orders={recentOrders}/>
+                                    recentOrders && <RevenueMonthTheater orders={recentOrders}/>
                                 }
                             </div>
                         }

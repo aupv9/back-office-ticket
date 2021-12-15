@@ -473,6 +473,7 @@ const CustomMyForm = props =>{
         }),0);
     }
 
+
     useEffect(() => {
         if(data){
             let seats = new Map();
@@ -547,9 +548,7 @@ const CustomMyForm = props =>{
     let onMessageReceived = (msg) => {
         if(msg && msg.payload && msg.domain === "seat" && msg.id === record.id){
             let seats = new Map();
-
-            console.log(msg.payload)
-                for (const seat of msg.payload[0]) {
+             for (const seat of msg.payload[0]) {
                     const key = seat["tier"];
                     if(seats.get(key)){
                         let arr = seats.get(key);
@@ -562,7 +561,7 @@ const CustomMyForm = props =>{
                         seats.set(key,arr);
                     }
                 }
-                const arrSeatRow = Array.from(seats.values());
+                const arrSeatRow = Array.from(seats.values()).map(value => value.sort((a, b) =>  a["numbers"] - b["numbers"]));
                 setArrSeat(arrSeatRow);
                 setArrSeatSelected([]);
             }

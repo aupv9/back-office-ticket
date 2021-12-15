@@ -16,7 +16,6 @@ import { startOfMonth, format } from 'date-fns';
 import { ResponsiveBar } from '@nivo/bar';
 import * as _ from "lodash";
 import jsonExport from 'jsonexport/dist';
-import {ResponsivePieCanvas} from "@nivo/pie";
 import IconButton from "@material-ui/core/IconButton";
 import {ArrowDownward} from "@material-ui/icons";
 
@@ -67,7 +66,6 @@ export const OrdersChartMonth = (props) => {
             acc[month].push(order);
             return acc;
         }, {});
-
 
 
         const amountByMonth = Object.keys(ordersByMonth).map(month => {

@@ -74,12 +74,14 @@ const OrderChart30Day = (props) => {
                         translate(`30 Day Revenue History `):
                         translate(`30 Day Revenue History ${orders[0] && orders[0].theaterName}`) }
                         action={
-                            <IconButton aria-label="settings"
-                                onClick={exportChart}
-                                title={"Export To CSV"}
-                            >
-                                <ArrowDownward />
-                            </IconButton>
+                            <div className={{display:"flex"}}>
+                                <IconButton aria-label="settings"
+                                            onClick={exportChart}
+                                            title={"Export To CSV"}
+                                >
+                                    <ArrowDownward />
+                                </IconButton>
+                            </div>
                         }
             />
             <CardContent>
