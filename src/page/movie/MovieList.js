@@ -13,6 +13,7 @@ import * as React from "react";
 import MovieGridView from "./MovieGridView";
 import {useEffect, useState} from "react";
 import * as _ from "lodash";
+import {ImportButton} from "react-admin-import-csv";
 
 const MovieList = (props) => {
     const isSmall = useMediaQuery(theme => theme.breakpoints.down('sm'));
@@ -22,7 +23,7 @@ const MovieList = (props) => {
             sort={{ field: 'id', order: 'ASC' }}
             {...props}
         >
-            <MovieListView isSmall={isSmall} />
+            <MovieListView isSmall={isSmall} {...props}/>
         </ListBase>
     );
 };
@@ -38,7 +39,7 @@ export const productFilters = [
     </ReferenceInput>,
 ];
 
-const ListActions = ({ isSmall }) =>{
+const ListActions = (props) =>{
     const { loaded, permissions } = usePermissions();
     const [arrPermission,setArrPermission] = useState([]);
     const isHavePermission = (permission) =>{
@@ -47,32 +48,54 @@ const ListActions = ({ isSmall }) =>{
     useEffect(() =>{
         setArrPermission(permissions);
     },[permissions])
+    const {
+        className,
+        basePath,
+        total,
+        resource,
+        currentSort,
+        filterValues,
+        exporter,
+    } = props;
+    const config = {
+        logging: true,
+        validateRow: async (row) => {
+            if (row.id) {
+                // throw new Error("AAAA");
+            }
+        },
+        postCommitCallback: reportItems => {
+            console.log('reportItems', {reportItems});
+        },
+        disableImportNew: true,
+        disableImportOverwrite: true,
+            // transformRows: (row) =>{
+            //
+            //     return Promise.resolve();
+            // }
 
-    return  isHavePermission("CREATE_MOVIE") ? (
+    };
+    return (
         <TopToolbar>
-            {isSmall && <FilterButton />}
             <SortButton fields={['id', 'name']} />
             <CreateButton basePath="/movies" />
             <ExportButton />
+            <ImportButton {...props} {...config} parseConfig={{dynamicTyping: true}} />
         </TopToolbar>
-    ) :(
-        <TopToolbar>
-            {isSmall && <FilterButton />}
-            <SortButton fields={['id', 'name']} />
-            <ExportButton />
-        </TopToolbar>
-    );
+    )
+
 }
 
 
 
-const MovieListView = ({ isSmall }) => {
+const MovieListView = (props) => {
     const { defaultTitle } = useListContext();
+    const {isSmall} = props;
     return (
         <>
             <Title defaultTitle={defaultTitle} />
             <FilterContext.Provider value={productFilters}>
-                <ListActions isSmall={isSmall} />
+                <ListActions {...props}/>
                     <Box m={1}>
                         <FilterForm />
                     </Box>

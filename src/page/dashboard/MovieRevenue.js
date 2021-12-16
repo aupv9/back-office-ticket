@@ -3,23 +3,14 @@ import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader} from '@material-ui/core';
 import {
     downloadCSV, useGetList,
-    usePermissions,
     useTranslate,
 } from 'react-admin';
-import { startOfMonth, format } from 'date-fns';
-import * as _ from "lodash";
+
 import jsonExport from 'jsonexport/dist';
 import IconButton from "@material-ui/core/IconButton";
 import {ArrowDownward} from "@material-ui/icons";
 import {CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis,Tooltip,Line,LineChart} from "recharts";
-import { ResponsiveLine } from '@nivo/line'
 
-const multiplier = {
-    opportunity: 0.2,
-    'proposal-sent': 0.5,
-    'in-negociation': 0.8,
-    delayed: 0.3,
-};
 
 
 export const MovieRevenue = (props) => {
@@ -33,7 +24,7 @@ export const MovieRevenue = (props) => {
         const nameCSV = role === 1 ?  translate(`Revenue Movie Now Playing All Theater`) :
             translate(`Revenue Movie Now Playing ${orders[0] && orders[0].theaterName}`);
         jsonExport(dataChart, {
-            headers: ['date', 'pending','payment','cancelled'],
+            headers: ['name', 'ticket','concession','total'],
         }, (err, csv) => {
             downloadCSV(csv, nameCSV);
         });
@@ -99,8 +90,8 @@ export const MovieRevenue = (props) => {
 
     return (
         <Card>
-            <CardHeader title={role === 1 ?  translate(`Revenue Movie Now Playing All Theater`) :
-                translate(`Revenue Movie Now Playing ${orders[0] && orders[0].theaterName}`) }
+            <CardHeader title={role === 1 ?  translate(`Total Revenue Movie Now Playing All Theater`) :
+                translate(`Total Revenue Movie Now Playing ${orders[0] && orders[0].theaterName}`) }
                         action={
                             <IconButton aria-label="settings"
                                         onClick={exportChart}

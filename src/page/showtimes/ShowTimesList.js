@@ -1,21 +1,6 @@
 import {
-    Datagrid,
-    List,
-    SearchInput,
-    TopToolbar,
-    FilterButton,
-    CreateButton,
-    ExportButton,
-    DateField,
-    TextField,
-    ImageField,
-    ReferenceField,
-    ReferenceInput,
-    DateInput,
-    AutocompleteInput,
-    SelectInput,
-    ShowButton,
-    EditButton, useGetList,Loading
+    Datagrid, List, SearchInput, TopToolbar, FilterButton, CreateButton, ExportButton, DateField, TextField,
+    ImageField, ReferenceField, ReferenceInput, DateInput, AutocompleteInput, SelectInput, ShowButton, EditButton
 } from "react-admin";
 
 import {makeStyles} from "@material-ui/core/styles";
@@ -66,15 +51,15 @@ const roomFilters = [
         { id: '10:30', name: '10:30' },
         { id: '11:00', name: '11:00' },
     ]} />,
-    <ReferenceInput source="theaterId" reference="theaters">
-        <AutocompleteInput
-            optionText={(choice) =>
-                choice.id
-                    ? `${choice.name}`
-                    : ''
-            }
-        />
-    </ReferenceInput>,
+    // <ReferenceInput source="theaterId" reference="theaters">
+    //     <AutocompleteInput
+    //         optionText={(choice) =>
+    //             choice.id
+    //                 ? `${choice.name}`
+    //                 : ''
+    //         }
+    //     />
+    // </ReferenceInput>,
 
 
 ];
@@ -105,9 +90,14 @@ const ListActions = (props) => {
         },
         disableImportNew: true,
         disableImportOverwrite: true,
+        transformRows: (row) =>{
+            return row
+        }
+
     };
     return (
         <TopToolbar className={className}>
+            <FilterButton />
             <CreateButton basePath={basePath} />
             <ExportButton
                 disabled={total === 0}

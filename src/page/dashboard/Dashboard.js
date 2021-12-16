@@ -15,6 +15,8 @@ import SockJsClient from "react-stomp";
 import {RevenueMonthTheater} from "./RevenueMonthTheater";
 import {DivRevenueChart} from "./DivRevenueChart";
 import {MovieRevenue} from "./MovieRevenue";
+import {RevenueMovieByTheater} from "./RevenueMovieByTheater";
+import {RevenueMovieByRoom} from "./RevenueMovieByRoom";
 
 
 
@@ -98,12 +100,19 @@ const Dashboard = () => {
                 }
         );
 
+        const {data: dataTheater} = await dataProvider.getList("theaters",
+            {
+                filter: {},
+                sort: { field: 'id', order: 'DESC' },
+                pagination: { page: 1, perPage: 1000000 },
+            }
+        );
         const aggregations = processOrders(recentOrders);
-
         setState(state => ({
             ...state,
             ordersAll,
             recentOrders,
+            dataTheater,
             revenue: aggregations.revenue.toLocaleString(undefined, {
                 style: 'currency',
                 currency: 'vnd',
@@ -125,7 +134,7 @@ const Dashboard = () => {
     }, [version]);
 
     const {
-        ordersAll,recentOrders,revenue,pendingPayment,paymentOrders
+        ordersAll,recentOrders,revenue,pendingPayment,paymentOrders,dataTheater
     } = state;
 
     const refresh = useRefresh();
@@ -293,7 +302,7 @@ const Dashboard = () => {
                                 isHavePermission("READ_CHART_MANAGER") &&
                                 <div style={styles.singleCol}>
                                     {
-                                        ordersAll && <DivRevenueChart orders={ordersAll}/>
+                                        ordersAll && <DivRevenueChart orders={ordersAll}  orders={ordersAll} role={3}/>
                                     }
                                 </div>
                             }
@@ -301,17 +310,39 @@ const Dashboard = () => {
                                 isHavePermission("READ_CHART_SENIOR_MANAGER") &&
                                 <div style={styles.singleCol}>
                                     {
-                                        ordersAll && <DivRevenueChart orders={ordersAll}/>
+                                        ordersAll && <DivRevenueChart orders={ordersAll} role={1}/>
+                                    }
+                                </div>
+                            }
+
+
+                        </div>
+                        <div style={styles.singleCol}>
+                            {
+                                isHavePermission("READ_CHART_SENIOR_MANAGER") &&
+                                <div style={styles.singleCol}>
+                                    {
+                                        ordersAll && dataTheater && <RevenueMovieByTheater orders={ordersAll} dataTheater={dataTheater} role={1}/>
+                                    }
+                                </div>
+                            }
+                            {
+                                isHavePermission("READ_CHART_MANAGER") &&
+                                <div style={styles.singleCol}>
+                                    {
+                                        ordersAll && <RevenueMovieByRoom orders={ordersAll}  role={2}/>
                                     }
                                 </div>
                             }
                         </div>
+
+
                         <div style={styles.singleCol}>
                             {
                                 isHavePermission("READ_CHART_MANAGER") &&
                                 <div style={styles.singleCol}>
                                     {
-                                        ordersAll && <MovieRevenue orders={ordersAll } role={1}/>
+                                        ordersAll && <MovieRevenue orders={ordersAll } role={2}/>
                                     }
                                 </div>
                             }
@@ -319,7 +350,7 @@ const Dashboard = () => {
                                 isHavePermission("READ_CHART_SENIOR_MANAGER") &&
                                 <div style={styles.singleCol}>
                                     {
-                                        ordersAll && <MovieRevenue orders={ordersAll} role={2}/>
+                                        ordersAll && <MovieRevenue orders={ordersAll} role={1}/>
                                     }
                                 </div>
                             }
