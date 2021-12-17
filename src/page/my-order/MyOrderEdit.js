@@ -123,7 +123,7 @@ const useEditStyles = makeStyles({
 
 const Spacer = () => <Box m={1}>&nbsp;</Box>;
 
-const OrderForm = (props) => {
+export const OrderForm = (props) => {
     const translate = useTranslate();
     const {record,loaded} = useEditContext();
     const [promoCode,setPromoCode] = useState("");

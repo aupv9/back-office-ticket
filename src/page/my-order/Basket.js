@@ -19,6 +19,7 @@ const useStyles = makeStyles({
 
 const Basket = (props) => {
     const { record } = props;
+    console.log(record)
     const classes = useStyles();
     const translate = useTranslate();
     return (

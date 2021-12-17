@@ -41,16 +41,16 @@ const roomFilters = [
         />
     </ReferenceInput>,
     <DateInput source="date_start" locales="VN" />,
-    <SelectInput source="time_start" choices={[
-        { id: '00:00', name: '00:00' },
-        { id: '00:15', name: '00:15' },
-        { id: '00:30', name: '00:30' },
-        { id: '00:45', name: '00:45' },
-        { id: '10:00', name: '10:00' },
-        { id: '10:15', name: '10:15' },
-        { id: '10:30', name: '10:30' },
-        { id: '11:00', name: '11:00' },
-    ]} />,
+    // <SelectInput source="time_start" choices={[
+    //     { id: '00:00', name: '00:00' },
+    //     { id: '00:15', name: '00:15' },
+    //     { id: '00:30', name: '00:30' },
+    //     { id: '00:45', name: '00:45' },
+    //     { id: '10:00', name: '10:00' },
+    //     { id: '10:15', name: '10:15' },
+    //     { id: '10:30', name: '10:30' },
+    //     { id: '11:00', name: '11:00' },
+    // ]} />,
     // <ReferenceInput source="theaterId" reference="theaters">
     //     <AutocompleteInput
     //         optionText={(choice) =>
@@ -60,7 +60,6 @@ const roomFilters = [
     //         }
     //     />
     // </ReferenceInput>,
-
 
 ];
 
