@@ -12,14 +12,12 @@ const MonthlyRevenue = (props) => {
     const { value } = props;
     const translate = useTranslate();
 
-
-
     return (
         <>
 
             <CardWithIcon
                 icon={DollarIcon}
-                title={translate('pos.dashboard.monthly_revenue')}
+                title={translate('dashboard.monthly_revenue')}
                 subtitle={value}
             />
         </>

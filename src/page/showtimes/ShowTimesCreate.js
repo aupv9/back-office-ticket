@@ -4,7 +4,7 @@ import {
     FormTab,
     ReferenceInput,
     required,
-    TabbedForm,DateInput
+    TabbedForm, DateInput, NumberInput
 } from "react-admin";
 import * as React from "react";
 import {makeStyles} from "@material-ui/core/styles";
@@ -12,6 +12,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import {useState} from "react";
 
 import { DateKeyInput} from '../../datepicker/Picker';
+import {InputAdornment} from "@material-ui/core";
 
 
 const useStyles = makeStyles({
@@ -62,7 +63,18 @@ export const ShowTimesCreate = (props) =>{
                     </ReferenceInput>
 
                     <DateKeyInput source="timeStart" label="Start date"  />
-                    <DateInput source={"date"}/>
+                    <NumberInput
+                        source="price"
+                        className={classes.price}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="start">
+                                    vnd
+                                </InputAdornment>
+                            ),
+                        }}
+                        validate={requiredValidate}
+                    />
                 </FormTab>
 
                 <FormTab

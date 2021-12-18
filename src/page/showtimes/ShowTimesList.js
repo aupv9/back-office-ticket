@@ -1,6 +1,22 @@
 import {
-    Datagrid, List, SearchInput, TopToolbar, FilterButton, CreateButton, ExportButton, DateField, TextField,
-    ImageField, ReferenceField, ReferenceInput, DateInput, AutocompleteInput, SelectInput, ShowButton, EditButton
+    Datagrid,
+    List,
+    SearchInput,
+    TopToolbar,
+    FilterButton,
+    CreateButton,
+    ExportButton,
+    DateField,
+    TextField,
+    ImageField,
+    ReferenceField,
+    ReferenceInput,
+    DateInput,
+    AutocompleteInput,
+    SelectInput,
+    ShowButton,
+    EditButton,
+    ChipField
 } from "react-admin";
 
 import {makeStyles} from "@material-ui/core/styles";
@@ -153,6 +169,7 @@ export const ShowTimesList = (props) =>{
                         </ReferenceField>
                     </ReferenceField>
                 </ReferenceField>
+                <ChipField source={"status"}/>
                 <ShowButton />
                 <EditButton />
             </Datagrid>

@@ -25,8 +25,9 @@ import Basket from "./Basket";
 import SeatTotals from "./SeatTotal";
 import Totals from "./Totals";
 import ReactToPrint, {useReactToPrint} from "react-to-print";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {CodeRounded} from "@material-ui/icons";
+import TotalShow from "../showtimes/TotalShow";
 
 
 const CustomerField = ({ record }) =>
@@ -42,8 +43,15 @@ const CustomerField = ({ record }) =>
 
 const TicketShow = (props) => {
     const { record } = useShowController(props);
+    const [seatsPrice, setSeatsPrice] = useState(0);
+
     const classes = useStyles();
     const {data:show} =useGetOne("showTimesDetails",record["showTimesDetailId"]);
+    useEffect(() =>{
+        if(show && record.seats){
+            setSeatsPrice(show.price * record.seats.length);
+        }
+    },[record])
 
     const componentRef = useRef(null);
 
@@ -129,22 +137,12 @@ const TicketShow = (props) => {
                         </Grid>
                         <Grid item xs={6}>
                             <Typography variant="h6" gutterBottom align="right">
-                                Order {record.id}
+                                No: {record.id}
                             </Typography>
                         </Grid>
                     </Grid>
                     <Grid container spacing={2}>
                         <Grid item xs={12} container alignContent="flex-end">
-                            {/*<ReferenceField*/}
-                            {/*    resource="invoices"*/}
-                            {/*    reference="customers"*/}
-                            {/*    source="customer_id"*/}
-                            {/*    basePath="/invoices"*/}
-                            {/*    record={record}*/}
-                            {/*    link={false}*/}
-                            {/*>*/}
-                            {/*    <CustomerField />*/}
-                            {/*</ReferenceField>*/}
                         </Grid>
                     </Grid>
                     <div className={classes.spacer}>&nbsp;</div>
@@ -180,6 +178,12 @@ const TicketShow = (props) => {
                     <div className={classes.invoices}>
                         {
                             record && show ? <SeatTotals record={record} show = {show}/> :
+                                <Loading />
+                        }
+                    </div>
+                    <div className={classes.invoices}>
+                        {
+                            record && show ? <TotalShow record={record} seatsPrice={seatsPrice}/> :
                                 <Loading />
                         }
                     </div>

@@ -10,7 +10,7 @@ import {
     useGetList,
     usePermissions,
     useTranslate,
-    useVersion
+    useVersion,SelectInput
 } from 'react-admin';
 import { startOfMonth, format } from 'date-fns';
 import { ResponsiveBar } from '@nivo/bar';
@@ -113,12 +113,20 @@ export const OrdersChartMonth = (props) => {
                             translate(`Revenue History This Year`):
                             translate(`Revenue History This Year ${orders[0] && orders[0].theaterName}`) }
                         action={
-                            <IconButton aria-label="settings"
-                                        onClick={exportChart}
-                                        title={"Export To CSV"}
-                            >
-                                <ArrowDownward />
-                            </IconButton>
+                            <div style={{display:"flex"}}>
+                                <IconButton aria-label="settings"
+                                            onClick={exportChart}
+                                            title={"Export To CSV"}
+                                >
+                                    <ArrowDownward />
+                                    {/*<SelectInput source="category" choices={[*/}
+                                    {/*    { id: 'programming', name: 'Programming' },*/}
+                                    {/*    { id: 'lifestyle', name: 'Lifestyle' },*/}
+                                    {/*    { id: 'photography', name: 'Photography' },*/}
+                                    {/*]} />*/}
+                                </IconButton>
+                            </div>
+
                         }
 
             />
