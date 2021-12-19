@@ -170,7 +170,7 @@ export const ShowTimesList = (props) =>{
                     </ReferenceField>
                 </ReferenceField>
                 <ChipField source={"status"}/>
-                <ShowButton />
+                <ChipField source={"countSeatAvailable"} label={"Count Seat Available"}/>
                 <EditButton />
             </Datagrid>
         </List>

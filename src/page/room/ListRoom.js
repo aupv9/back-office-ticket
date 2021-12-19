@@ -7,7 +7,7 @@ import {
     ReferenceField,
     SearchInput,
     TopToolbar,
-    FilterButton, SortButton, CreateButton, ExportButton,AutocompleteInput, ReferenceInput
+    FilterButton, SortButton, CreateButton, ExportButton, AutocompleteInput, ReferenceInput, ChipField
 } from "react-admin";
 import TheaterNameField from "./TheaterNameField";
 import {makeStyles} from "@material-ui/core/styles";
@@ -69,7 +69,7 @@ export const ListRoom = (props) =>{
             ) : (
                 <CustomizableDatagrid rowClick={"show"}>
                     <TextField source={"name"}/>
-                    {/*<TextField source={"code"}/>*/}
+                    <ChipField source={"code"}/>
                     {/*<ReferenceField reference={"theaters"} source={"theaterId"}>*/}
                     {/*    <TheaterNameField />*/}
                     {/*</ReferenceField>*/}

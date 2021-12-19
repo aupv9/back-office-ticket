@@ -127,6 +127,8 @@ export const ShowList = (props) =>{
                 {/*    </ReferenceField>*/}
                 {/*</ReferenceField>*/}
                 <ChipField source={"status"}/>
+                <ChipField source={"countSeatAvailable"} label={"Count Seat Available"}/>
+
                 <EditButton label="Pick"/>
             </Datagrid>
         </List>
