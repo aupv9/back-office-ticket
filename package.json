@@ -11,6 +11,7 @@
     "@nivo/bar": "^0.74.0",
     "@nivo/core": "^0.74.0",
     "@nivo/line": "^0.74.1",
+    "@paypal/react-paypal-js": "^7.5.0",
     "@react-pdf/renderer": "^2.0.21",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",

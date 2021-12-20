@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, CSSProperties } from 'react';
 import {useVersion, useDataProvider, usePermissions, useRefresh, useGetList} from 'react-admin';
 import {useMediaQuery, Theme} from '@material-ui/core';
-import { format, subDays, addDays } from 'date-fns';
+import { format, subDays, addDays ,isToday} from 'date-fns';
 import {Area, CartesianGrid, XAxis, YAxis, AreaChart, ResponsiveContainer, Legend, Line,LineChart,Tooltip} from "recharts";
 import OrderChart30Day from "./OrderChart30Day";
 import MonthlyRevenue from "./MonthlyRevenue";
@@ -17,7 +17,8 @@ import {DivRevenueChart} from "./DivRevenueChart";
 import {MovieRevenue} from "./MovieRevenue";
 import {RevenueMovieByTheater} from "./RevenueMovieByTheater";
 import {RevenueMovieByRoom} from "./RevenueMovieByRoom";
-
+import RevenueToDayChart from "./RevenueToDayChart";
+import RevenuePerStaff from "./RevenuePerStaff";
 
 
 
@@ -53,16 +54,17 @@ const Dashboard = () => {
     },[permissions])
 
 
-    const processOrders = (order) =>{
+    const processOrdersToDay = (order) =>{
         return order
+            .filter((order) => isToday(new Date(order.createdDate)))
             .reduce(
                 (stats, order) => {
                     if (order.status === 'payment') {
                         stats.revenue += order.total;
-                        stats.paymentOrders++;
+                        stats.paymentOrdersToDay++;
                     }
                     if (order.status === 'non_payment' || order.status === "ordered") {
-                        stats.pendingPayment++;
+                        stats.pendingPaymentToDay++;
                     }
                     if (order.status === 'cancelled') {
                         stats.cancelledOrders.push(order);
@@ -71,9 +73,9 @@ const Dashboard = () => {
                 },
                 {
                     revenue: 0,
-                    pendingPayment: 0,
+                    pendingPaymentToDay: 0,
                     nbNewPaymentOrders:0,
-                    paymentOrders: 0,
+                    paymentOrdersToDay: 0,
                     cancelledOrders:[]
                 }
             );
@@ -107,22 +109,24 @@ const Dashboard = () => {
                 pagination: { page: 1, perPage: 1000000 },
             }
         );
-        const aggregations = processOrders(recentOrders);
+        const aggregations = processOrdersToDay(recentOrders);
+
         setState(state => ({
             ...state,
             ordersAll,
             recentOrders,
             dataTheater,
-            revenue: aggregations.revenue.toLocaleString(undefined, {
+            revenueToday: aggregations.revenue.toLocaleString(undefined, {
                 style: 'currency',
                 currency: 'vnd',
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
             }),
             nbNewOrders: aggregations.nbNewOrders,
-            pendingPayment: aggregations.pendingPayment,
-            paymentOrders:aggregations.paymentOrders,
-            ordered:aggregations.ordered
+            pendingPaymentToDay: aggregations.pendingPaymentToDay,
+            paymentOrdersToDay:aggregations.paymentOrdersToDay,
+            ordered:aggregations.ordered,
+            revenueToDay:0
         }));
 
     }, [dataProvider]);
@@ -134,7 +138,7 @@ const Dashboard = () => {
     }, [version]);
 
     const {
-        ordersAll,recentOrders,revenue,pendingPayment,paymentOrders,dataTheater
+        ordersAll,recentOrders,pendingPaymentToDay,paymentOrdersToDay,dataTheater,revenueToday
     } = state;
 
     const refresh = useRefresh();
@@ -146,7 +150,7 @@ const Dashboard = () => {
 
     let onMessageReceived = (msg) => {
         if(msg && msg.payload && msg.domain === "order"){
-            const aggregations = processOrders(msg.payload[0]);
+            const aggregations = processOrdersToDay(msg.payload[0]);
 
             setState(state => ({
                 ...state,
@@ -207,74 +211,45 @@ const Dashboard = () => {
                 onMessage={msg => onMessageReceived(msg)}
                 debug={false}
             />
-            {/*<div style={styles.flex}>*/}
-            {/*    <div style={styles.leftCol}>*/}
-            {/*        <div style={styles.singleCol}>*/}
-            {/*            <OrderChart30Day orders={recentOrders} />*/}
-            {/*        </div>*/}
-            {/*        <div style={styles.singleCol}>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*    <div style={styles.rightCol}>*/}
-            {/*        <div style={styles.singleCol}>*/}
-            {/*            <OrdersChartMonth />*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
-            {/*<div style={styles.flex}>*/}
-            {/*    <div style={styles.leftCol}>*/}
-            {/*        <div style={styles.singleCol}>*/}
-            {/*            {*/}
-            {/*                recentOrders ? <RoomChart orders={recentOrders}/> : null*/}
-            {/*            }*/}
-            {/*        </div>*/}
-            {/*        <div style={styles.singleCol}>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*    <div style={styles.rightCol}>*/}
-            {/*        <div style={styles.singleCol}>*/}
 
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
             {
 
                 <div style={styles.flex}>
                     <div style={styles.leftCol}>
                         <div style={styles.flex}>
                             {
-                                isHavePermission("READ_CHART_STAFF") && <MonthlyRevenue value={revenue} role={2}/>
+                                isHavePermission("READ_CHART_STAFF") && <RevenueToDayChart value={revenueToday}/>
                             }
                             {
-                                isHavePermission("READ_CHART_MANAGER") &&
-                                <MonthlyRevenue value={revenue} role={3}/>
-
+                                isHavePermission("READ_CHART_MANAGER") && <RevenueToDayChart value={revenueToday}/>
                             }
                             {
-                                isHavePermission("READ_CHART_SENIOR_MANAGER") && <MonthlyRevenue value={revenue} role={1} />
+                                isHavePermission("READ_CHART_SENIOR_MANAGER") && <RevenueToDayChart value={revenueToday}/>
+                            }
+                            <Spacer />
+                            <Spacer />
+                            {
+                                isHavePermission("READ_CHART_STAFF") && <PendingOrders value={pendingPaymentToDay} role={2}/>
+                            }
+                            {
+                                isHavePermission("READ_CHART_MANAGER") && <PendingOrders value={pendingPaymentToDay} role={3}/>
+                            }
+                            {
+                                isHavePermission("READ_CHART_SENIOR_MANAGER") && <PendingOrders value={pendingPaymentToDay} role={1}/>
                             }
                             <Spacer />
                             {
-                                isHavePermission("READ_CHART_STAFF") && <PendingOrders value={pendingPayment} role={2}/>
+                                isHavePermission("READ_CHART_STAFF") && <OrdersPayment value={paymentOrdersToDay} role={2}/>
                             }
                             {
-                                isHavePermission("READ_CHART_MANAGER") && <PendingOrders value={pendingPayment} role={3}/>
+                                isHavePermission("READ_CHART_MANAGER") && <OrdersPayment value={paymentOrdersToDay} role={3}/>
                             }
                             {
-                                isHavePermission("READ_CHART_SENIOR_MANAGER") && <PendingOrders value={pendingPayment} role={1}/>
-                            }
-                            <Spacer />
-                            {
-                                isHavePermission("READ_CHART_STAFF") && <OrdersPayment value={paymentOrders} role={2}/>
-                            }
-                            {
-                                isHavePermission("READ_CHART_MANAGER") && <OrdersPayment value={paymentOrders} role={3}/>
-                            }
-                            {
-                                isHavePermission("READ_CHART_SENIOR_MANAGER") && <OrdersPayment value={paymentOrders} role={1}/>
+                                isHavePermission("READ_CHART_SENIOR_MANAGER") && <OrdersPayment value={pendingPaymentToDay} role={1}/>
                             }
 
                         </div>
+
                         <div style={styles.singleCol}>
                             {
                                 isHavePermission("READ_CHART_STAFF") && recentOrders && <OrderChart30Day orders={recentOrders} role={2}/>
@@ -285,6 +260,24 @@ const Dashboard = () => {
                             {
                                 isHavePermission("READ_CHART_SENIOR_MANAGER")  && recentOrders && <OrderChart30Day orders={recentOrders} role={1}/>
                             }
+                        </div>
+                        <div style={styles.singleCol}>
+                            <div style={{display:"flex"}}>
+                                <div style={{marginRight:"15px",flex:1}}>
+                                    {
+                                        isHavePermission("READ_CHART_MANAGER")  && <RevenuePerStaff />
+
+                                    }
+                                </div>
+                                <div style={{flex:1}}>
+                                    {
+                                        isHavePermission("READ_CHART_MANAGER")  && <RevenuePerStaff />
+
+                                    }
+                                </div>
+
+                            </div>
+
                         </div>
                         <div style={styles.singleCol}>
                             {

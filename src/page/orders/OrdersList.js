@@ -15,16 +15,33 @@ import {
     TextField,
     TextInput,
     useGetList,
-    useListContext, ChipField, ReferenceField, useGetOne, EmailField,
+    useListContext,
+    ChipField,
+    ReferenceField,
+    useGetOne,
+    EmailField,
+    TopToolbar,
+    FilterButton,
+    CreateButton,
+    ExportButton, usePermissions, useVersion, useDataProvider,
 } from 'react-admin';
 import {useMediaQuery, Divider, Tabs, Tab, Typography} from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
 import NumberFormat from "react-number-format";
 import CustomizableDatagrid from 'ra-customizable-datagrid';
+import * as _ from "lodash";
+import TicketShow from "../my-order/TicketShow";
 
 const orderFilters = [
     <SearchInput source="q" alwaysOn />,
+    <ReferenceInput source="room_id" reference="rooms">
+        <AutocompleteInput
+            optionText={(choice) =>
+                choice.id ? `${choice.name}` : ''
+            }
+        />
+    </ReferenceInput>,
     // <ReferenceInput source="customer_id" reference="customers">
     //     <AutocompleteInput
     //         optionText={(choice) =>
@@ -274,20 +291,6 @@ const TabbedDatagrid = (props) => {
                                     }}
                                     className={classes.total}
                                 />
-                                {/*<ReferenceField*/}
-                                {/*    source="id"*/}
-                                {/*    reference="orders"*/}
-                                {/*    label={"Total"}*/}
-                                {/*>*/}
-                                {/*    <NumberField*/}
-                                {/*        source="totalAmount"*/}
-                                {/*        options={{*/}
-                                {/*            style: 'currency',*/}
-                                {/*            currency: 'VND',*/}
-                                {/*        }}*/}
-                                {/*        className={classes.total}*/}
-                                {/*    />*/}
-                                {/*</ReferenceField>*/}
                             </CustomizableDatagrid>
                         </ListContextProvider>
                     )}
@@ -298,15 +301,77 @@ const TabbedDatagrid = (props) => {
     );
 };
 
-
-const OrderList = (props) => (
-    <List
-        {...props}
-        filters={orderFilters}
-    >
-        <TabbedDatagrid />
-    </List>
+const ListActions = (props) => (
+    <TopToolbar>
+        <ExportButton/>
+        <FilterButton/>
+    </TopToolbar>
 );
+
+
+const OrderList = (props) => {
+    const { loaded, permissions } = usePermissions();
+    const [arrPermission,setArrPermission] = useState([]);
+    const isHavePermission = (permission) =>{
+        return _.includes(arrPermission,permission);
+    }
+    useEffect(() => {
+        setArrPermission(permissions);
+    },[permissions])
+    return isHavePermission("CHECK_ORDER_ONLINE") ? (
+        <List
+            {...props}
+            filters={orderFilters}
+            actions={<ListActions />}
+            bulkActionButtons={false}
+
+        >
+            <CustomizableDatagrid expand={<TicketShow />}>
+                <ChipField source={"code"}/>
+                <DateField source="createdDate" showTime />
+                <DateField source="expirePayment" showTime />
+
+                <ReferenceField
+                    source="showTimesDetailId"
+                    reference="showTimesDetails"
+                    label="Show Time"
+                >
+                    <TextField source={"id"}/>
+                </ReferenceField>
+
+                <ReferenceField
+                    source="creation"
+                    reference="users"
+                >
+                    <TextField source={"email"}/>
+                </ReferenceField>
+
+                <UserDetail />
+                <BooleanField source={"profile"} label={"Is User"}/>
+                <BooleanField source={"online"} label={"Online"}/>
+
+                <TextField source={"note"} />
+                <NumberField
+                    source="total"
+                    options={{
+                        style: 'currency',
+                        currency: 'VND',
+                    }}
+                    style={{fontWeight: 'bold'}}
+                />
+
+            </CustomizableDatagrid>
+        </List>
+    ) : (
+        <List
+            {...props}
+            filters={orderFilters}
+            actions={<ListActions />}
+        >
+            <TabbedDatagrid />
+        </List>
+    )
+}
 
 const UserDetail = ({record}) =>{
     if(!record) return null;

@@ -62,7 +62,9 @@ export const ShowTimesCreate = (props) =>{
                         />
                     </ReferenceInput>
 
-                    <DateKeyInput source="timeStart" label="Start date"  />
+                    <DateKeyInput source="timeStart" label="Time Start"  />
+                    <DateKeyInput source="timeEnd" label="Time End"  />
+
                     <NumberInput
                         source="price"
                         className={classes.price}

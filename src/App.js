@@ -63,6 +63,7 @@ import {OfferDetailList} from "./page/offer/OfferDetailList";
 import {MemberList} from "./page/mambership/MemberList";
 import {MemberCreate} from "./page/mambership/MemberCreate";
 import PaymentEdit from "./page/payment/PaymentEdit";
+import {EmployeeRevenueList} from "./page/employee/EmployeeRevenueList";
 
 // import jsonServerProvider from 'ra-data-json-server';
 //
@@ -173,6 +174,8 @@ const App = () => {
             <Resource name="offers-detail" list={OfferDetailList}/>
             <Resource name="members" list={MemberList} create={MemberCreate}/>
             <Resource name={"movies-showHaveOfWeek"} />
+            <Resource name={"employees-revenue"} list={EmployeeRevenueList}/>
+
         </Admin>
     );
 }

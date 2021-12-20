@@ -81,7 +81,7 @@ export const MyOrder = (props) =>{
 const CustomDataGrid = (props) =>{
     const {data,ids} = useListContext();
     return (
-        <Datagrid optimized rowClick="show" expand={<TicketShow />}>
+        <CustomizableDatagrid optimized rowClick="show" expand={<TicketShow />}>
             <DateField source={"createdDate"} showTime/>
             <DateField source={"updatedAt"} showTime/>
 
@@ -89,6 +89,8 @@ const CustomDataGrid = (props) =>{
                 <TextField source={"id"}/>
             </ReferenceField>
             <BooleanField source={"profile"} label={"Is User"}/>
+            <BooleanField source={"online"} label={"Online"}/>
+
             <UserDetail {...props}/>
             <ReferenceField reference={"users"} source={"creation"}>
                 <TextField source={"email"} />
@@ -96,8 +98,9 @@ const CustomDataGrid = (props) =>{
             <ChipField source={"status"}/>
             <DateField source={"expirePayment"} showTime/>
             <TextField source={"note"}/>
+
             <EditButton />
-        </Datagrid>
+        </CustomizableDatagrid>
 
     )
 }

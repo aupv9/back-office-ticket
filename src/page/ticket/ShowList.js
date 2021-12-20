@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const roomFilters = [
-    <SearchInput source="q" alwaysOn  />,
+    // <SearchInput source="q" alwaysOn  />,
     <ReferenceInput source="room_id" reference="rooms">
         <AutocompleteInput
             optionText={(choice) =>
@@ -66,8 +66,8 @@ const roomFilters = [
     //     { id: '10:30', name: '10:30' },
     //     { id: '11:00', name: '11:00' },
     // ]} />,
-    <BooleanInput label="Movie Now Playing" source="now_playing" />,
-    <BooleanInput label="Coming Soon" source="coming_soon" />
+    <BooleanInput label="Movie Now Playing" source="now_playing" alwaysOn />,
+    <BooleanInput label="Coming Soon" source="coming_soon" alwaysOn />
 
 
 ];
@@ -99,39 +99,30 @@ export const ShowList = (props) =>{
             // aside={<ShowTimesAside />}
             actions={<ListActions/>}
             hasCreate
+            bulkActionButtons={false}
         >
-            <Datagrid optimized  rowClick="edit">
+            <Datagrid optimized >
                 <ReferenceField label="Movie Name" source="movieId" reference="movies">
                     <TextField source="name" />
                 </ReferenceField>
                 <ReferenceField label="Movie Thumbnail" source="movieId" reference="movies">
                     <ImageField source="thumbnail" />
                 </ReferenceField>
-
                 <DateField source="timeStart"  locales="VN" showTime options={{ weekday: 'long',day: 'numeric', month: 'long', year: 'numeric',hour:'numeric',minute:'numeric'}}
                            label={"Day Show Times"}/>
-                {/*<TextField source="timeStart" />*/}
                 <ReferenceField label="Room" source="roomId" reference="rooms">
                     <TextField source="name" />
                 </ReferenceField>
-                {/*<ReferenceField label="Theater" source="roomId" reference="rooms" sortable={false} >*/}
-                {/*    <ReferenceField reference="theaters" source="theaterId" link={(record, reference) => `/${reference}/${record.theaterId}`}>*/}
-                {/*        <TextField source="name" />*/}
-                {/*    </ReferenceField>*/}
-                {/*</ReferenceField>*/}
-                {/*<ReferenceField label="Location" source="roomId" reference="rooms" sortable={false} >*/}
-                {/*    <ReferenceField reference="theaters" source="theaterId" >*/}
-                {/*        <ReferenceField reference="locations" source="locationId" link={(record, reference) => `/${reference}/${record.locationId}`}>*/}
-                {/*            <TextField source="name" />*/}
-                {/*        </ReferenceField>*/}
-                {/*    </ReferenceField>*/}
-                {/*</ReferenceField>*/}
                 <ChipField source={"status"}/>
                 <ChipField source={"countSeatAvailable"} label={"Count Seat Available"}/>
-
-                <EditButton label="Pick"/>
+                <EditButtonCustom/>
             </Datagrid>
         </List>
     );
+}
+
+const EditButtonCustom = (props) =>{
+    const {record} = props;
+    return record["status"] !== "Expire" && <EditButton label="Pick" {...props}/>
 }
 

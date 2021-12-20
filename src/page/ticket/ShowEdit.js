@@ -232,6 +232,7 @@ const initialTime = 50 * 1000; // initial time in milliseconds, defaults to 6000
 const interval = 1000; // interval to change remaining time amount, defaults to 1000
 
 const Aside = ({seats,price,id}) => {
+
     const classes = useAsideStyles();
     const [arrSeat,setSeats] = useState([]);
     const [yourPriceSeats,setPriceSeats] = useState(0);
@@ -241,6 +242,8 @@ const Aside = ({seats,price,id}) => {
     const refresh = useRefresh();
     const redirect = useRedirect();
     const notify = useNotify();
+
+    const {record} = useEditContext();
 
     const calConcession = () => {
         return concessions.reduce(((previousValue, currentValue) => {
@@ -437,13 +440,17 @@ const Aside = ({seats,price,id}) => {
                                 </Box>
                             </Box>
                         </Box>
-                        <Box flexGrow={1} display={"flex"} justifyContent={"flex-end"}>
-                            <Box display="flex" mb="1em">
-                                <Box mr="1em">
-                                    <Button variant={"contained"} color={"primary"} onClick={handleOrder}>{"Order"}</Button>
+                        {
+                            record["status"] !== "Expire" &&
+                            <Box flexGrow={1} display={"flex"} justifyContent={"flex-end"}>
+                                <Box display="flex" mb="1em">
+                                    <Box mr="1em">
+                                        <Button variant={"contained"} color={"primary"} onClick={handleOrder}>{"Order"}</Button>
+                                    </Box>
                                 </Box>
                             </Box>
-                        </Box>
+                        }
+
                     </CardContent>
                 </Card>
             </Box>
