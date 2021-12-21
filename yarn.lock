@@ -4196,7 +4196,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@^2.2.5, classnames@^2.2.6:
+classnames@^2.2.5, classnames@^2.2.6, classnames@~2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.1.tgz#dfcfa3891e306ec1dad105d0e88f4417b8535e8e"
   integrity sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==
@@ -7169,7 +7169,7 @@ infer-owner@^1.0.3, infer-owner@^1.0.4:
   resolved "https://registry.yarnpkg.com/infer-owner/-/infer-owner-1.0.4.tgz#c4cefcaa8e51051c2a40ba2ce8a3d27295af9467"
   integrity sha512-IClj+Xz94+d7irH5qRyfJonOdfTzuDaifE6ZPWfx0N0+/ATZCbuTPq2prFl526urkQd90WyUKIh1DfBQ2hMz9A==
 
-inflection@^1.13.1:
+inflection@^1.13.1, inflection@~1.13.1:
   version "1.13.1"
   resolved "https://registry.yarnpkg.com/inflection/-/inflection-1.13.1.tgz#c5cadd80888a90cf84c2e96e340d7edc85d5f0cb"
   integrity sha512-dldYtl2WlN0QDkIDtg8+xFwOS2Tbmp12t1cHa5/YClU6ZQjTFm7B66UcVbh9NQB+HvT5BAd2t5+yKsBkw5pcqA==
@@ -10825,6 +10825,20 @@ ra-core@^3.18.3:
     query-string "^5.1.1"
     reselect "~3.0.0"
 
+ra-core@^3.19.4:
+  version "3.19.4"
+  resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-3.19.4.tgz#2fc23bf369f6bf776f882e9c2492f4d45c6976a5"
+  integrity sha512-5uos2t3fOFrYJoD0H+4/TwSoZvjK6jJR2ZR5hX3X6cwsF5sI8fkMys0dIPduQZJYs7eX0m8I8n41+bgMrBoILw==
+  dependencies:
+    classnames "~2.3.1"
+    date-fns "^1.29.0"
+    eventemitter3 "^3.0.0"
+    inflection "~1.13.1"
+    lodash "~4.17.5"
+    prop-types "^15.6.1"
+    query-string "^5.1.1"
+    reselect "~3.0.0"
+
 ra-customizable-datagrid@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/ra-customizable-datagrid/-/ra-customizable-datagrid-1.1.0.tgz#2d7d26b08e6226c323aaa3d1d3fea660f08a4ceb"
@@ -10874,6 +10888,18 @@ ra-language-english@^3.18.3:
   integrity sha512-w3020CLLmiammZOSKI4CsIWyD9ZFs/oNFWKSnPzvN6EqQI2dtSxxiycKjaxnwjKN7jmzNWe/5uzna0FIND4wgA==
   dependencies:
     ra-core "^3.18.3"
+
+ra-language-english@^3.19.4:
+  version "3.19.4"
+  resolved "https://registry.yarnpkg.com/ra-language-english/-/ra-language-english-3.19.4.tgz#73b3ddb7ad0d616217ccb33913dfbdbb9f33fd03"
+  integrity sha512-h71Igzza/GZE2GNBwGje0wfcbNisaJTQpN+F4cE/5Nbj2MgB5NYtTVGkOJj8fWtbkimN6txJ2fDG0S3rMyBS0g==
+  dependencies:
+    ra-core "^3.19.4"
+
+ra-language-vietnamese@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/ra-language-vietnamese/-/ra-language-vietnamese-3.0.1.tgz#edc37b5818e15f5be7a361f6d1eaf3e8cc063960"
+  integrity sha512-j2K/YjREXiHfUjO+oQGFhHqelwu3JnmCGoJNA0vUcSDxh3shYIW9npJSyb/rZFiXliwWcgxumlgoPwkbasLnxQ==
 
 ra-ui-materialui@^3.18.3:
   version "3.18.3"

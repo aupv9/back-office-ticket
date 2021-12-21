@@ -15,20 +15,12 @@ import {useTranslate, useQueryWithStore, ReferenceField} from 'react-admin';
 import {format, subDays} from 'date-fns';
 
 import CardWithIcon from './CardWithIcon';
-import UserLinkField from "../user/UserLinkField";
+import {Status} from "./Status";
 
 
 const RevenuePerStaff = () => {
     const translate = useTranslate();
     const classes = useStyles();
-
-    const aMonthAgo = subDays(new Date(), 30);
-    aMonthAgo.setDate(aMonthAgo.getDate() - 30);
-    aMonthAgo.setHours(0);
-    aMonthAgo.setMinutes(0);
-    aMonthAgo.setSeconds(0);
-    aMonthAgo.setMilliseconds(0);
-
     const { loaded, data: employees } = useQueryWithStore({
         type: 'getList',
         resource: 'employees-revenue',
@@ -42,54 +34,62 @@ const RevenuePerStaff = () => {
     });
 
     if (!loaded) return null;
-    if(loaded){
-        console.log(employees)
-    }
 
     const nb = employees ? employees.reduce((nb) => ++nb, 0) : 0;
     return (
         <CardWithIcon
-            to="/customers"
+            to="/employees-revenue"
             icon={CustomerIcon}
-            title={translate('pos.dashboard.revenue.today')}
+                title={translate('pos.dashboard.list_employee_today')}
             subtitle={nb}
         >
-            <List>
-                {employees
-                    ? employees.map((record) => (
+            {
+                employees &&  <List dense={true}>
+                    { employees.map(record => (
                         <ListItem
-                            button
-                            to={`/employees-revenue/${record.id}`}
-                            component={Link}
                             key={record.id}
+                            button
+                            component={Link}
+                            to={`/employees-revenue/${record.id}`}
                         >
                             <ListItemAvatar>
-                                <Avatar src={`${record.avatar}?size=32x32`} />
+                                {employees[record.id] ? (
+                                    <Avatar
+                                        src={`${
+                                            employees[record.id].avatar
+                                        }?size=32x32`}
+                                    />
+                                ) : (
+                                    <Avatar />
+                                )}
                             </ListItemAvatar>
                             <ListItemText
-                                primary={`${record.revenue.toLocaleString(undefined, {
+                                primary={`${new Date(record.startsAt).toLocaleDateString()} - ${new Date(record.endsAt).toLocaleDateString()}` }
+                                secondary={
+                                    <>
+                                        {record["fullName"]}
+                                        <Status status={record["online"]} />
+                                    </>
+                                }
+                            />
+                            <ListItemText
+                                primary={`Count :${record.countOrder}`}
+                            />
+                            <ListItemSecondaryAction>
+                            <span className={classes.cost}>
+                                {record.revenue.toLocaleString(undefined, {
                                     style: 'currency',
                                     currency: 'vnd',
                                     minimumFractionDigits: 0,
                                     maximumFractionDigits: 0,
-                                })}`}
-                                secondary={`${record.fullName}`}
-                            />
-                            <ListItemSecondaryAction>
-                                <Typography
-                                    variant="body2"
-                                    color="textSecondary"
-                                    component="span"
-                                >
-                                    {
-
-                                    }
-                                </Typography>
+                                })}
+                            </span>
                             </ListItemSecondaryAction>
                         </ListItem>
-                    ))
-                    : null}
-            </List>
+                    ))}
+                </List>
+            }
+
             <Box flexGrow="1">&nbsp;</Box>
             <Button
                 className={classes.link}
@@ -99,7 +99,7 @@ const RevenuePerStaff = () => {
                 color="primary"
             >
                 <Box p={1} className={classes.linkContent}>
-                    {translate('pos.dashboard.employee')}
+                    {translate('pos.dashboard.all_employee')}
                 </Box>
             </Button>
         </CardWithIcon>

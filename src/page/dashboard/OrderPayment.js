@@ -12,7 +12,7 @@ const OrdersPayment = (props) => {
         <CardWithIcon
             to={role === 2 ? "my-orders" : role === 3 ? "orders" :"orders"}
             icon={ShoppingCartIcon}
-            title={translate('pos.dashboard.orders_payment')}
+            title={translate('pos.dashboard.order_completed')}
             subtitle={value}
         />
     );

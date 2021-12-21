@@ -63,6 +63,8 @@ export const ShowTimesEdit = (props) =>{
                     </ReferenceInput>
 
                     <DateKeyInput source="timeStart" label="Start date"  />
+                    <DateKeyInput source="timeEnd" label="End date"  />
+
                     <NumberInput
                         source="price"
                         className={classes.price}

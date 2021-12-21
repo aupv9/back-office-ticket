@@ -13,7 +13,7 @@ const RevenueToDayChart = (props) => {
         <>
             <CardWithIcon
                 icon={DollarIcon}
-                title={translate('dashboard.today_revenue')}
+                title={translate('pos.dashboard.today_revenue')}
                 subtitle={value}
             />
         </>

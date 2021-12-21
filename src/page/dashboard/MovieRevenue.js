@@ -16,7 +16,7 @@ import {CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis,Tooltip,Line,Li
 export const MovieRevenue = (props) => {
     const { orders ,role } = props;
     const translate = useTranslate();
-    const {data,ids,loaded} = useGetList("movies-showHaveOfWeek", { page: 1, perPage: 10000 });
+    const {data,ids,loaded} = useGetList("movies-nowPlaying", { page: 1, perPage: 10000 });
     const [movies,setMovies] = useState([]);
     const [dataChart,setDataChart] = useState([]);
 

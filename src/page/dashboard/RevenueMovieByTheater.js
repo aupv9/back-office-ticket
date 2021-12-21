@@ -17,7 +17,7 @@ import {ResponsiveLine} from "@nivo/line";
 export const RevenueMovieByTheater = (props) => {
     const { orders ,role ,dataTheater} = props;
     const translate = useTranslate();
-    const {data:dataMovies,ids:idsMovie} = useGetList("movies-showHaveOfWeek", { page: 1, perPage: 10000 });
+    const {data:dataMovies,ids:idsMovie} = useGetList("movies-nowPlaying", { page: 1, perPage: 10000 });
 
     const [movies,setMovies] = useState([]);
     const [theaters,setTheaters] = useState([]);
@@ -38,17 +38,6 @@ export const RevenueMovieByTheater = (props) => {
 
         const movies = idsMovie.map(id => dataMovies[id]);
         setMovies(movies);
-        const aggregateOrdersByMovieTotal = (orders) =>
-            orders
-                .filter((order) => order.status === 'payment')
-                .reduce((acc, curr) => {
-                    const movie = curr["movieName"];
-                    if (!acc[movie]) {
-                        acc[movie] = 0;
-                    }
-                    acc[movie] += curr.total;
-                    return acc;
-                }, {});
 
         const aggregateOrdersByMovieTotalByTheater = (orders,theater,movie) => {
 

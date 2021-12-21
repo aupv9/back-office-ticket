@@ -64,12 +64,8 @@ import {MemberList} from "./page/mambership/MemberList";
 import {MemberCreate} from "./page/mambership/MemberCreate";
 import PaymentEdit from "./page/payment/PaymentEdit";
 import {EmployeeRevenueList} from "./page/employee/EmployeeRevenueList";
-
-// import jsonServerProvider from 'ra-data-json-server';
-//
-// const dataProvider = jsonServerProvider('https://jsonplaceholder.typicode.com');
-
-
+import polyglotI18nProvider from 'ra-i18n-polyglot';
+import englishMessages from './page/i18n/en';
 
 const httpClient = (url, options = {}) => {
     if (!options.headers) {
@@ -80,33 +76,12 @@ const httpClient = (url, options = {}) => {
     return fetchUtils.fetchJson(url, options);
 };
 
-
 const dataProvider = customRequest(`http://localhost:8080/api/v1`,httpClient);
 
-
-const customProvider = {
-    ...dataProvider,
-
-    updateMany: async (resource, params) => {
-        const items = params.data;
-        const idsToUpdate = params.ids;
-        console.log(items)
-
-        // Handle update many here
-    }
-}
-
-
-// const dataProvider = customNewRequest(`http://localhost:8080/api/v1`);
-
 const routes =  [
-    // <Route exact path="/dashboard-default" component={Dashboard} />,
-    // <Route exact path="/statistics-room" component={RoomChart} />,
     <Route exact path="/profile" component={RoomChart} />,
 
 ]
-
-
 const MyLoginPage = () => (
     <Login
         backgroundImage="https://source.unsplash.com/random/1600x900/daily">
@@ -114,11 +89,14 @@ const MyLoginPage = () => (
     </Login>
 );
 
-// const theme = createMuiTheme({
-//     palette: {
-//         type: 'light', // Switching the dark mode on is a single property value change.
-//     },
-// });
+const i18nProvider = polyglotI18nProvider(locale => {
+    if (locale === 'vn') {
+        return import('./page/i18n/vn').then(messages => messages.default);
+    }
+
+    // Always fallback on english
+    return englishMessages;
+}, 'en');
 
 const App = () => {
 
@@ -130,8 +108,9 @@ const App = () => {
                authProvider={authProvider}
                customRoutes={routes}
                layout={Layout}
-                loginPage={MyLoginPage}
+               loginPage={MyLoginPage}
                theme={theme}
+               i18nProvider={i18nProvider}
         >
             <Resource name="theaters" list={TheaterList} edit={EditTheater} create={TheaterCreate}/>
             <Resource name="rooms"  list={ListRoom} edit={RoomEdit} create={RoomCreate}/>
@@ -175,6 +154,7 @@ const App = () => {
             <Resource name="members" list={MemberList} create={MemberCreate}/>
             <Resource name={"movies-showHaveOfWeek"} />
             <Resource name={"employees-revenue"} list={EmployeeRevenueList}/>
+            <Resource name={"movies-nowPlaying"} />
 
         </Admin>
     );

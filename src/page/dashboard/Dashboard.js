@@ -19,6 +19,9 @@ import {RevenueMovieByTheater} from "./RevenueMovieByTheater";
 import {RevenueMovieByRoom} from "./RevenueMovieByRoom";
 import RevenueToDayChart from "./RevenueToDayChart";
 import RevenuePerStaff from "./RevenuePerStaff";
+import OrderListToDay from "./OrderListToDay";
+import RevenuePerTheater from "./RevenuePerTheater";
+import {RoomRevenueToDay} from "./RoomRevenueToDay";
 
 
 
@@ -173,15 +176,7 @@ const Dashboard = () => {
     return isXSmall ? (
         <div>
             <div style={styles.flexColumn }>
-                {/*<Welcome />*/}
-                {/*<MonthlyRevenue value={revenue} />*/}
-                {/*<VerticalSpacer />*/}
-                {/*<NbNewOrders value={nbNewOrders} />*/}
-                {/*<VerticalSpacer />*/}
-                {/*<PendingOrders*/}
-                {/*    orders={pendingOrders}*/}
-                {/*    customers={pendingOrdersCustomers}*/}
-                {/*/>*/}
+
             </div>
         </div>
     ) : isSmall ? (
@@ -190,15 +185,10 @@ const Dashboard = () => {
                 {/*<Welcome />*/}
             </div>
             <div style={styles.flex}>
-                {/*<MonthlyRevenue value={revenue} />*/}
-                {/*<Spacer />*/}
-                {/*<NbNewOrders value={nbNewOrders} />*/}
             </div>
             <div style={styles.singleCol}>
-                {/*<OrderChart30Day orders={recentOrders} />*/}
             </div>
             <div style={styles.singleCol}>
-                {/*<OrdersChartMonth />*/}
             </div>
         </div>
     ) : (
@@ -262,6 +252,16 @@ const Dashboard = () => {
                             }
                         </div>
                         <div style={styles.singleCol}>
+                            {
+                                isHavePermission("READ_CHART_SENIOR_MANAGER") &&
+                                <div style={styles.singleCol}>
+                                    {
+                                        recentOrders && <RevenuePerTheater orders={recentOrders}/>
+                                    }
+                                </div>
+                            }
+                        </div>
+                        <div style={styles.singleCol}>
                             <div style={{display:"flex"}}>
                                 <div style={{marginRight:"15px",flex:1}}>
                                     {
@@ -269,12 +269,12 @@ const Dashboard = () => {
 
                                     }
                                 </div>
-                                <div style={{flex:1}}>
-                                    {
-                                        isHavePermission("READ_CHART_MANAGER")  && <RevenuePerStaff />
+                                {/*<div style={{flex:1}}>*/}
+                                {/*    {*/}
+                                {/*        isHavePermission("READ_CHART_MANAGER")  && <OrderListToDay/>*/}
 
-                                    }
-                                </div>
+                                {/*    }*/}
+                                {/*</div>*/}
 
                             </div>
 
@@ -348,6 +348,17 @@ const Dashboard = () => {
                                 </div>
                             }
                         </div>
+
+                        <div style={styles.singleCol}>
+                            {
+                                isHavePermission("READ_CHART_MANAGER") &&
+                                <div style={styles.singleCol}>
+                                    {
+                                        recentOrders && <RoomRevenueToDay orders={recentOrders}/>
+                                    }
+                                </div>
+                            }
+                        </div>
                         <div style={styles.singleCol}>
                             {
                                 isHavePermission("READ_CHART_MANAGER") &&
@@ -358,6 +369,8 @@ const Dashboard = () => {
                                 </div>
                             }
                         </div>
+
+
 
 
                         {

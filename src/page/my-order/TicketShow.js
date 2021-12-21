@@ -6,28 +6,19 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     useShowController,
-    ReferenceField,
-    TextField,
-    FieldProps,
-    Labeled,
-    DateField,
-    SelectInput,
-    BooleanInput,
-    ReferenceInput,
-    AutocompleteInput,
     Loading,
     translate,
     useGetOne,
 } from 'react-admin';
 import {Box, Button, CardActions} from "@material-ui/core";
-import RichTextInput from "ra-input-rich-text";
-import Basket from "./Basket";
 import SeatTotals from "./SeatTotal";
-import Totals from "./Totals";
 import ReactToPrint, {useReactToPrint} from "react-to-print";
 import {useEffect, useRef, useState} from "react";
 import {CodeRounded} from "@material-ui/icons";
 import TotalShow from "../showtimes/TotalShow";
+
+import image from '../../image/Screenshot 2021-12-21 215401.png'
+
 
 
 const CustomerField = ({ record }) =>
@@ -137,7 +128,7 @@ const TicketShow = (props) => {
                         </Grid>
                         <Grid item xs={6}>
                             <Typography variant="h6" gutterBottom align="right">
-                                No: {record.id}
+                                Code: {record.code}
                             </Typography>
                         </Grid>
                     </Grid>
@@ -157,22 +148,6 @@ const TicketShow = (props) => {
                         </Grid>
 
                         <Grid item xs={5}>
-
-                            {/*<ReferenceField*/}
-                            {/*    resource="invoices"*/}
-                            {/*    reference="commands"*/}
-                            {/*    source="command_id"*/}
-                            {/*    basePath="/invoices"*/}
-                            {/*    record={record}*/}
-                            {/*    link={false}*/}
-                            {/*>*/}
-                            {/*    <TextField*/}
-                            {/*        source="reference"*/}
-                            {/*        align="center"*/}
-                            {/*        component="p"*/}
-                            {/*        gutterBottom*/}
-                            {/*    />*/}
-                            {/*</ReferenceField>*/}
                         </Grid>
                     </Grid>
                     <div className={classes.invoices}>
@@ -251,7 +226,10 @@ const TicketShow = (props) => {
 export default TicketShow;
 
 const useStyles = makeStyles({
-    root: { width: 600, margin: 'auto' },
+    root: { width: 600, margin: 'auto' ,
+    // backgroundImage: `url(${image})`
+        backgroundImage: `url("https://i.pinimg.com/736x/01/93/93/019393252b2d4d707e6b05db15e9a9a5--cinema-ticket-card-ui.jpg")`
+    },
     spacer: { height: 20 },
     invoices: { margin: '10px 0' },
 });

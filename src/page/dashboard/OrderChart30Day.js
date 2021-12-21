@@ -67,12 +67,11 @@ const OrderChart30Day = (props) => {
             downloadCSV(csv, nameCSV);
         });
     }
-
     return (
         <Card>
             <CardHeader title={ role === 1 ?  translate(`30 Day Revenue History All Theater`)  : role === 2 ?
                         translate(`30 Day Revenue History `):
-                        translate(`30 Day Revenue History ${orders[0] && orders[0].theaterName}`) }
+                        translate(`30 Day Revenue History ${orders[0] && orders[0].theaterName || ""}`) }
                         action={
                             <div className={{display:"flex"}}>
                                 <IconButton aria-label="settings"

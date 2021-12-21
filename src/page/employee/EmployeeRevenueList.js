@@ -20,15 +20,7 @@ import UserLinkField from "../user/UserLinkField";
 import {format} from "date-fns";
 
 const usersFilters = [
-    // <SearchInput source="q" alwaysOn />,
-    // <ReferenceInput source="createBy" reference="users" filter={{role:0}}>
-    //     <AutocompleteInput
-    //         optionText={(choice) =>
-    //             choice.id ? `${choice.fullName}` : ''
-    //         }
-    //     />
-    // </ReferenceInput>,
-    <DateInput source={"date"}/>
+    <DateInput source={"date"} alwaysOn />
 ];
 
 
@@ -39,7 +31,7 @@ export const EmployeeRevenueList = props => {
 
         <List {...props}
               filters={usersFilters}
-              filterDefaultValues={{date:format(new Date(),"yyyy-MM-dd") }}
+              filterDefaultValues={{date:format(new Date(),"yyyy-MM-dd")}}
               bulkActionButtons={false}
         >
             <Datagrid rowClick="show">

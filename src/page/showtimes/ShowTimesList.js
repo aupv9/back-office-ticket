@@ -150,7 +150,9 @@ export const ShowTimesList = (props) =>{
                 </ReferenceField>
 
                 <DateField source="timeStart"  locales="VN" showTime options={{ weekday: 'long',day: 'numeric', month: 'long', year: 'numeric',hour:'numeric',minute:'numeric'}}
-                           label={"Day Show Times"}/>
+                           label={"Time Start"}/>
+                <DateField source="timeEnd"  locales="VN" showTime options={{ weekday: 'long',day: 'numeric', month: 'long', year: 'numeric',hour:'numeric',minute:'numeric'}}
+                           label={"Time End"}/>
                 {/*<TextField source="timeStart" />*/}
                 <ReferenceField label="Room" source="roomId" reference="rooms">
                     <TextField source="name" />

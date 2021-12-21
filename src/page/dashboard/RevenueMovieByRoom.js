@@ -17,7 +17,7 @@ import {ResponsiveLine} from "@nivo/line";
 export const RevenueMovieByRoom = (props) => {
     const { orders ,role} = props;
     const translate = useTranslate();
-    const {data:dataMovies,ids:idsMovie} = useGetList("movies-showHaveOfWeek", { page: 1, perPage: 10000 });
+    const {data:dataMovies,ids:idsMovie} = useGetList("movies-nowPlaying", { page: 1, perPage: 10000 });
 
     const {data,ids,loaded} = useGetList("rooms", { page: 1, perPage: 10000 });
     const [rooms,setRoom] = useState([]);
