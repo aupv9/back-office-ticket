@@ -82,6 +82,8 @@ const CustomDataGrid = (props) =>{
     const {data,ids} = useListContext();
     return (
         <CustomizableDatagrid optimized rowClick="show" expand={<TicketShow />}>
+            <ChipField source={"code"}/>
+
             <DateField source={"createdDate"} showTime/>
             <DateField source={"updatedAt"} showTime/>
 

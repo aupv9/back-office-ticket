@@ -35,13 +35,13 @@ import TicketShow from "../my-order/TicketShow";
 
 const orderFilters = [
     <SearchInput source="q" alwaysOn />,
-    <ReferenceInput source="room_id" reference="rooms">
-        <AutocompleteInput
-            optionText={(choice) =>
-                choice.id ? `${choice.name}` : ''
-            }
-        />
-    </ReferenceInput>,
+    // <ReferenceInput source="room_id" reference="rooms">
+    //     <AutocompleteInput
+    //         optionText={(choice) =>
+    //             choice.id ? `${choice.name}` : ''
+    //         }
+    //     />
+    // </ReferenceInput>,
     // <ReferenceInput source="customer_id" reference="customers">
     //     <AutocompleteInput
     //         optionText={(choice) =>
@@ -51,7 +51,7 @@ const orderFilters = [
     //         }
     //     />
     // </ReferenceInput>,
-    // <DateInput source="created_" />,
+    <DateInput source="created_date" />,
     // <DateInput source="date_lte" />,
     // <TextInput source="total_gte" />,
     // <NullableBooleanInput source="returned" />,
@@ -180,6 +180,8 @@ const TabbedDatagrid = (props) => {
                             value={{ ...listContext, ids: nonePayment }}
                         >
                             <CustomizableDatagrid>
+                                <ChipField source={"code"}/>
+
                                 <DateField source="createdDate" showTime />
                                 <DateField source="expirePayment" showTime />
 
@@ -226,6 +228,8 @@ const TabbedDatagrid = (props) => {
                             value={{ ...listContext, ids: payment }}
                         >
                             <CustomizableDatagrid>
+                                <ChipField source={"code"}/>
+
                                 <DateField source="createdDate" showTime />
 
                                 <ReferenceField
@@ -264,6 +268,8 @@ const TabbedDatagrid = (props) => {
                             value={{ ...listContext, ids: cancelled }}
                         >
                             <CustomizableDatagrid>
+                                <ChipField source={"code"}/>
+
                                 <DateField source="createdDate" showTime />
                                 <ReferenceField
                                     source="showTimesDetailId"
@@ -304,7 +310,7 @@ const TabbedDatagrid = (props) => {
 const ListActions = (props) => (
     <TopToolbar>
         <ExportButton/>
-        <FilterButton/>
+        {/*<FilterButton/>*/}
     </TopToolbar>
 );
 
