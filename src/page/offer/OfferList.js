@@ -123,6 +123,7 @@ const CustomDataGrid = (props) =>{
             <ChipField source={"method"} label={"Mode"}/>
             <ChipField source={"type"}/>
             <ChipField source={"status"}/>
+            <ChipField source={"maxTotalUsage"} label={"Count Usage Remain"}/>
             <NumberField
                 source="discountAmount"
                 options={{

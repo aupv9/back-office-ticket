@@ -93,7 +93,7 @@ export const MyOrderAside = ({amount,code,record}) => {
                                     component={RouterLink}
                                     to={{
                                         pathname: '/payments/create',
-                                        state: { record: { partId: record.id ,amount:amount,userId:record.userId,expire:record["expirePayment"],createdDate:record["createdDate"]} },
+                                        state: { record: { code:code,partId: record.id ,amount:amount,userId:record.userId,expire:record["expirePayment"],createdDate:record["createdDate"]} },
                                     }}
                                     color="primary"
                                     variant="contained"

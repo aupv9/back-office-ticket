@@ -5,57 +5,55 @@ import {useDataProvider, useGetList, useTranslate} from 'react-admin';
 import { format, subDays, addDays } from 'date-fns';
 import { ResponsivePieCanvas } from '@nivo/pie'
 import {useCallback, useEffect, useState} from "react";
+import {KeyboardDatePicker, KeyboardDateTimePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
+import DateFnsUtils from '@date-io/date-fns';
 
-
-
-export const RoomCoverChart = (props) => {
-    const { orders } = props;
+export const RoomCoverChart = () => {
     const translate = useTranslate();
-    const dataProvider = useDataProvider();
-    const {data,ids,loaded} = useGetList("rooms", { page: 1, perPage: 10000 });
-    const [rooms,setRoom] = useState([]);
     const [dataChart,setDataChart] = useState([]);
+    const [selectedDate, handleDateChange] = useState(new Date());
+
+    const {data:dataCover,ids} = useGetList("percentCoverSeat", { },{},{
+        date:format(selectedDate,"yyyy-MM-dd")
+    });
 
 
-    useEffect(() =>{
-        const rooms = ids.map(id => data[id]);
-        setRoom(rooms);
-        const aggregateOrdersByRoom= (orders) =>
-            orders
-                .filter((order) => order.status !== 'cancelled' && order.status !== 'non_payment')
-                .reduce((acc, curr) => {
-                    const room = curr["roomName"];
-                    if (!acc[room]) {
-                        acc[room] = 0;
-                    }
-                    acc[room] += curr.total;
-                    return acc;
-                }, {});
-
-        const getRevenuePerRoom = (orders) => {
-            const roomsWithRevenue = aggregateOrdersByRoom(orders);
-            return rooms.map(room => ({
-                id: room["name"],
-                label:room["name"],
-                value: roomsWithRevenue[room["name"]] || 0
-
-            }));
-        };
-        setDataChart(getRevenuePerRoom(orders));
-    },[ids,data]);
-
-    if (!orders) return null;
+    useEffect(() => {
+        const data = ids.map(id => dataCover[id])
+        setDataChart(data);
+    },[ids,dataCover]);
 
 
 
     return (
         <Card>
-            <CardHeader title={translate('30 Day Revenue History All Room')} />
+            <CardHeader title={translate('pos.dashboard.percent_cover_room')}
+                        action={
+                            <>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <KeyboardDatePicker
+                                    autoOk
+                                    variant="inline"
+                                    inputVariant="outlined"
+                                    label="Date"
+                                    format="yyyy-MM-dd"
+                                    value={selectedDate}
+                                    InputAdornmentProps={{ position: "end" }}
+                                    onChange={date => handleDateChange(date)}
+                                />
+                            </MuiPickersUtilsProvider>
+                            </>
+                        }
+
+            />
             <CardContent>
                 <div style={{ width: '100%', height: 500 }}>
                     <ResponsivePieCanvas
                         data={dataChart}
+                        valueFormat=" >-0,~p"
+                        sortByValue={true}
                         margin={{ top: 40, right: 200, bottom: 40, left: 80 }}
+                        // arcLinkLabel={function(e){return e.id+" ("+e.value+")"}}
                         innerRadius={0.5}
                         padAngle={0.7}
                         cornerRadius={3}

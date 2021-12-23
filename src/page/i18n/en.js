@@ -25,7 +25,8 @@ const customEnglishMessages = {
             pending_orders: 'Pending Orders ToDay',
             list_order_today:"List Orders To Day",
             revenue_theater:"Revenue Theaters To Day",
-            revenue_room_today:"Revenue Rooms To Day",
+            revenue_room_per_day:"Revenue Rooms Per Day",
+            percent_cover_room:"Percent Cover Medium All Room",
             order: {
                 items:
                     'by %{employee_name}, one item |||| by %{customer_name}, %{nb_items} orders',

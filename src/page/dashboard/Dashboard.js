@@ -22,6 +22,7 @@ import RevenuePerStaff from "./RevenuePerStaff";
 import OrderListToDay from "./OrderListToDay";
 import RevenuePerTheater from "./RevenuePerTheater";
 import {RoomRevenueToDay} from "./RoomRevenueToDay";
+import {RoomCoverChart} from "./RoomCoverChart";
 
 
 
@@ -112,6 +113,9 @@ const Dashboard = () => {
                 pagination: { page: 1, perPage: 1000000 },
             }
         );
+
+
+
         const aggregations = processOrdersToDay(recentOrders);
 
         setState(state => ({
@@ -307,8 +311,6 @@ const Dashboard = () => {
                                     }
                                 </div>
                             }
-
-
                         </div>
                         <div style={styles.singleCol}>
                             {
@@ -354,7 +356,17 @@ const Dashboard = () => {
                                 isHavePermission("READ_CHART_MANAGER") &&
                                 <div style={styles.singleCol}>
                                     {
-                                        recentOrders && <RoomRevenueToDay orders={recentOrders}/>
+                                         <RoomCoverChart />
+                                    }
+                                </div>
+                            }
+                        </div>
+                        <div style={styles.singleCol}>
+                            {
+                                isHavePermission("READ_CHART_MANAGER") &&
+                                <div style={styles.singleCol}>
+                                    {
+                                        <RoomRevenueToDay />
                                     }
                                 </div>
                             }

@@ -61,7 +61,7 @@ export const RevenueMonthTheater = (props) => {
                     <ResponsivePieCanvas
                         data={dataChart}
                         margin={{ top: 40, right: 200, bottom: 40, left: 80 }}
-                        valueFormat=" >-"
+                        valueFormat=" >-0,~r"
                         innerRadius={0.5}
                         padAngle={0.7}
                         cornerRadius={3}

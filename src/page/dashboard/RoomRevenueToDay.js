@@ -5,26 +5,42 @@ import {useDataProvider, useGetList, useTranslate} from 'react-admin';
 import {format, subDays, addDays, isToday} from 'date-fns';
 import { ResponsivePieCanvas } from '@nivo/pie'
 import {useCallback, useEffect, useState} from "react";
+import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
 const lastDay = new Date();
 
 
 
-export const RoomRevenueToDay = (props) => {
-    const { orders } = props;
+export const RoomRevenueToDay = () => {
     const translate = useTranslate();
     const dataProvider = useDataProvider();
-    const {data,ids,loaded} = useGetList("rooms", { page: 1, perPage: 10000 });
+    const [selectedDate, handleDateChange] = useState(new Date());
+
+    const {data:dataRoom,ids:dataRoomIds} = useGetList("rooms", { page: 1, perPage: 10000 });
+    const {data:dataOrder,ids:dataOrderIds,loaded} = useGetList("order-dashboard", {},{},{
+        date:format(selectedDate,"yyyy-MM-dd")
+    });
+
     const [rooms,setRoom] = useState([]);
     const [dataChart,setDataChart] = useState([]);
+    const [orders,setOrders] = useState([]);
+
+    useEffect(() =>{
+
+    },[dataOrderIds,dataOrder])
+
 
 
     useEffect(() => {
-        const rooms = ids.map(id => data[id]);
+        const rooms = dataRoomIds.map(id => dataRoom[id]);
         setRoom(rooms);
+        const orders = dataOrderIds.map(id => dataOrder[id]);
+        setOrders(orders);
+
         const aggregateOrdersByRoom= (orders) =>
             orders
-                .filter((order) => order.status === 'payment' && isToday(new Date(order.createdDate)))
+                .filter((order) => order.status === 'payment')
                 .reduce((acc, curr) => {
                     const room = curr["roomName"];
                     if (!acc[room]) {
@@ -44,7 +60,8 @@ export const RoomRevenueToDay = (props) => {
             }));
         };
         setDataChart(getRevenuePerRoom(orders));
-    },[ids,data]);
+    },[dataRoomIds,dataRoom,dataOrderIds,dataOrder]);
+
 
     if (!orders) return null;
 
@@ -52,11 +69,29 @@ export const RoomRevenueToDay = (props) => {
 
     return (
         <Card>
-            <CardHeader title={translate('pos.dashboard.revenue_room_today')} />
+            <CardHeader title={translate('pos.dashboard.revenue_room_per_day')}
+                        action={
+                            <>
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <KeyboardDatePicker
+                                        autoOk
+                                        variant="inline"
+                                        inputVariant="outlined"
+                                        label="Date"
+                                        format="yyyy-MM-dd"
+                                        value={selectedDate}
+                                        InputAdornmentProps={{ position: "end" }}
+                                        onChange={date => handleDateChange(date)}
+                                    />
+                                </MuiPickersUtilsProvider>
+                            </>
+                        }
+            />
             <CardContent>
                 <div style={{ width: '100%', height: 500 }}>
                     <ResponsivePieCanvas
                         data={dataChart}
+                        valueFormat=" >-0,~r"
                         margin={{ top: 40, right: 200, bottom: 40, left: 80 }}
                         innerRadius={0.5}
                         padAngle={0.7}

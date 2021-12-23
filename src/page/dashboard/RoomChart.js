@@ -61,6 +61,7 @@ export const RoomChart = (props) => {
                 <div style={{ width: '100%', height: 500 }}>
                     <ResponsivePieCanvas
                         data={dataChart}
+                        valueFormat=" >-0,~r"
                         margin={{ top: 40, right: 200, bottom: 40, left: 80 }}
                         innerRadius={0.5}
                         padAngle={0.7}

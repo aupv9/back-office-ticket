@@ -155,6 +155,8 @@ const App = () => {
             <Resource name={"movies-showHaveOfWeek"} />
             <Resource name={"employees-revenue"} list={EmployeeRevenueList}/>
             <Resource name={"movies-nowPlaying"} />
+            <Resource name={"percentCoverSeat"} />
+            <Resource name={"order-dashboard"} />
 
         </Admin>
     );

@@ -84,7 +84,6 @@ export const RevenueMovieByRoom = (props) => {
                     data:data
                 }
             });
-            console.log(dataChart)
             return dataChart
         };
 
@@ -112,6 +111,7 @@ export const RevenueMovieByRoom = (props) => {
                 <div style={{ width: '100%', height: 500 }}>
                     <ResponsiveLine
                         data={dataChart}
+                        valueFormat=" >-0,~r"
                         margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
                         xScale={{ type: 'point' }}
                         yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
