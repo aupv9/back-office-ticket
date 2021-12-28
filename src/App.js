@@ -158,6 +158,8 @@ const App = () => {
             <Resource name={"percentCoverSeat"} />
             <Resource name={"order-dashboard"} />
 
+            <Resource name={"percentPaymentMethod"} />
+
         </Admin>
     );
 }

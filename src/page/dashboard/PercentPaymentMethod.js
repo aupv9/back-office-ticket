@@ -1,72 +1,33 @@
 import * as React from 'react';
-import {
-    Avatar,
-    Box,
-    Button, Card, CardContent, CardHeader, Chip,
-    List,
-    ListItem,
-    ListItemAvatar, ListItemSecondaryAction,
-    ListItemText, Typography,
-} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import {useTranslate, useQueryWithStore, ReferenceField, useGetList} from 'react-admin';
+import { Card, CardHeader, CardContent } from '@material-ui/core';
 
-import {ResponsivePieCanvas} from "@nivo/pie";
-import {format, isToday} from "date-fns";
-import {useEffect, useState} from "react";
-import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
+import {useDataProvider, useGetList, useTranslate} from 'react-admin';
+import { format, subDays, addDays } from 'date-fns';
+import { ResponsivePieCanvas } from '@nivo/pie'
+import {useCallback, useEffect, useState} from "react";
+import {KeyboardDatePicker, KeyboardDateTimePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
+import DateFnsUtils from '@date-io/date-fns';
 
-
-const RevenuePerTheater = () => {
+export const PercentPaymentMethod = () => {
     const translate = useTranslate();
-    const classes = useStyles();
-    const {data,ids} = useGetList("theaters", { page: 1, perPage: 10000 });
+    const [dataChart,setDataChart] = useState([]);
     const [selectedDate, handleDateChange] = useState(new Date());
-    const {data:dataOrder,ids:dataOrderIds,loaded} = useGetList("order-dashboard", {},{},{
+
+    const {data:dataCover,ids} = useGetList("percentPaymentMethod", { },{},{
         date:format(selectedDate,"yyyy-MM-dd")
     });
-    const [theaters,setTheater] = useState([]);
-    const [orders,setOrders] = useState([]);
-
-    const [dataChart,setDataChart] = useState([]);
 
 
+    useEffect(() => {
+        const data = ids.map(id => dataCover[id])
+        setDataChart(data);
+    },[ids,dataCover]);
 
-    useEffect(() =>{
-        const theaters = ids.map(id => data[id]);
-        const orders = dataOrderIds.map(id =>  dataOrder[id]);
-        setOrders(orders);
-        setTheater(theaters);
-
-        const aggregateOrdersByTheaters= (orders) =>
-            orders
-                .filter((order) =>  order.status === 'payment')
-                .reduce((acc, curr) => {
-                    const room = curr["theaterName"];
-                    if (!acc[room]) {
-                        acc[room] = 0;
-                    }
-                    acc[room] += curr.total;
-                    return acc;
-                }, {});
-
-        const getRevenuePerTheater = (orders) => {
-            const theatersWithRevenue = aggregateOrdersByTheaters(orders);
-            return theaters.map(theater => ({
-                id: theater["name"],
-                label:theater["name"],
-                value: theatersWithRevenue[theater["name"]] || 0
-
-            }));
-        };
-        setDataChart(getRevenuePerTheater(orders));
-    },[ids,data,dataOrder,dataOrderIds]);
 
 
     return (
         <Card>
-            <CardHeader title={translate('pos.dashboard.revenue_theater')}
+            <CardHeader title={translate('pos.dashboard.percent_payment_method')}
                         action={
                             <>
                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -83,13 +44,16 @@ const RevenuePerTheater = () => {
                                 </MuiPickersUtilsProvider>
                             </>
                         }
+
             />
             <CardContent>
                 <div style={{ width: '100%', height: 500 }}>
                     <ResponsivePieCanvas
                         data={dataChart}
-                        valueFormat=" >-0,~r"
+                        valueFormat=" >-0,~p"
+                        sortByValue={true}
                         margin={{ top: 40, right: 200, bottom: 40, left: 80 }}
+                        // arcLinkLabel={function(e){return e.id+" ("+e.value+")"}}
                         innerRadius={0.5}
                         padAngle={0.7}
                         cornerRadius={3}
@@ -189,20 +153,11 @@ const RevenuePerTheater = () => {
                                 symbolShape: 'circle'
                             }
                         ]}
-                     />
+                    />
                 </div>
             </CardContent>
         </Card>
     );
 };
 
-const useStyles = makeStyles(theme => ({
-    link: {
-        borderRadius: 0,
-    },
-    linkContent: {
-        color: theme.palette.primary.main,
-    },
-}));
 
-export default RevenuePerTheater;

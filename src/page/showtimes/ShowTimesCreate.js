@@ -79,13 +79,13 @@ export const ShowTimesCreate = (props) =>{
                     />
                 </FormTab>
 
-                <FormTab
-                    label="promotion"
-                    path="promotion"
-                    contentClassName={classes.tab}
-                >
-
-                </FormTab>
+                {/*<FormTab*/}
+                {/*    label="promotion"*/}
+                {/*    path="promotion"*/}
+                {/*    contentClassName={classes.tab}*/}
+                {/*>*/}
+                
+                {/*</FormTab>*/}
             </TabbedForm>
         </Create>
     )

@@ -11,13 +11,22 @@ import IconButton from "@material-ui/core/IconButton";
 import {ArrowDownward} from "@material-ui/icons";
 // import {CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis,Tooltip,Line,LineChart} from "recharts";
 import {ResponsiveLine} from "@nivo/line";
+import {format} from "date-fns";
+import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
 
 
 export const RevenueMovieByTheater = (props) => {
     const { orders ,role ,dataTheater} = props;
     const translate = useTranslate();
+    const [selectedDate, handleDateChange] = useState(new Date());
+
     const {data:dataMovies,ids:idsMovie} = useGetList("movies-nowPlaying", { page: 1, perPage: 10000 });
+
+    const {data:dataOrder,ids:dataOrderIds,loaded} = useGetList("order-dashboard", {},{},{
+        date:format(selectedDate,"yyyy-MM-dd")
+    });
 
     const [movies,setMovies] = useState([]);
     const [theaters,setTheaters] = useState([]);
@@ -35,13 +44,13 @@ export const RevenueMovieByTheater = (props) => {
     }
 
     useEffect(() =>{
-
         const movies = idsMovie.map(id => dataMovies[id]);
-        setMovies(movies);
+        const orders = dataOrderIds.map(id =>  dataOrder[id]);
 
+        setMovies(movies);
         const aggregateOrdersByMovieTotalByTheater = (orders,theater,movie) => {
 
-            return   orders
+            return  orders
                 .filter((order) => order.status === 'payment' && order["theaterName"] === theater && order["movieName"] === movie)
                 .reduce((acc, curr) => {
                     acc += curr["totalSeats"];
@@ -72,7 +81,7 @@ export const RevenueMovieByTheater = (props) => {
         };
 
         setDataChart(getRevenuePerRoom(orders));
-    },[idsMovie,dataMovies]);
+    },[idsMovie,dataMovies,dataOrder,dataOrderIds]);
 
 
 
@@ -83,12 +92,29 @@ export const RevenueMovieByTheater = (props) => {
             <CardHeader title={role === 1 ?  translate(`Revenue Movie Now Playing All Theater`) :
                 translate(`Revenue Movie Now Playing ${orders[0] && orders[0].theaterName}`)}
                     action={
+                        <>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <KeyboardDatePicker
+                                    autoOk
+                                    variant="inline"
+                                    inputVariant="outlined"
+                                    label="Date"
+                                    format="yyyy-MM-dd"
+                                    value={selectedDate}
+                                    InputAdornmentProps={{ position: "end" }}
+                                    onChange={date => handleDateChange(date)}
+                                />
+                            </MuiPickersUtilsProvider>
+
                             <IconButton aria-label="settings"
                                         onClick={exportChart}
                                         title={"Export To CSV"}
                             >
                                 <ArrowDownward />
                             </IconButton>
+
+                    </>
+
                         }
 
             />
@@ -96,19 +122,18 @@ export const RevenueMovieByTheater = (props) => {
                 <div style={{ width: '100%', height: 500 }}>
                     <ResponsiveLine
                         data={dataChart}
-                        valueFormat=" >-0,~r"
                         margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
                         xScale={{ type: 'point' }}
                         yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
-                        yFormat=" >-.2f"
-                        axisTop={null}
-                        axisRight={null}
+                        // yFormat=" >-.2f"
+                        // axisTop={{ orient: 'top', tickSize: 5, tickPadding: 5, tickRotation: 0, legend: '', legendOffset: 36 }}
+                        // axisRight={{ orient: 'right', tickSize: 5, tickPadding: 5, tickRotation: 0, legend: '', legendOffset: 0 }}
                         axisBottom={{
                             orient: 'bottom',
                             tickSize: 5,
                             tickPadding: 5,
                             tickRotation: 0,
-                            legend: 'Theater',
+                            legend: 'transportation',
                             legendOffset: 36,
                             legendPosition: 'middle'
                         }}
@@ -117,7 +142,7 @@ export const RevenueMovieByTheater = (props) => {
                             tickSize: 5,
                             tickPadding: 5,
                             tickRotation: 0,
-                            legend: 'count',
+                            legend: '',
                             legendOffset: -40,
                             legendPosition: 'middle'
                         }}

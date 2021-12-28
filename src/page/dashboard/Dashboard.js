@@ -23,6 +23,7 @@ import OrderListToDay from "./OrderListToDay";
 import RevenuePerTheater from "./RevenuePerTheater";
 import {RoomRevenueToDay} from "./RoomRevenueToDay";
 import {RoomCoverChart} from "./RoomCoverChart";
+import {PercentPaymentMethod} from "./PercentPaymentMethod";
 
 
 
@@ -382,8 +383,14 @@ const Dashboard = () => {
                             }
                         </div>
 
-
-
+                        {
+                            isHavePermission("READ_CHART_SENIOR_MANAGER") &&
+                            <div style={styles.singleCol}>
+                                {
+                                    <PercentPaymentMethod/>
+                                }
+                            </div>
+                        }
 
                         {
                             isHavePermission("READ_CHART_SENIOR_MANAGER") &&

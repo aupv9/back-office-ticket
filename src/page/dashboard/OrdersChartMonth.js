@@ -134,7 +134,7 @@ export const OrdersChartMonth = (props) => {
                 <div style={{ width: '100%', height: 500 }}>
                     <ResponsiveBar
                         data={months}
-                        // valueFormat=" >-0,~r"
+                        valueFormat=" >-0,~r"
                         indexBy="date"
                         keys={['payment', 'pending', 'cancelled']}
                         margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
@@ -187,12 +187,12 @@ export const OrdersChartMonth = (props) => {
                             legendPosition: 'middle',
                             legendOffset: 32
                         }}
-                        axisLeft={{
-                            format: value =>
-                                `${Number(value).toLocaleString('ru-RU', {
-                                    minimumFractionDigits: 0,
-                                })} đ`,
-                        }}
+                        // axisLeft={{
+                        //     format: value =>
+                        //         `${Number(value).toLocaleString('ru-RU', {
+                        //             minimumFractionDigits: 0,
+                        //         })} đ`,
+                        // }}
                         valueFormat={value =>
                             `${Number(value).toLocaleString('ru-RU', {
                                 minimumFractionDigits: 0,

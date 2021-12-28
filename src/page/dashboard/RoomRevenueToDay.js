@@ -26,11 +26,6 @@ export const RoomRevenueToDay = () => {
     const [dataChart,setDataChart] = useState([]);
     const [orders,setOrders] = useState([]);
 
-    useEffect(() =>{
-
-    },[dataOrderIds,dataOrder])
-
-
 
     useEffect(() => {
         const rooms = dataRoomIds.map(id => dataRoom[id]);

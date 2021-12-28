@@ -17,8 +17,6 @@ import {useEffect, useRef, useState} from "react";
 import {CodeRounded} from "@material-ui/icons";
 import TotalShow from "../showtimes/TotalShow";
 
-import image from '../../image/Screenshot 2021-12-21 215401.png'
-
 
 
 const CustomerField = ({ record }) =>
@@ -110,7 +108,7 @@ const TicketShow = (props) => {
             >
                 Export Ticket
             </Button>
-        ); // eslint-disable-line max-len
+        );
     }, []);
 
     if (!record) return null;
@@ -175,50 +173,6 @@ const TicketShow = (props) => {
                     />
                 </CardActions>
             </Card>
-            {/*<Card className={classes.root}>*/}
-            {/*    <CardContent>*/}
-            {/*        <Grid container spacing={2}>*/}
-            {/*            <Grid item xs={6}>*/}
-            {/*                <Typography variant="h6" gutterBottom>*/}
-            {/*                    Tom Ticket*/}
-            {/*                </Typography>*/}
-            {/*            </Grid>*/}
-            {/*            <Grid item xs={6}>*/}
-            {/*                <Typography variant="h6" gutterBottom align="right">*/}
-            {/*                    Order {record.id}*/}
-            {/*                </Typography>*/}
-            {/*            </Grid>*/}
-            {/*        </Grid>*/}
-            {/*        <Grid container spacing={2}>*/}
-            {/*            <Grid item xs={12} container alignContent="flex-end">*/}
-            {/*            </Grid>*/}
-            {/*        </Grid>*/}
-            {/*        <div className={classes.spacer}>&nbsp;</div>*/}
-            {/*        <Grid container spacing={2}>*/}
-            {/*            <Grid item xs={6}>*/}
-            {/*                <Typography variant="h6" gutterBottom align="center">*/}
-            {/*                    Date{' '}*/}
-            {/*                </Typography>*/}
-            {/*                <Typography gutterBottom align="center">*/}
-            {/*                    {new Date(record.createdDate).toLocaleDateString()}*/}
-            {/*                </Typography>*/}
-            {/*            </Grid>*/}
-
-            {/*            <Grid item xs={5}>*/}
-            {/*            </Grid>*/}
-            {/*        </Grid>*/}
-            {/*        <div className={classes.invoices}>*/}
-            {/*            <Basket record={record} />*/}
-            {/*        </div>*/}
-
-            {/*        <div className={classes.invoices}>*/}
-            {/*            {*/}
-            {/*                record && show ? <SeatTotals record={record} show = {show}/> :*/}
-            {/*                    <Loading />*/}
-            {/*            }*/}
-            {/*        </div>*/}
-            {/*    </CardContent>*/}
-            {/*</Card>*/}
         </div>
     );
 };

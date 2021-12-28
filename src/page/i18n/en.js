@@ -27,6 +27,7 @@ const customEnglishMessages = {
             revenue_theater:"Revenue Theaters To Day",
             revenue_room_per_day:"Revenue Rooms Per Day",
             percent_cover_room:"Percent Cover Medium All Room",
+            percent_payment_method:"Percent Payment Method",
             order: {
                 items:
                     'by %{employee_name}, one item |||| by %{customer_name}, %{nb_items} orders',

@@ -8,22 +8,29 @@ import {
 
 import jsonExport from 'jsonexport/dist';
 import IconButton from "@material-ui/core/IconButton";
-import {ArrowDownward} from "@material-ui/icons";
+import {ArrowDownward, Print} from "@material-ui/icons";
 // import {CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis,Tooltip,Line,LineChart} from "recharts";
 import {ResponsiveLine} from "@nivo/line";
+import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
+import {format} from "date-fns";
 
 
 
 export const RevenueMovieByRoom = (props) => {
-    const { orders ,role} = props;
+    const { role} = props;
     const translate = useTranslate();
     const {data:dataMovies,ids:idsMovie} = useGetList("movies-nowPlaying", { page: 1, perPage: 10000 });
 
     const {data,ids,loaded} = useGetList("rooms", { page: 1, perPage: 10000 });
     const [rooms,setRoom] = useState([]);
+    const [selectedDate, handleDateChange] = useState(new Date());
 
+    const {data:dataOrder,ids:dataOrderIds} = useGetList("order-dashboard", {},{},{
+        date:format(selectedDate,"yyyy-MM-dd")
+    });
     const [movies,setMovies] = useState([]);
-    const [theaters,setTheaters] = useState([]);
+    const [orders,setOrders] = useState([]);
 
     const [dataChart,setDataChart] = useState([]);
 
@@ -43,6 +50,8 @@ export const RevenueMovieByRoom = (props) => {
     },[ids,data])
 
     useEffect(() =>{
+        const orders = dataOrderIds.map(id =>  dataOrder[id]);
+        setOrders(orders);
         const movies = idsMovie.map(id => dataMovies[id]);
         setMovies(movies);
         const aggregateOrdersByMovieTotal = (orders) =>
@@ -88,7 +97,7 @@ export const RevenueMovieByRoom = (props) => {
         };
 
         setDataChart(getRevenuePerRoom(orders));
-    },[idsMovie,dataMovies,rooms]);
+    },[idsMovie,dataMovies,rooms,dataOrder,dataOrderIds]);
 
 
 
@@ -97,14 +106,38 @@ export const RevenueMovieByRoom = (props) => {
     return (
         <Card>
             <CardHeader title={role === 1 ?  translate(`Revenue Movie Now Playing All Theater`) :
-                translate(`Revenue Movie Now Playing ${orders[0] && orders[0].theaterName}`)}
+                translate(`Revenue Movie Now Playing `)}
                         action={
-                            <IconButton aria-label="settings"
-                                        onClick={exportChart}
-                                        title={"Export To CSV"}
-                            >
-                                <ArrowDownward />
-                            </IconButton>
+                            <>
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <KeyboardDatePicker
+                                        autoOk
+                                        variant="inline"
+                                        inputVariant="outlined"
+                                        label="Date"
+                                        format="yyyy-MM-dd"
+                                        value={selectedDate}
+                                        InputAdornmentProps={{ position: "end" }}
+                                        onChange={date => handleDateChange(date)}
+                                    />
+                                </MuiPickersUtilsProvider>
+
+                                <IconButton aria-label="settings"
+                                            onClick={exportChart}
+                                            title={"Export To CSV"}
+                                >
+                                    <ArrowDownward />
+                                </IconButton>
+                                <IconButton aria-label="settings"
+                                            onClick={exportChart}
+                                            title={"Export To CSV"}
+                                >
+                                    <Print />
+                                </IconButton>
+
+
+                            </>
+
                         }
             />
             <CardContent>

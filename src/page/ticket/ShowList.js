@@ -105,7 +105,7 @@ export const ShowList = (props) =>{
                 <ReferenceField label="Movie Name" source="movieId" reference="movies">
                     <TextField source="name" />
                 </ReferenceField>
-                <ReferenceField label="Movie Thumbnail" source="movieId" reference="movies">
+                <ReferenceField label="Movie Thumbnail" source="movieId" reference="movies" link={false}>
                     <ImageField source="thumbnail" />
                 </ReferenceField>
                 <DateField source="timeStart"  locales="VN" showTime options={{ weekday: 'long',day: 'numeric', month: 'long', year: 'numeric',hour:'numeric',minute:'numeric'}}

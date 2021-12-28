@@ -70,19 +70,20 @@ const EmployeeForm = (props ) => {
                                     mt={{ xs: '1em', lg: 0 }}
                                 >
                                    <TextInput source={"notes"}/>
+
+                                    <Box mt="1em" />
+
+                                        <SelectInput source="status" choices={[
+                                            { id: 'New', name: 'New' },
+                                            { id: 'Active', name: 'Active' },
+                                            { id: 'Blocked', name: 'Blocked' },
+                                        ]} />
+
+                                    <Box mt="1em" />
+
                                 </Box>
-                                {/*<Box*/}
-                                {/*    flex={1}*/}
-                                {/*    ml={{ xs: 0, lg: '1em' }}*/}
-                                {/*    mt={{ xs: '1em', lg: 0 }}*/}
-                                {/*>*/}
-                                {/*    <Typography variant="h6" gutterBottom>*/}
-                                {/*        {translate(*/}
-                                {/*            'Description'*/}
-                                {/*        )}*/}
-                                {/*    </Typography>*/}
-                                {/*    <RichTextInput source={"notes"} />*/}
-                                {/*</Box>*/}
+
+
                             </Box>
                         </CardContent>
                         <Toolbar
