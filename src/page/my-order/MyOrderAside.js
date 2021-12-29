@@ -73,12 +73,12 @@ export const MyOrderAside = ({amount,code,record}) => {
         // setIsPrint(true)
         return (
                 <Button
-                color="primary"
-                variant="contained"
-                size="small"
-                startIcon={<CodeRounded />}
+                    color="primary"
+                    variant="contained"
+                    size="small"
+                    startIcon={<CodeRounded />}
             >
-                Export Ticket
+                Export Order
             </Button>
         ); // eslint-disable-line max-len
     }, []);
@@ -104,35 +104,26 @@ export const MyOrderAside = ({amount,code,record}) => {
                                 </Button> :null
                             }
                         </Box>
-                    </Box>
-                    : record && record.status === "payment" ?
-                        <Box ml={4} width={250} minWidth={250}>
-                            <Box textAlign="center" mb={2}>
-                                {
-                                    record ?
-                                    //     <Button
-                                    //     color="primary"
-                                    //     variant="contained"
-                                    //     size="small"
-                                    //     startIcon={<CodeRounded />}
-                                    //     onClick={handlePrint}
-                                    // >
-                                    //     Export Ticket
-                                    // </Button>
-                                        <ReactToPrint
-                                            content={reactToPrintContent}
-                                            documentTitle="AwesomeFileName"
-                                            onAfterPrint={handleAfterPrint}
-                                            onBeforeGetContent={handleOnBeforeGetContent}
-                                            onBeforePrint={handleBeforePrint}
-                                            removeAfterPrint
-                                            trigger={reactToPrintTrigger}
-                                        />
-
-                                        :null
-                                }
-                            </Box>
-                        </Box> : null
+                    </Box> :null
+                    // : record && record.status === "payment" ?
+                    //     <Box ml={4} width={250} minWidth={250}>
+                    //         <Box textAlign="center" mb={2}>
+                    //             {
+                    //                 record ?
+                    //                     <ReactToPrint
+                    //                         content={reactToPrintContent}
+                    //                         documentTitle="AwesomeFileName"
+                    //                         onAfterPrint={handleAfterPrint}
+                    //                         onBeforeGetContent={handleOnBeforeGetContent}
+                    //                         onBeforePrint={handleBeforePrint}
+                    //                         removeAfterPrint
+                    //                         trigger={reactToPrintTrigger}
+                    //                     />
+                    //
+                    //                     :null
+                    //             }
+                    //         </Box>
+                    //     </Box> : null
             }
             {
                 isPrint && <TicketTemplate ref={componentRef}/>

@@ -8,15 +8,15 @@ import {
     useShowController,
     Loading,
     translate,
-    useGetOne,
+    useGetOne,ImageField
 } from 'react-admin';
-import {Box, Button, CardActions} from "@material-ui/core";
+import {Box, Button, CardActions, CardHeader} from "@material-ui/core";
 import SeatTotals from "./SeatTotal";
 import ReactToPrint, {useReactToPrint} from "react-to-print";
 import {useEffect, useRef, useState} from "react";
 import {CodeRounded} from "@material-ui/icons";
 import TotalShow from "../showtimes/TotalShow";
-
+import image from '../../image/Movie Night Free Snack Facebook Post.png';
 
 
 const CustomerField = ({ record }) =>
@@ -117,11 +117,30 @@ const TicketShow = (props) => {
 
         <div style={{display:"flex"}} >
             <Card className={classes.root} >
+               {/*<CardHeader*/}
+               {/*    title={*/}
+               {/*        <>*/}
+               {/*            <img*/}
+               {/*                alt={""}*/}
+               {/*                // title={fileTitleValue}*/}
+               {/*                src={image}*/}
+               {/*                className={classes.image}*/}
+               {/*            />*/}
+               {/*        </>*/}
+               {/*    }*/}
+
+
+               {/*/>*/}
                 <CardContent ref={componentRef}>
+                    <img
+                        alt={""}
+                        src={image}
+                        className={classes.image}
+                    />
                     <Grid container spacing={2}>
                         <Grid item xs={6}>
                             <Typography variant="h6" gutterBottom>
-                                Tom Ticket
+                                Movie Night
                             </Typography>
                         </Grid>
                         <Grid item xs={6}>
@@ -182,8 +201,13 @@ export default TicketShow;
 const useStyles = makeStyles({
     root: { width: 600, margin: 'auto' ,
     // backgroundImage: `url(${image})`
-        backgroundImage: `url("https://i.pinimg.com/736x/01/93/93/019393252b2d4d707e6b05db15e9a9a5--cinema-ticket-card-ui.jpg")`
+        backgroundImage: `url(${image})`
     },
     spacer: { height: 20 },
     invoices: { margin: '10px 0' },
+    image: {
+        // margin: '0.5rem',
+        maxHeight: '10rem',
+        // width:"100%"
+    },
 });

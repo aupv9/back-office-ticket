@@ -24,6 +24,7 @@ import RevenuePerTheater from "./RevenuePerTheater";
 import {RoomRevenueToDay} from "./RoomRevenueToDay";
 import {RoomCoverChart} from "./RoomCoverChart";
 import {PercentPaymentMethod} from "./PercentPaymentMethod";
+import TrackingActive from "./TrackingActive";
 
 
 
@@ -212,6 +213,7 @@ const Dashboard = () => {
                 <div style={styles.flex}>
                     <div style={styles.leftCol}>
                         <div style={styles.flex}>
+
                             {
                                 isHavePermission("READ_CHART_STAFF") && <RevenueToDayChart value={revenueToday}/>
                             }
@@ -244,7 +246,11 @@ const Dashboard = () => {
                             }
 
                         </div>
-
+                        <div style={styles.singleCol}>
+                            {
+                                isHavePermission("READ_USER_ACTIVE") && ordersAll && <TrackingActive />
+                            }
+                        </div>
                         <div style={styles.singleCol}>
                             {
                                 isHavePermission("READ_CHART_STAFF") && recentOrders && <OrderChart30Day orders={recentOrders} role={2}/>
@@ -284,6 +290,8 @@ const Dashboard = () => {
                             </div>
 
                         </div>
+
+
                         <div style={styles.singleCol}>
                             {
                                 isHavePermission("READ_CHART_STAFF") && ordersAll && <OrdersChartMonth orders={ordersAll} role={2}/>

@@ -17,7 +17,7 @@ import { ResponsiveBar } from '@nivo/bar';
 import * as _ from "lodash";
 import jsonExport from 'jsonexport/dist';
 import IconButton from "@material-ui/core/IconButton";
-import {ArrowDownward} from "@material-ui/icons";
+import {ArrowDownward, Print} from "@material-ui/icons";
 
 
 const multiplier = {
@@ -119,11 +119,12 @@ export const OrdersChartMonth = (props) => {
                                             title={"Export To CSV"}
                                 >
                                     <ArrowDownward />
-                                    {/*<SelectInput source="category" choices={[*/}
-                                    {/*    { id: 'programming', name: 'Programming' },*/}
-                                    {/*    { id: 'lifestyle', name: 'Lifestyle' },*/}
-                                    {/*    { id: 'photography', name: 'Photography' },*/}
-                                    {/*]} />*/}
+                                </IconButton>
+                                <IconButton aria-label="settings"
+                                            onClick={exportChart}
+                                            title={"Export To CSV"}
+                                >
+                                    <Print />
                                 </IconButton>
                             </div>
 

@@ -18,7 +18,7 @@ import {
     useQuery,
     useNotify,
     useDataProvider,
-    useRefresh, useGetOne
+    useRefresh, useGetOne, ChipField
 } from 'react-admin';
 import {Link as RouterLink, Route} from 'react-router-dom';
 import {
@@ -213,7 +213,7 @@ export const OrderForm = (props) => {
         <FormWithRedirect
             {...props}
             render={(formProps) => (
-                <Box maxWidth="50em">
+                <Box maxWidth="50em" >
                     <Card  style={{borderRadius:"10px"}}>
                         <CardContent >
                             <Grid container spacing={1}>
@@ -225,6 +225,12 @@ export const OrderForm = (props) => {
                                     </Typography>
                                     <Grid container>
                                         <Grid item xs={12} sm={12} md={6}>
+                                            <Labeled
+                                                source="code"
+                                                resource="my-orders"
+                                            >
+                                                <ChipField source={"code"}/>
+                                            </Labeled>
                                             <Labeled
                                                 source="createdDate"
                                                 resource="my-orders"
@@ -242,7 +248,7 @@ export const OrderForm = (props) => {
                                                 resource="my-orders"
                                             >
                                                 <ReferenceField reference={"users"} source={"creation"}>
-                                                    <TextField source={"email"}/>
+                                                    <TextField source={"fullName"}/>
                                                 </ReferenceField>
                                             </Labeled>
                                         </Grid>
@@ -277,15 +283,15 @@ export const OrderForm = (props) => {
                                             />
                                         </Grid>
                                         <Grid item xs={12} sm={12} md={6}>
-                                            <Box mt={2}>
-                                                <BooleanInput
-                                                    row={true}
-                                                    resource="my-orders"
-                                                    source="profile"
-                                                    label={"Is User"}
-                                                    onChange={handleChangeIsUser}
-                                                />
-                                            </Box>
+                                            {/*<Box mt={2}>*/}
+                                            {/*    <BooleanInput*/}
+                                            {/*        row={true}*/}
+                                            {/*        resource="my-orders"*/}
+                                            {/*        source="profile"*/}
+                                            {/*        label={"Is User"}*/}
+                                            {/*        onChange={handleChangeIsUser}*/}
+                                            {/*    />*/}
+                                            {/*</Box>*/}
                                             <Box>
 
                                                 {
@@ -324,7 +330,7 @@ export const OrderForm = (props) => {
                                 </Grid>
                             </Grid>
                             <Box>
-                                <RichTextInput source={"note"} />
+                                {/*<RichTextInput source={"note"} />*/}
                             </Box>
                             <Spacer />
 

@@ -13,6 +13,7 @@ const customEnglishMessages = {
             dark: 'Dark',
         },
         dashboard: {
+            timeline:"Time Line",
             list_employee_today:"Revenue Customer To Day",
             order_completed:"Order Completed",
             today_revenue: 'Today Revenue',
