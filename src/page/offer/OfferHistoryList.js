@@ -80,8 +80,6 @@ export const OfferHistoryList = (props) =>{
 const CustomDataGrid = (props) =>{
 
     return (
-
-
         <CustomizableDatagrid >
             <ReferenceField reference={"offers"} source={"offerId"} label={"Offer Name"}>
                 <TextField source={"name"}/>

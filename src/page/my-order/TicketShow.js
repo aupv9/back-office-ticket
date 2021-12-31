@@ -17,6 +17,7 @@ import {useEffect, useRef, useState} from "react";
 import {CodeRounded} from "@material-ui/icons";
 import TotalShow from "../showtimes/TotalShow";
 import image from '../../image/Movie Night Free Snack Facebook Post.png';
+import {TicketTemplate} from "./TicketTemplate";
 
 
 const CustomerField = ({ record }) =>
@@ -114,71 +115,10 @@ const TicketShow = (props) => {
     if (!record) return null;
 
     return (
-
         <div style={{display:"flex"}} >
             <Card className={classes.root} >
-               {/*<CardHeader*/}
-               {/*    title={*/}
-               {/*        <>*/}
-               {/*            <img*/}
-               {/*                alt={""}*/}
-               {/*                // title={fileTitleValue}*/}
-               {/*                src={image}*/}
-               {/*                className={classes.image}*/}
-               {/*            />*/}
-               {/*        </>*/}
-               {/*    }*/}
-
-
-               {/*/>*/}
                 <CardContent ref={componentRef}>
-                    <img
-                        alt={""}
-                        src={image}
-                        className={classes.image}
-                    />
-                    <Grid container spacing={2}>
-                        <Grid item xs={6}>
-                            <Typography variant="h6" gutterBottom>
-                                Movie Night
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Typography variant="h6" gutterBottom align="right">
-                                Code: {record.code}
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} container alignContent="flex-end">
-                        </Grid>
-                    </Grid>
-                    <div className={classes.spacer}>&nbsp;</div>
-                    <Grid container spacing={2}>
-                        <Grid item xs={6}>
-                            <Typography variant="h6" gutterBottom align="center">
-                                Date{' '}
-                            </Typography>
-                            <Typography gutterBottom align="center">
-                                {new Date(record.createdDate).toLocaleDateString()}
-                            </Typography>
-                        </Grid>
-
-                        <Grid item xs={5}>
-                        </Grid>
-                    </Grid>
-                    <div className={classes.invoices}>
-                        {
-                            record && show ? <SeatTotals record={record} show = {show}/> :
-                                <Loading />
-                        }
-                    </div>
-                    <div className={classes.invoices}>
-                        {
-                            record && show ? <TotalShow record={record} seatsPrice={seatsPrice}/> :
-                                <Loading />
-                        }
-                    </div>
+                    <TicketTemplate />
                 </CardContent>
                 <CardActions>
                     <ReactToPrint
