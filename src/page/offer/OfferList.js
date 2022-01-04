@@ -77,22 +77,11 @@ const useStyles1 = makeStyles(
 );
 
 const OfferBulkActionButtons = props => {
-    console.log(props)
     const {selectedIds} = props;
     const classes =useStyles1();
     const dataProvider = useDataProvider();
     const notify = useNotify();
     const unselectAll = useUnselectAll();
-
-    const {
-        className,
-        basePath,
-        total,
-        resource,
-        currentSort,
-        filterValues,
-        exporter,
-    } = props;
     const sendSubscriber  = () =>{
         const  token  = JSON.parse(localStorage.getItem('token'));
         const request = new Request(`http://localhost:8080/api/v1/sendSub`, {
@@ -145,7 +134,6 @@ export const OfferList = (props) =>{
             filters={roomFilters}
             sort={{ field: 'id', order: 'ACS' }}
             perPage={25}
-            // aside={<Aside />}
             actions={<ListActions/>}
             hasCreate={true}
         >

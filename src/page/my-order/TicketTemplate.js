@@ -1,91 +1,185 @@
 import * as React from 'react';
-import image from '../../image/Movie Night Free Snack Facebook Post.png';
 
 import { makeStyles } from '@material-ui/core/styles';
-import {Box} from "@material-ui/core";
+import {Box, Divider, Typography} from "@material-ui/core";
+import  image from '../../image/tomtick.png'
+import {Container} from "@nivo/core";
+import {useDataProvider, useVersion} from "react-admin";
+import {useCallback, useEffect, useState} from "react";
+import {format, getTime} from "date-fns";
 
 const useStyles = makeStyles({
-    body: {
-        backgroundColor: "Thistle",
-        fontFamily: "'Yanone Kaffeesatz', sans-serif",
-        fontWeight: 600
+    borderTicket:{
+        borderStyle:"dotted",
+        width:500,
+        height:500,
+        display:"flex",
+        flexDirection:"column",
+        marginTop:"1px"
     },
-    img: { maxWidth: "100%", height: "auto" },
-    ticket: {
-        width: "400px",
-        height: "775px",
-        backgroundColor: "white",
-        margin: "25px auto",
-        position: "relative"
+    header:{
+        display:"flex",
+        justifyContent:"center",
+        borderBottom:"dotted",
+        maxHeight:100,
+        alignItems:"center",
+        width:"100%"
+
     },
-    ".holes-top": {
-        height: "50px",
-        width: "50px",
-        backgroundColor: "Thistle",
-        borderRadius: "50%",
-        position: "absolute",
-        left: "50%",
-        marginLeft: "(50/-2) + px",
-        top: "(50 / -2) + px",
-        "&:before,\n\t&:after": {
-            content: "''",
-            height: "50px",
-            width: "50px",
-            backgroundColor: "Thistle",
-            position: "absolute",
-            borderRadius: "50%"
-        },
-        "&:before": { left: "(50 / -2) + px" },
-        "&:after": { left: "(50 / 2) + px" }
+    content:{
+
     },
-    ".holes-lower": {
-        position: "relative",
-        margin: "25px",
-        border: "1px dashed #aaa",
-        "&:before,\n\t&:after": {
-            content: "''",
-            height: "50px",
-            width: "50px",
-            backgroundColor: "Thistle",
-            position: "absolute",
-            borderRadius: "50%"
-        },
-        "&:before": { top: "-25px", left: "(50/ -1) + px" },
-        "&:after": { top: "-25px", left: "(400 - 50) + px" }
-    },
-    ".title": { padding: "50px 25px 10px" },
-    ".cinema": { color: "#aaa", fontSize: "22px" },
-    ".movie-title": { fontSize: "50px" },
-    ".info": { padding: "15px 25px" },
-    table: {
-        width: "100%",
-        fontSize: "18px",
-        marginBottom: "15px",
-        tr: { marginBottom: "10px" },
-        th: {
-            textAlign: "left",
-            "&:nth-of-type(1)": { width: "38%" },
-            "&:nth-of-type(2)": { width: "40%" },
-            "&:nth-of-type(3)": { width: "15%" }
-        },
-        td: { width: "33%", fontSize: "32px" }
-    },
-    ".bigger": { fontSize: "48px" },
-    ".serial": {
-        padding: "25px",
-        table: { borderCollapse: "collapse", margin: "0 auto" },
-        td: { width: "3px", height: "50px" }
-    },
-    ".numbers": { td: { fontSize: "16px", textAlign: "center" } }
+    footer:{
+        display:"flex",
+        justifyContent:"end",
+        maxHeight:100,
+        alignItems:"center",
+        marginTop:50,
+        // borderBottom:"1px dotted"
+    }
 });
 
 
-export const TicketTemplate =() =>{
 
+export const TicketTemplate =(props) =>{
+    const {ticket,record} = props;
     const classes = useStyles();
-    return (
-        <Box>
+    const dataProvider = useDataProvider();
+    const version = useVersion();
+    const [showTime,setShowTime] = useState();
+    const [movie,setMovie] = useState();
+    const [theater,setTheater] = useState();
 
-        </Box>
+
+    const fetchShow = useCallback(async () =>{
+        const { data: showTime } = await dataProvider.getOne(
+            'showTimesDetails',
+            {
+                id:record.showTimesDetailId
+            }
+        );
+        if(showTime){
+            const { data: movie } = await dataProvider.getOne(
+                'movies',
+                {
+                    id:showTime.movieId
+                }
+            );
+            setMovie(movie)
+        }
+        if(showTime){
+            const { data: rooms } = await dataProvider.getOne(
+                'rooms',
+                {
+                    id:showTime.roomId
+                }
+            );
+            if(rooms){
+                const { data: theater } = await dataProvider.getOne(
+                    'theaters',
+                    {
+                        id:rooms.theaterId
+                    }
+                );
+                setTheater(theater)
+            }
+        }
+        setShowTime(showTime)
+    })
+    useEffect(() => {
+        fetchShow();
+    }, [version]);
+
+    console.log(showTime)
+    return (
+       <Box className={classes.borderTicket}>
+
+           <Box className={classes.header}>
+              <Box>
+                  <img src={image} style={{width:150}}/>
+              </Box>
+               <Typography style={{fontSize:20,fontFamily:"sans-serif"}}>
+                   {
+                       theater && theater.name
+                   }
+               </Typography>
+           </Box>
+           <Box className={classes.content}>
+                <Box display={"flex"} justifyContent={"center"} style={{marginBottom:20}}>
+                    <Typography style={{fontSize:25,fontFamily:"sans-serif"}}>
+                        {
+                            movie && movie.name
+                        }
+                    </Typography>
+
+                </Box>
+               <Box display={"flex"} justifyContent={"center"}>
+                   <Box style={{marginRight:30,marginBottom:20}}>
+                       <Typography style={{fontSize:20}}>
+                           Giờ (Time)
+                       </Typography>
+                       <Typography style={{fontSize:30}}>
+                           {
+                               showTime && format(new Date(showTime["timeStart"]),"dd-MM-yyyy hh:mm:ss").split(" ")[1]
+
+                           }
+                       </Typography>
+                   </Box>
+                   <Box>
+                       <Typography  style={{fontSize:20}}>
+                           Ngày (Date)
+                       </Typography>
+                       <Typography style={{fontSize:30}}>
+                           {
+                               showTime && format(new Date(showTime["timeStart"]),"dd-MM-yyyy")
+                           }
+                       </Typography>
+                   </Box>
+
+               </Box>
+               <Box display={"flex"} justifyContent={"center"} >
+                   <Box style={{marginRight:30,marginBottom:20}}>
+                       <Typography style={{fontSize:20}}>
+                           Tồng tiền(Total)
+                       </Typography>
+                       <Typography style={{fontSize:30}}>
+                           {showTime && showTime["price"].toLocaleString(undefined, {
+                               style: 'currency',
+                               currency: 'VND',
+                           })}
+                       </Typography>
+                   </Box>
+
+                   <Box>
+                       <Typography style={{fontSize:20}}>
+                           Phòng / Ghế (Room / Seat)
+                       </Typography>
+                       <Typography style={{fontSize:30}}    >
+                           {
+                               showTime && showTime.roomName
+                           }
+                           /
+                           {
+                               ticket && `${ticket.tier} ${ticket.numbers} `
+                           }
+                       </Typography>
+                   </Box>
+               </Box>
+           </Box>
+           <Box className={classes.footer}>
+               <Box justifyContent={"center"}>
+                   <Typography style={{fontSize:10}}>
+                       Ngày tạo(Date)
+                   </Typography>
+                   <Typography style={{fontSize:13}}>
+                       {
+                           record &&
+                            format(new Date(),"dd-MM-yyyy hh:mm:ss")
+                       }
+                   </Typography>
+               </Box>
+               <Divider />
+           </Box>
+       </Box>
     )
 }

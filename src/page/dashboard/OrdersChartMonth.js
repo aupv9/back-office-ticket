@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import {Box, Card, CardContent, CardHeader, Link, useMediaQuery} from '@material-ui/core';
+import {Box, Button, Card, CardContent, CardHeader, Link, useMediaQuery} from '@material-ui/core';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import {
     downloadCSV,
@@ -12,12 +12,15 @@ import {
     useTranslate,
     useVersion,SelectInput
 } from 'react-admin';
-import { startOfMonth, format } from 'date-fns';
+import {startOfMonth, format, getYear} from 'date-fns';
 import { ResponsiveBar } from '@nivo/bar';
 import * as _ from "lodash";
 import jsonExport from 'jsonexport/dist';
 import IconButton from "@material-ui/core/IconButton";
-import {ArrowDownward, Print} from "@material-ui/icons";
+import {ArrowDownward, CodeRounded, Print} from "@material-ui/icons";
+import ReactToPrint, {useReactToPrint} from "react-to-print";
+import DateFnsUtils from "@date-io/date-fns";
+import {KeyboardDatePicker, KeyboardDateTimePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 
 
 const multiplier = {
@@ -29,10 +32,31 @@ const multiplier = {
 
 
 export const OrdersChartMonth = (props) => {
-    const { orders ,role } = props;
+    const { role } = props;
     const { permissions } = usePermissions();
     const [arrPermission,setArrPermission] = useState([]);
     const translate = useTranslate();
+    const [selectedDate, handleDateChange] = useState(new Date());
+    const dataProvider = useDataProvider();
+    const version = useVersion();
+    const [orders,setOrders] = useState([]);
+    const fetchOrder = useCallback(async () => {
+        const { data: orders } = await dataProvider.getList(
+            'orders-room',
+            {
+                filter: {
+                    year:getYear(selectedDate).toString()
+                } ,
+                sort: { field: 'id', order: 'DESC' },
+                pagination: { page: 1, perPage: 1000000 },
+            }
+        );
+        setOrders(orders)
+    },[dataProvider,selectedDate]);
+
+    useEffect(() =>{
+        fetchOrder().then(r => console.log(r));
+    },[selectedDate,version]);
 
     const exportChart = () => {
         const nameCSV = role === 1 ?  translate(`Revenue History This Year All Theater`)  : role === 2 ?
@@ -107,31 +131,114 @@ export const OrdersChartMonth = (props) => {
         { min: 0, max: 0 }
     );
 
+    const componentRef = useRef(null);
+
+    const [isPrint,setIsPrint] = useState(false);
+
+    const onBeforeGetContentResolve = useRef(null);
+
+    const [loading, setLoading] = React.useState(false);
+    const [text, setText] = React.useState("old boring text");
+
+    const handleAfterPrint = React.useCallback(() => {
+        console.log("`onAfterPrint` called"); // tslint:disable-line no-console
+    }, []);
+
+    const handleBeforePrint = React.useCallback(() => {
+        console.log("`onBeforePrint` called"); // tslint:disable-line no-console
+    }, []);
+
+    const handleOnBeforeGetContent = React.useCallback(() => {
+        console.log("`onBeforeGetContent` called"); // tslint:disable-line no-console
+        setLoading(true);
+        setText("Loading new text...");
+
+        return new Promise((resolve) => {
+            onBeforeGetContentResolve.current = resolve;
+
+            setTimeout(() => {
+                setLoading(false);
+                setText("New, Updated Text!");
+                resolve();
+            }, 2000);
+        });
+    }, [setLoading, setText]);
+
+    const reactToPrintContent = React.useCallback(() => {
+        return componentRef.current;
+    }, [componentRef.current]);
+
+    const handlePrint = useReactToPrint({
+        content: reactToPrintContent,
+        documentTitle: "AwesomeFileName",
+        onBeforeGetContent: handleOnBeforeGetContent,
+        onBeforePrint: handleBeforePrint,
+        onAfterPrint: handleAfterPrint,
+        removeAfterPrint: true
+    });
+
+    React.useEffect(() => {
+        if (
+            text === "New, Updated Text!" &&
+            typeof onBeforeGetContentResolve.current === "function"
+        ) {
+            onBeforeGetContentResolve.current();
+        }
+    }, [onBeforeGetContentResolve.current, text]);
+
+    const reactToPrintTrigger = React.useCallback(() => {
+        // setIsPrint(true)
+        return (
+            <IconButton aria-label="settings"
+                        onClick={exportChart}
+                        title={"Export To CSV"}
+            >
+                <Print />
+            </IconButton>);
+    }, []);
+
     return (
-        <Card>
+        <Card >
             <CardHeader title={ role === 1 ?  translate(`Revenue History This Year All Theater`)  : role === 2 ?
                             translate(`Revenue History This Year`):
                             translate(`Revenue History This Year ${orders[0] && orders[0].theaterName}`) }
                         action={
                             <div style={{display:"flex"}}>
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <KeyboardDatePicker
+                                        autoOk
+                                        variant="inline"
+                                        inputVariant="outlined"
+                                        label="Year"
+                                        format="yyyy"
+                                        views={["year"]}
+                                        value={selectedDate}
+                                        InputAdornmentProps={{ position: "end" }}
+                                        onChange={date => handleDateChange(date)}
+                                    />
+                                </MuiPickersUtilsProvider>
                                 <IconButton aria-label="settings"
                                             onClick={exportChart}
                                             title={"Export To CSV"}
                                 >
                                     <ArrowDownward />
                                 </IconButton>
-                                <IconButton aria-label="settings"
-                                            onClick={exportChart}
-                                            title={"Export To CSV"}
-                                >
-                                    <Print />
-                                </IconButton>
+                                <ReactToPrint
+                                    content={reactToPrintContent}
+                                    documentTitle="AwesomeFileName"
+                                    onAfterPrint={handleAfterPrint}
+                                    onBeforeGetContent={handleOnBeforeGetContent}
+                                    onBeforePrint={handleBeforePrint}
+                                    removeAfterPrint
+                                    trigger={reactToPrintTrigger}
+                                />
+
                             </div>
 
                         }
 
             />
-            <CardContent>
+            <CardContent ref={componentRef} >
                 <div style={{ width: '100%', height: 500 }}>
                     <ResponsiveBar
                         data={months}
@@ -184,7 +291,7 @@ export const OrdersChartMonth = (props) => {
                             tickSize: 5,
                             tickPadding: 5,
                             tickRotation: 0,
-                            legend: 'country',
+                            legend: 'month',
                             legendPosition: 'middle',
                             legendOffset: 32
                         }}

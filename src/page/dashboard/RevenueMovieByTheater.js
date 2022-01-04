@@ -22,6 +22,8 @@ export const RevenueMovieByTheater = (props) => {
     const translate = useTranslate();
     const [selectedDate, handleDateChange] = useState(new Date());
 
+
+
     const {data:dataMovies,ids:idsMovie} = useGetList("movies-nowPlaying", { page: 1, perPage: 10000 });
 
     const {data:dataOrder,ids:dataOrderIds,loaded} = useGetList("order-dashboard", {},{},{
@@ -29,7 +31,7 @@ export const RevenueMovieByTheater = (props) => {
     });
 
     const [movies,setMovies] = useState([]);
-    const [theaters,setTheaters] = useState([]);
+    // const [theaters,setTheaters] = useState([]);
 
     const [dataChart,setDataChart] = useState([]);
 
@@ -70,19 +72,17 @@ export const RevenueMovieByTheater = (props) => {
         }
 
         const getRevenuePerRoom = (orders) => {
-            const dataChart = movies.map(movie => {
+            return movies.map(movie => {
                 const data = totalTicketPerTheater(orders,movie["name"])
                 return {
                     id:movie["name"],
                     data:data
                 }
             });
-            return dataChart
         };
 
         setDataChart(getRevenuePerRoom(orders));
     },[idsMovie,dataMovies,dataOrder,dataOrderIds]);
-
 
 
     if (!orders) return null;
@@ -125,7 +125,7 @@ export const RevenueMovieByTheater = (props) => {
                         margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
                         xScale={{ type: 'point' }}
                         yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
-                        // yFormat=" >-.2f"
+                        yFormat=" >-.2f"
                         // axisTop={{ orient: 'top', tickSize: 5, tickPadding: 5, tickRotation: 0, legend: '', legendOffset: 36 }}
                         // axisRight={{ orient: 'right', tickSize: 5, tickPadding: 5, tickRotation: 0, legend: '', legendOffset: 0 }}
                         axisBottom={{

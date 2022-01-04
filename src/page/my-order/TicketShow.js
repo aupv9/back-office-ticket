@@ -36,7 +36,7 @@ const TicketShow = (props) => {
     const [seatsPrice, setSeatsPrice] = useState(0);
 
     const classes = useStyles();
-    const {data:show} =useGetOne("showTimesDetails",record["showTimesDetailId"]);
+    const {data:show} = useGetOne("showTimesDetails",record["showTimesDetailId"]);
     useEffect(() =>{
         if(show && record.seats){
             setSeatsPrice(show.price * record.seats.length);
@@ -117,8 +117,12 @@ const TicketShow = (props) => {
     return (
         <div style={{display:"flex"}} >
             <Card className={classes.root} >
-                <CardContent ref={componentRef}>
-                    <TicketTemplate />
+                <CardContent ref={componentRef} >
+                    {
+                        record.seats && record.seats.map((item,index) =>(
+                            <TicketTemplate ticket={item} key={index} record={record} />
+                        ))
+                    }
                 </CardContent>
                 <CardActions>
                     <ReactToPrint
@@ -141,7 +145,9 @@ export default TicketShow;
 const useStyles = makeStyles({
     root: { width: 600, margin: 'auto' ,
     // backgroundImage: `url(${image})`
-        backgroundImage: `url(${image})`
+        backgroundImage: `url(${image})`,
+        justifyContent:"center",
+        alignItems:"center"
     },
     spacer: { height: 20 },
     invoices: { margin: '10px 0' },

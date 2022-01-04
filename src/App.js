@@ -66,6 +66,8 @@ import PaymentEdit from "./page/payment/PaymentEdit";
 import {EmployeeRevenueList} from "./page/employee/EmployeeRevenueList";
 import polyglotI18nProvider from 'ra-i18n-polyglot';
 import englishMessages from './page/i18n/en';
+import themeReducer from './themeReducer';
+import Configuration from "./page/configuration/Configuration";
 
 const httpClient = (url, options = {}) => {
     if (!options.headers) {
@@ -80,7 +82,7 @@ const dataProvider = customRequest(`http://localhost:8080/api/v1`,httpClient);
 
 const routes =  [
     <Route exact path="/profile" component={RoomChart} />,
-
+    <Route exact path="/configuration" render={() => <Configuration />} />,
 ]
 const MyLoginPage = () => (
     <Login
@@ -101,7 +103,6 @@ const i18nProvider = polyglotI18nProvider(locale => {
 const App = () => {
 
 
-
     return (
         <Admin dataProvider={dataProvider}
                dashboard={Dashboard}
@@ -109,8 +110,10 @@ const App = () => {
                customRoutes={routes}
                layout={Layout}
                loginPage={MyLoginPage}
-               theme={theme}
+               // theme={theme}
                i18nProvider={i18nProvider}
+               customReducers={{theme:themeReducer}}
+
         >
             <Resource name="theaters" list={TheaterList} edit={EditTheater} create={TheaterCreate}/>
             <Resource name="rooms"  list={ListRoom} edit={RoomEdit} create={RoomCreate}/>
@@ -139,7 +142,6 @@ const App = () => {
             <Resource name={"paymentOrder"} />
             <Resource name={"offers"} list={OfferList} create={OfferCreate} show={OfferShow}/>
             <Resource name={"offers-history"} list={OfferHistoryList} />
-
             <Resource name="roles"
                       list={RoleList}
                       show={RoleShow}
@@ -148,7 +150,6 @@ const App = () => {
             />
             <Resource name="privilege-role" />
             <Resource name="privileges" />
-
             <Resource name="services" list={ServiceList} create={ServiceCreate}/>
             <Resource name="offers-detail" list={OfferDetailList}/>
             <Resource name="members" list={MemberList} create={MemberCreate}/>
@@ -157,7 +158,6 @@ const App = () => {
             <Resource name={"movies-nowPlaying"} />
             <Resource name={"percentCoverSeat"} />
             <Resource name={"order-dashboard"} />
-
             <Resource name={"percentPaymentMethod"} />
 
         </Admin>

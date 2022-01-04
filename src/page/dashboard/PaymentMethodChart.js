@@ -21,7 +21,7 @@ export const PaymentMethodChart = (props) => {
     useEffect(() =>{
         const payments = ids.map(id => data[id]);
         setPayment(payments);
-        const aggregateOrdersByRoom= (payment) =>
+        const aggregateOrdersByRoom= (orders) =>
             orders
                 .reduce((acc, curr) => {
                     const room = curr["roomName"];
@@ -45,8 +45,6 @@ export const PaymentMethodChart = (props) => {
     },[ids,data]);
 
     if (!orders) return null;
-
-    console.log(dataChart)
 
 
     return (

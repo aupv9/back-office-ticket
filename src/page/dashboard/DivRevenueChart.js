@@ -1,18 +1,20 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import { Card, CardContent, CardHeader} from '@material-ui/core';
 import {
-    downloadCSV,
+    downloadCSV, useDataProvider,
     usePermissions,
-    useTranslate,
+    useTranslate, useVersion,
 } from 'react-admin';
-import { startOfMonth, format } from 'date-fns';
+import {startOfMonth, format, subDays, getYear} from 'date-fns';
 import { ResponsiveBar } from '@nivo/bar';
 import * as _ from "lodash";
 import jsonExport from 'jsonexport/dist';
 import IconButton from "@material-ui/core/IconButton";
 import {ArrowDownward} from "@material-ui/icons";
 import {ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Legend, Bar,Tooltip} from "recharts";
+import DateFnsUtils from "@date-io/date-fns";
+import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 
 
 const multiplier = {
@@ -24,11 +26,33 @@ const multiplier = {
 
 
 export const DivRevenueChart = (props) => {
-    const { orders ,role } = props;
+    const { role } = props;
     const { permissions } = usePermissions();
     const [arrPermission,setArrPermission] = useState([]);
     const translate = useTranslate();
+    const [selectedDate, handleDateChange] = useState(new Date());
+    const [orders,setOrders] = useState([]);
+    const dataProvider = useDataProvider();
+    const version = useVersion();
 
+
+    const fetchOrder = useCallback(async () => {
+        const { data: orders } = await dataProvider.getList(
+            'orders-room',
+            {
+                filter: {
+                    year:getYear(selectedDate).toString()
+                } ,
+                sort: { field: 'id', order: 'DESC' },
+                pagination: { page: 1, perPage: 1000000 },
+            }
+        );
+        setOrders(orders)
+    },[dataProvider,selectedDate]);
+
+    useEffect(() =>{
+        fetchOrder().then(r => console.log(r));
+    },[selectedDate,version]);
     const exportChart = () => {
         const nameCSV = role === 1 ?  translate(`Revenue History This Year All Theater`)  : role === 2 ?
             translate(`Revenue History This Year`):
@@ -93,12 +117,28 @@ export const DivRevenueChart = (props) => {
         <Card>
             <CardHeader title={ role === 1 ?  translate(`Revenue  History Ticket And Concession     This Year All Theater`)  : translate(`Revenue History Ticket And Concession This Year ${orders[0] && orders[0].theaterName}`) }
                         action={
-                            <IconButton aria-label="settings"
-                                        onClick={exportChart}
-                                        title={"Export To CSV"}
-                            >
-                                <ArrowDownward />
-                            </IconButton>
+                            <>
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <KeyboardDatePicker
+                                        autoOk
+                                        variant="inline"
+                                        inputVariant="outlined"
+                                        label="Year"
+                                        format="yyyy"
+                                        views={["year"]}
+                                        value={selectedDate}
+                                        InputAdornmentProps={{ position: "end" }}
+                                        onChange={date => handleDateChange(date)}
+                                    />
+                                </MuiPickersUtilsProvider>
+                                <IconButton aria-label="settings"
+                                            onClick={exportChart}
+                                            title={"Export To CSV"}
+                                >
+                                    <ArrowDownward />
+                                </IconButton>
+                            </>
+
                         }
 
             />

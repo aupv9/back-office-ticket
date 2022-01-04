@@ -1,12 +1,9 @@
-import React, { useState, useEffect, useCallback, CSSProperties } from 'react';
-import {useVersion, useDataProvider, usePermissions, useRefresh, useGetList} from 'react-admin';
+import React, { useState, useEffect, useCallback } from 'react';
+import {useVersion, useDataProvider, usePermissions, useRefresh} from 'react-admin';
 import {useMediaQuery, Theme} from '@material-ui/core';
 import { format, subDays, addDays ,isToday} from 'date-fns';
-import {Area, CartesianGrid, XAxis, YAxis, AreaChart, ResponsiveContainer, Legend, Line,LineChart,Tooltip} from "recharts";
 import OrderChart30Day from "./OrderChart30Day";
-import MonthlyRevenue from "./MonthlyRevenue";
 import PendingOrders from "./PendingOrders";
-import CustomerCount from "./CustomerCount";
 import OrdersPayment from "./OrderPayment";
 import {OrdersChartMonth} from "./OrdersChartMonth";
 import {RoomChart} from "./RoomChart";
@@ -19,7 +16,6 @@ import {RevenueMovieByTheater} from "./RevenueMovieByTheater";
 import {RevenueMovieByRoom} from "./RevenueMovieByRoom";
 import RevenueToDayChart from "./RevenueToDayChart";
 import RevenuePerStaff from "./RevenuePerStaff";
-import OrderListToDay from "./OrderListToDay";
 import RevenuePerTheater from "./RevenuePerTheater";
 import {RoomRevenueToDay} from "./RoomRevenueToDay";
 import {RoomCoverChart} from "./RoomCoverChart";
@@ -294,13 +290,13 @@ const Dashboard = () => {
 
                         <div style={styles.singleCol}>
                             {
-                                isHavePermission("READ_CHART_STAFF") && ordersAll && <OrdersChartMonth orders={ordersAll} role={2}/>
+                                isHavePermission("READ_CHART_STAFF") && ordersAll && <OrdersChartMonth  role={2}/>
                             }
                             {
-                                isHavePermission("READ_CHART_MANAGER") && ordersAll && <OrdersChartMonth  orders={ordersAll} role={3}/>
+                                isHavePermission("READ_CHART_MANAGER") && ordersAll && <OrdersChartMonth   role={3}/>
                             }
                             {
-                                isHavePermission("READ_CHART_SENIOR_MANAGER")&& ordersAll && <OrdersChartMonth orders={ordersAll} role={1}/>
+                                isHavePermission("READ_CHART_SENIOR_MANAGER")&& ordersAll && <OrdersChartMonth  role={1}/>
                             }
                         </div>
                         <div style={styles.singleCol}>
@@ -385,7 +381,7 @@ const Dashboard = () => {
                                 isHavePermission("READ_CHART_MANAGER") &&
                                 <div style={styles.singleCol}>
                                     {
-                                        recentOrders && <RoomChart orders={recentOrders}/>
+                                        <RoomChart />
                                     }
                                 </div>
                             }

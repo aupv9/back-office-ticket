@@ -2,13 +2,6 @@
 
 
 export default {
-    // called when the user attempts to log in
-    // login: ({ username, password }) => {
-    //
-    //     // localStorage.setItem('username', username);
-    //     // accept all username/password combinations
-    //     return Promise.resolve();
-    // },
     login: ({ username, password ,isSocial,body}) =>  {
         if(!isSocial){
             const request = new Request('http://localhost:8080/api/v1/authenticate', {
@@ -40,14 +33,6 @@ export default {
                     throw new Error('Network error')
                 });
         }else{
-            // const params = {
-            //     email:body.email,
-            //     familyName:body.familyName,
-            //     givenName: body.givenName,
-            //     googleId: body.googleId,
-            //     imageUrl: body.imageUrl,
-            //     name: body.name
-            // }
             const request = new Request('http://localhost:8080/api/v1/authenticate-social', {
                 method: 'POST',
                 body: JSON.stringify(body),
@@ -86,6 +71,7 @@ export default {
     },
     // called when the API returns an error
     checkError: ({ status }) => {
+
         if (status === 401 || status === 403) {
             localStorage.removeItem('emailUser');
             localStorage.removeItem('auth');

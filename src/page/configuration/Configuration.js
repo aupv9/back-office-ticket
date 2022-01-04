@@ -56,10 +56,10 @@ const Configuration = () => {
                 <Button
                     variant="contained"
                     className={classes.button}
-                    color={locale === 'fr' ? 'primary' : 'default'}
-                    onClick={() => setLocale('fr')}
+                    color={locale === 'vn' ? 'primary' : 'default'}
+                    onClick={() => setLocale('vn')}
                 >
-                    fr
+                    vn
                 </Button>
             </CardContent>
         </Card>

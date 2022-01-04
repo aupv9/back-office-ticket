@@ -13,6 +13,11 @@ const customEnglishMessages = {
             dark: 'Dark',
         },
         dashboard: {
+            revenue_room_range:"Revenue All Room",
+            rangeChartStaff:"Range Revenue History",
+            rangeChartManager:"Range Revenue History",
+            rangeChartSenior:"Range Revenue History",
+
             timeline:"Time Line",
             list_employee_today:"Revenue Customer To Day",
             order_completed:"Order Completed",

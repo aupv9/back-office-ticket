@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { Card, CardHeader, CardContent } from '@material-ui/core';
 
-import {useDataProvider, useGetList, useTranslate} from 'react-admin';
-import { format, subDays, addDays } from 'date-fns';
+import {useDataProvider, useGetList, useTranslate, useVersion} from 'react-admin';
+import {format, subDays, addDays, getYear} from 'date-fns';
 import { ResponsivePieCanvas } from '@nivo/pie'
 import {useCallback, useEffect, useState} from "react";
+import DateFnsUtils from "@date-io/date-fns";
+import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 
 const lastDay = new Date();
 const lastMonthDays = Array.from({ length: 30 }, (_, i) => subDays(lastDay, i));
@@ -14,13 +16,31 @@ const dateFormatter = (date) => new Date(date).toLocaleDateString();
 
 
 export const RevenueMonthTheater = (props) => {
-    const { orders } = props;
     const translate = useTranslate();
     const dataProvider = useDataProvider();
     const {data,ids,loaded} = useGetList("theaters", { page: 1, perPage: 10000 });
     const [theaters,setTheater] = useState([]);
     const [dataChart,setDataChart] = useState([]);
+    const [selectedDate, handleDateChange] = useState(new Date());
+    const version = useVersion();
+    const [orders,setOrders] = useState([]);
+    const fetchOrder = useCallback(async () => {
+        const { data: orders } = await dataProvider.getList(
+            'order-dashboard',
+            {
+                filter: {
+                    date:format(selectedDate,"yyyy-MM-dd")
+                } ,
+                sort: { field: 'id', order: 'DESC' },
+                pagination: { page: 1, perPage: 1000000 },
+            }
+        );
+        setOrders(orders)
+    },[dataProvider,selectedDate]);
 
+    useEffect(() =>{
+        fetchOrder().then(r => console.log(r));
+    },[selectedDate,version]);
 
     useEffect(() =>{
         const theaters = ids.map(id => data[id]);
@@ -47,7 +67,7 @@ export const RevenueMonthTheater = (props) => {
             }));
         };
         setDataChart(getRevenuePerTheater(orders));
-    },[ids,data]);
+    },[ids,data,orders]);
 
     if (!orders) return null;
 
@@ -55,7 +75,24 @@ export const RevenueMonthTheater = (props) => {
 
     return (
         <Card>
-            <CardHeader title={translate('30 Day Revenue History All Theater    ')} />
+            <CardHeader title={translate('30 Day Revenue History All Theater    ')}
+                        action={
+                            <>
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <KeyboardDatePicker
+                                        autoOk
+                                        variant="inline"
+                                        inputVariant="outlined"
+                                        label="Date"
+                                        format="dd-MM-yyy"
+                                        value={selectedDate}
+                                        InputAdornmentProps={{ position: "end" }}
+                                        onChange={date => handleDateChange(date)}
+                                    />
+                                </MuiPickersUtilsProvider>
+                            </>
+                        }
+            />
             <CardContent>
                 <div style={{ width: '100%', height: 500 }}>
                     <ResponsivePieCanvas

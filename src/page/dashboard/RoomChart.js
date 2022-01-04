@@ -1,27 +1,48 @@
 import * as React from 'react';
 import { Card, CardHeader, CardContent } from '@material-ui/core';
 
-import {useDataProvider, useGetList, useTranslate} from 'react-admin';
-import { format, subDays, addDays } from 'date-fns';
+import {useDataProvider, useGetList, useTranslate, useVersion} from 'react-admin';
+import { format, subDays } from 'date-fns';
 import { ResponsivePieCanvas } from '@nivo/pie'
 import {useCallback, useEffect, useState} from "react";
-
-const lastDay = new Date();
-const lastMonthDays = Array.from({ length: 30 }, (_, i) => subDays(lastDay, i));
-const aMonthAgo = subDays(new Date(), 30);
-
-const dateFormatter = (date) =>
-    new Date(date).toLocaleDateString();
+import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
 
-export const RoomChart = (props) => {
-    const { orders } = props;
+const Spacer = () => <span style={{ margin:"0 5px" }} />;
+
+export const RoomChart = () => {
     const translate = useTranslate();
     const dataProvider = useDataProvider();
     const {data,ids,loaded} = useGetList("rooms", { page: 1, perPage: 10000 });
     const [rooms,setRoom] = useState([]);
     const [dataChart,setDataChart] = useState([]);
 
+    const [selectedStartDate, handleStartDateChange] = useState(subDays(new Date(),30));
+
+    const [selectedEndDate, handleEndDateChange] = useState(new Date());
+    const version = useVersion();
+
+    const [orders,setOrders] = useState([]);
+
+    const fetchOrder = useCallback(async () => {
+        const { data: orders } = await dataProvider.getList(
+            'orders-room',
+            {
+                filter: {
+                    startDate:format(selectedStartDate,"yyyy-MM-dd"),
+                    endDate:format(selectedEndDate,"yyyy-MM-dd")
+                } ,
+                sort: { field: 'id', order: 'DESC' },
+                pagination: { page: 1, perPage: 1000000 },
+            }
+        );
+        setOrders(orders)
+    },[dataProvider,selectedStartDate,selectedEndDate]);
+
+    useEffect(() =>{
+        fetchOrder().then(r => console.log(r));
+    },[selectedStartDate,selectedEndDate,version]);
 
     useEffect(() =>{
         const rooms = ids.map(id => data[id]);
@@ -44,19 +65,48 @@ export const RoomChart = (props) => {
                 id: room["name"],
                 label:room["name"],
                 value: roomsWithRevenue[room["name"]] || 0
-
             }));
         };
         setDataChart(getRevenuePerRoom(orders));
-    },[ids,data]);
+    },[ids,data,orders]);
+
 
     if (!orders) return null;
 
 
-
     return (
         <Card>
-            <CardHeader title={translate('30 Day Revenue History All Room')} />
+            <CardHeader title={translate('pos.dashboard.revenue_room_range')}
+                        action={
+                            <>
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <KeyboardDatePicker
+                                        autoOk
+                                        variant="inline"
+                                        inputVariant="outlined"
+                                        label="Start Date"
+                                        format="dd-MM-yyyy"
+                                        value={selectedStartDate}
+                                        InputAdornmentProps={{ position: "end" }}
+                                        onChange={date => handleStartDateChange(date)}
+                                    />
+                                </MuiPickersUtilsProvider>
+                                <Spacer />
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <KeyboardDatePicker
+                                        autoOk
+                                        variant="inline"
+                                        inputVariant="outlined"
+                                        label="End Date"
+                                        format="dd-MM-yyyy"
+                                        value={selectedEndDate}
+                                        InputAdornmentProps={{ position: "end" }}
+                                        onChange={date => handleEndDateChange(date)}
+                                    />
+                                </MuiPickersUtilsProvider>
+                            </>
+                        }
+            />
             <CardContent>
                 <div style={{ width: '100%', height: 500 }}>
                     <ResponsivePieCanvas
