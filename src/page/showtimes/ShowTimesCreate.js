@@ -62,7 +62,7 @@ export const ShowTimesCreate = (props) =>{
                         />
                     </ReferenceInput>
 
-                    <DateKeyInput source="timeStart" label="Time Start"  />
+                    <DateKeyInput source="timeStart" label="Time Start" />
                     <DateKeyInput source="timeEnd" label="Time End"  />
 
                     <NumberInput
@@ -84,7 +84,7 @@ export const ShowTimesCreate = (props) =>{
                 {/*    path="promotion"*/}
                 {/*    contentClassName={classes.tab}*/}
                 {/*>*/}
-                
+
                 {/*</FormTab>*/}
             </TabbedForm>
         </Create>

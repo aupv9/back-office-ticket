@@ -156,7 +156,7 @@ export const RevenueMovieByRoom = (props) => {
                             tickSize: 5,
                             tickPadding: 5,
                             tickRotation: 0,
-                            legend: 'transportation',
+                            legend: 'Room',
                             legendOffset: 36,
                             legendPosition: 'middle'
                         }}
@@ -165,7 +165,7 @@ export const RevenueMovieByRoom = (props) => {
                             tickSize: 5,
                             tickPadding: 5,
                             tickRotation: 0,
-                            legend: 'count',
+                            legend: '',
                             legendOffset: -40,
                             legendPosition: 'middle'
                         }}

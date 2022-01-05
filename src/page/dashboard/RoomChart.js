@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Card, CardHeader, CardContent } from '@material-ui/core';
 
 import {useDataProvider, useGetList, useTranslate, useVersion} from 'react-admin';
-import { format, subDays } from 'date-fns';
+import {addDays, format, subDays} from 'date-fns';
 import { ResponsivePieCanvas } from '@nivo/pie'
 import {useCallback, useEffect, useState} from "react";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
@@ -81,6 +81,7 @@ export const RoomChart = () => {
                             <>
                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                     <KeyboardDatePicker
+                                        maxDate={format(subDays(selectedEndDate,1),"dd-MM-yyyy")}
                                         autoOk
                                         variant="inline"
                                         inputVariant="outlined"
@@ -89,11 +90,13 @@ export const RoomChart = () => {
                                         value={selectedStartDate}
                                         InputAdornmentProps={{ position: "end" }}
                                         onChange={date => handleStartDateChange(date)}
+
                                     />
                                 </MuiPickersUtilsProvider>
                                 <Spacer />
                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                     <KeyboardDatePicker
+                                        minDate={addDays(selectedStartDate,1)}
                                         autoOk
                                         variant="inline"
                                         inputVariant="outlined"

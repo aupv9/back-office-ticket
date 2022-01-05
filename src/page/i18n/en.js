@@ -13,9 +13,13 @@ const customEnglishMessages = {
             dark: 'Dark',
         },
         dashboard: {
+            revenue_year_staff:"Revenue Per Year",
+            revenue_year_senior:"Revenue Per Year All Theater",
+            revenue_year_manager:"Revenue Per Year Of",
+            revenue_concession:"Revenue Concessions",
             revenue_room_range:"Revenue All Room",
             rangeChartStaff:"Range Revenue History",
-            rangeChartManager:"Range Revenue History",
+            rangeChartManager:"Range Revenue History In Theater",
             rangeChartSenior:"Range Revenue History",
 
             timeline:"Time Line",

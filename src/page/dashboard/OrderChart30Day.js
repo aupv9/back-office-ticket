@@ -169,7 +169,7 @@ const OrderChart30Day = (props) => {
         <Card>
             <CardHeader title={ role === 1 ?  translate(`pos.dashboard.rangeChartStaff`)  : role === 2 ?
                         translate(`pos.dashboard.rangeChartSenior`):
-                        translate(`pos.dashboard.rangeChartManager ${orders[0] && orders[0].theaterName || ""}`) }
+                        translate(`pos.dashboard.rangeChartManager`) + ` `+`${orders[0] && orders[0].theaterName}`}
                         action={
                             <div className={{display:"flex"}}>
                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>

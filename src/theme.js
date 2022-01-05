@@ -1,6 +1,6 @@
 import { defaultTheme } from "react-admin";
 import merge from "lodash/merge";
-import {createMuiTheme} from "@material-ui/core";
+import {createTheme} from "@material-ui/core";
 import createPalette from "@material-ui/core/styles/createPalette";
 import defaultMuiTheme from "@material-ui/core/styles/defaultTheme";
 
@@ -283,4 +283,4 @@ const rawTheme = {
     },
 };
 
-export const theme = createMuiTheme(merge({}, defaultTheme, rawTheme));
+export const theme = createTheme(merge({}, defaultTheme, rawTheme));

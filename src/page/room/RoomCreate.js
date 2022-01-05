@@ -44,18 +44,17 @@ const RoomCreate= (props) =>{
                     <TextInput source="name" validate={requiredValidate} />
 
                     <TextInput source="code" validate={requiredValidate} />
-                    <ReferenceInput
-                        source="theaterId"
-                        reference="theaters"
-                        validate={requiredValidate}
-                    >
-                        <SelectInput source="name" />
-                    </ReferenceInput>
+                    {/*<ReferenceInput*/}
+                    {/*    source="theaterId"*/}
+                    {/*    reference="theaters"*/}
+                    {/*    validate={requiredValidate}*/}
+                    {/*>*/}
+                    {/*    <SelectInput source="name" />*/}
+                    {/*</ReferenceInput>*/}
 
                 <ReferenceArrayInput source="services" reference="services">
                     <SelectArrayInput optionText="name" />
                 </ReferenceArrayInput>
-                    {/*<SelectInput source="type" choices={choices} optionText="name" optionValue="value" />*/}
 
             </SimpleForm>
         </Create>

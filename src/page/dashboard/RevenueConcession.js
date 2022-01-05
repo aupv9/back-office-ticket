@@ -1,20 +1,27 @@
 import * as React from 'react';
 import { Card, CardHeader, CardContent } from '@material-ui/core';
 
-import {useDataProvider, useGetList, useTranslate} from 'react-admin';
-import { format, subDays, addDays } from 'date-fns';
+import {useDataProvider, useGetList, useTranslate, useVersion} from 'react-admin';
+import {addDays, format, subDays} from 'date-fns';
 import { ResponsivePieCanvas } from '@nivo/pie'
 import {useCallback, useEffect, useState} from "react";
-import {KeyboardDatePicker, KeyboardDateTimePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
-import DateFnsUtils from '@date-io/date-fns';
+import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
-export const RoomCoverChart = () => {
+
+const Spacer = () => <span style={{ margin:"0 5px" }} />;
+
+export const RevenueConcession = () => {
     const translate = useTranslate();
     const [dataChart,setDataChart] = useState([]);
-    const [selectedDate, handleDateChange] = useState(new Date());
+    const [selectedStartDate, handleStartDateChange] = useState(subDays(new Date(),30));
+    const dataProvider = useDataProvider();
 
-    const {data:dataCover,ids} = useGetList("percentCoverSeat", { },{},{
-        date:format(selectedDate,"yyyy-MM-dd")
+    const [selectedEndDate, handleEndDateChange] = useState(new Date());
+
+    const {data:dataCover,ids} = useGetList("concessionRevenue", { },{},{
+        startDate:format(selectedStartDate,"yyyy-MM-dd"),
+        endDate:format(selectedEndDate,"yyyy-MM-dd")
     });
 
 
@@ -24,24 +31,39 @@ export const RoomCoverChart = () => {
     },[ids,dataCover]);
 
 
-
     return (
         <Card>
-            <CardHeader title={translate('pos.dashboard.percent_cover_room')}
+            <CardHeader title={translate('pos.dashboard.revenue_concession')}
                         action={
                             <>
-                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                <KeyboardDatePicker
-                                    autoOk
-                                    variant="inline"
-                                    inputVariant="outlined"
-                                    label="Date"
-                                    format="yyyy-MM-dd"
-                                    value={selectedDate}
-                                    InputAdornmentProps={{ position: "end" }}
-                                    onChange={date => handleDateChange(date)}
-                                />
-                            </MuiPickersUtilsProvider>
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <KeyboardDatePicker
+                                        maxDate={format(subDays(selectedEndDate,1),"dd-MM-yyyy")}
+                                        autoOk
+                                        variant="inline"
+                                        inputVariant="outlined"
+                                        label="Start Date"
+                                        format="dd-MM-yyyy"
+                                        value={selectedStartDate}
+                                        InputAdornmentProps={{ position: "end" }}
+                                        onChange={date => handleStartDateChange(date)}
+
+                                    />
+                                </MuiPickersUtilsProvider>
+                                <Spacer />
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <KeyboardDatePicker
+                                        minDate={addDays(selectedStartDate,1)}
+                                        autoOk
+                                        variant="inline"
+                                        inputVariant="outlined"
+                                        label="End Date"
+                                        format="dd-MM-yyyy"
+                                        value={selectedEndDate}
+                                        InputAdornmentProps={{ position: "end" }}
+                                        onChange={date => handleEndDateChange(date)}
+                                    />
+                                </MuiPickersUtilsProvider>
                             </>
                         }
             />
@@ -49,10 +71,8 @@ export const RoomCoverChart = () => {
                 <div style={{ width: '100%', height: 500 }}>
                     <ResponsivePieCanvas
                         data={dataChart}
-                        valueFormat=" >-0,~p"
-                        sortByValue={true}
+                        valueFormat=" >-0,~r"
                         margin={{ top: 40, right: 200, bottom: 40, left: 80 }}
-                        // arcLinkLabel={function(e){return e.id+" ("+e.value+")"}}
                         innerRadius={0.5}
                         padAngle={0.7}
                         cornerRadius={3}

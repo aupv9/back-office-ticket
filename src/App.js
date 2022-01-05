@@ -44,7 +44,6 @@ import {PaymentCreate} from "./page/payment/PaymentCreate";
 import {PaymentList} from "./page/payment/PaymentList";
 import {OfferList} from "./page/offer/OfferList";
 import {OfferCreate} from "./page/offer/OfferCreate";
-import {createMuiTheme} from "@material-ui/core";
 import {theme} from "./theme";
 import {RoleList} from "./page/role/RoleList";
 import {RoleShow} from "./page/role/RoleShow";
@@ -159,6 +158,8 @@ const App = () => {
             <Resource name={"percentCoverSeat"} />
             <Resource name={"order-dashboard"} />
             <Resource name={"percentPaymentMethod"} />
+            <Resource name={"concessionRevenue"} />
+
 
         </Admin>
     );
