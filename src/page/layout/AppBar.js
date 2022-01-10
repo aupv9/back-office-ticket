@@ -6,7 +6,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import { makeStyles } from '@material-ui/core/styles';
 import Logo from "./Logo";
 import {useGoogleLogout} from "react-google-login";
-import {MyLocation, PowerInput, PowerOff, PowerSettingsNew} from "@material-ui/icons";
+import {MyLocation, PowerInput, PowerOff, PowerSettingsNew, SupervisedUserCircleOutlined} from "@material-ui/icons";
 import {useGetIdentity} from "ra-core";
 
 
@@ -43,7 +43,7 @@ const UserProfile = forwardRef((props, ref) => {
             ref={ref}
             to="/profile"
             primaryText={translate('Profile')}
-            leftIcon={<MyLocation />}
+            leftIcon={<SupervisedUserCircleOutlined />}
             onClick={props.onClick}
             sidebarIsOpen
         />

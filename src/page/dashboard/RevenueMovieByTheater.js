@@ -11,27 +11,30 @@ import IconButton from "@material-ui/core/IconButton";
 import {ArrowDownward} from "@material-ui/icons";
 // import {CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis,Tooltip,Line,LineChart} from "recharts";
 import {ResponsiveLine} from "@nivo/line";
-import {format} from "date-fns";
+import {addDays, format, subDays} from "date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 
 
+const Spacer = () => <span style={{ margin:"0 5px" }} />;
 
 export const RevenueMovieByTheater = (props) => {
-    const { orders ,role ,dataTheater} = props;
+    const { role ,dataTheater} = props;
     const translate = useTranslate();
-    const [selectedDate, handleDateChange] = useState(new Date());
+    const [selectedStartDate, handleStartDateChange] = useState(subDays(new Date(),30));
 
+    const [selectedEndDate, handleEndDateChange] = useState(new Date());
 
 
     const {data:dataMovies,ids:idsMovie} = useGetList("movies-nowPlaying", { page: 1, perPage: 10000 });
 
-    const {data:dataOrder,ids:dataOrderIds,loaded} = useGetList("order-dashboard", {},{},{
-        date:format(selectedDate,"yyyy-MM-dd")
+    const {data:dataOrder,ids:dataOrderIds,loaded} = useGetList("orders-room", {},{},{
+        startDate:format(selectedStartDate,"yyyy-MM-dd"),
+        endDate:format(selectedEndDate,"yyyy-MM-dd")
     });
 
     const [movies,setMovies] = useState([]);
-    // const [theaters,setTheaters] = useState([]);
+    const [orders,setOrder] = useState([]);
 
     const [dataChart,setDataChart] = useState([]);
 
@@ -48,10 +51,10 @@ export const RevenueMovieByTheater = (props) => {
     useEffect(() =>{
         const movies = idsMovie.map(id => dataMovies[id]);
         const orders = dataOrderIds.map(id =>  dataOrder[id]);
-
+        setOrder(orders)
         setMovies(movies);
-        const aggregateOrdersByMovieTotalByTheater = (orders,theater,movie) => {
 
+        const aggregateOrdersByMovieTotalByTheater = (orders,theater,movie) => {
             return  orders
                 .filter((order) => order.status === 'payment' && order["theaterName"] === theater && order["movieName"] === movie)
                 .reduce((acc, curr) => {
@@ -80,10 +83,9 @@ export const RevenueMovieByTheater = (props) => {
                 }
             });
         };
-
         setDataChart(getRevenuePerRoom(orders));
-    },[idsMovie,dataMovies,dataOrder,dataOrderIds]);
 
+    },[idsMovie,dataMovies,dataOrder,dataOrderIds]);
 
     if (!orders) return null;
 
@@ -95,14 +97,30 @@ export const RevenueMovieByTheater = (props) => {
                         <>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <KeyboardDatePicker
+                                    // maxDate={format(subDays(selectedEndDate,1),"dd-MM-yyyy")}
                                     autoOk
                                     variant="inline"
                                     inputVariant="outlined"
-                                    label="Date"
-                                    format="yyyy-MM-dd"
-                                    value={selectedDate}
+                                    label="Start Date"
+                                    format="dd-MM-yyyy"
+                                    value={selectedStartDate}
                                     InputAdornmentProps={{ position: "end" }}
-                                    onChange={date => handleDateChange(date)}
+                                    onChange={date => handleStartDateChange(date)}
+
+                                />
+                            </MuiPickersUtilsProvider>
+                            <Spacer />
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <KeyboardDatePicker
+                                    // minDate={addDays(selectedStartDate,1)}
+                                    autoOk
+                                    variant="inline"
+                                    inputVariant="outlined"
+                                    label="End Date"
+                                    format="dd-MM-yyyy"
+                                    value={selectedEndDate}
+                                    InputAdornmentProps={{ position: "end" }}
+                                    onChange={date => handleEndDateChange(date)}
                                 />
                             </MuiPickersUtilsProvider>
 

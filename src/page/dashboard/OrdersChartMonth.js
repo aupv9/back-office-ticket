@@ -199,7 +199,7 @@ export const OrdersChartMonth = (props) => {
 
     return (
         <Card >
-            <CardHeader title={ role === 1 ?  translate(`pos.dashboard.revenue_year_staff`)  : role === 2 ?
+            <CardHeader title={ role === 2 ?  translate(`pos.dashboard.revenue_year_staff`)  : role === 1 ?
                             translate(`pos.dashboard.revenue_year_senior`):
                             translate(`pos.dashboard.revenue_year_manager`) + ` ` +`${orders[0] && orders[0].theaterName}`}
                         action={

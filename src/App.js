@@ -50,7 +50,6 @@ import {RoleShow} from "./page/role/RoleShow";
 import {OfferHistoryList} from "./page/offer/OfferHistoryList";
 import {OfferShow} from "./page/offer/OfferShow";
 import Dashboard from "./page/dashboard/Dashboard";
-import {RoomChart} from "./page/dashboard/RoomChart";
 import {ServiceList} from "./page/service/ServiceList";
 import {ServiceCreate} from "./page/service/ServiceCreate";
 import {SeatList} from "./page/seat/SeatList";
@@ -67,6 +66,8 @@ import polyglotI18nProvider from 'ra-i18n-polyglot';
 import englishMessages from './page/i18n/en';
 import themeReducer from './themeReducer';
 import Configuration from "./page/configuration/Configuration";
+import {EventsList} from "./page/events/EventsList";
+import Profile from "./page/profile/Profile";
 
 const httpClient = (url, options = {}) => {
     if (!options.headers) {
@@ -80,7 +81,7 @@ const httpClient = (url, options = {}) => {
 const dataProvider = customRequest(`http://localhost:8080/api/v1`,httpClient);
 
 const routes =  [
-    <Route exact path="/profile" component={RoomChart} />,
+    <Route exact path="/profile" component={Profile}/>,
     <Route exact path="/configuration" render={() => <Configuration />} />,
 ]
 const MyLoginPage = () => (
@@ -109,8 +110,8 @@ const App = () => {
                customRoutes={routes}
                layout={Layout}
                loginPage={MyLoginPage}
-               // theme={theme}
-               i18nProvider={i18nProvider}
+                // theme={theme}
+                i18nProvider={i18nProvider}
                customReducers={{theme:themeReducer}}
 
         >
@@ -159,6 +160,10 @@ const App = () => {
             <Resource name={"order-dashboard"} />
             <Resource name={"percentPaymentMethod"} />
             <Resource name={"concessionRevenue"} />
+            <Resource name={"orders-room"} />
+            <Resource name={"revenueMethod"} />
+            <Resource name={"events"} list={EventsList}/>
+            <Resource name={"profile"} />
 
 
         </Admin>

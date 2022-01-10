@@ -22,6 +22,7 @@ import {RoomCoverChart} from "./RoomCoverChart";
 import {PercentPaymentMethod} from "./PercentPaymentMethod";
 import TrackingActive from "./TrackingActive";
 import {RevenueConcession} from "./RevenueConcession";
+import {RevenueMethod} from "./RevenueMethod";
 
 
 
@@ -308,7 +309,14 @@ const Dashboard = () => {
                                 isHavePermission("READ_CHART_SENIOR_MANAGER") && <RevenueConcession  role={1}/>
                             }
                         </div>
-
+                        <div style={styles.singleCol}>
+                            {
+                                isHavePermission("READ_CHART_MANAGER") && <RevenueMethod  role={3}/>
+                            }
+                            {
+                                isHavePermission("READ_CHART_SENIOR_MANAGER") && <RevenueMethod  role={1}/>
+                            }
+                        </div>
 
                         <div style={styles.singleCol}>
                             {

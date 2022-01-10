@@ -20,7 +20,7 @@ const Configuration = () => {
     const dispatch = useDispatch();
     return (
         <Card>
-            <Title title={translate('pos.configuration')} />
+            <Title title={translate('pos.profile')} />
             <CardContent>
                 <div className={classes.label}>
                     {translate('pos.theme.name')}

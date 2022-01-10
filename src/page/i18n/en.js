@@ -6,6 +6,7 @@ const customEnglishMessages = {
     pos: {
         search: 'Search',
         configuration: 'Configuration',
+        profile:"Profile",
         language: 'Language',
         theme: {
             name: 'Theme',
@@ -13,6 +14,7 @@ const customEnglishMessages = {
             dark: 'Dark',
         },
         dashboard: {
+            revenue_method:"Revenue Type",
             revenue_year_staff:"Revenue Per Year",
             revenue_year_senior:"Revenue Per Year All Theater",
             revenue_year_manager:"Revenue Per Year Of",

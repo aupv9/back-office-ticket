@@ -11,6 +11,7 @@ import {
     Identifier,
 } from 'react-admin';
 import { Link } from 'react-router-dom';
+import {Chip} from "@material-ui/core";
 
 
 
@@ -33,6 +34,10 @@ const useStyles = makeStyles(theme => ({
     },
     link: {
         color: '#fff',
+    },
+    item:{
+        height:1000,
+        width:1000
     }
 }));
 
@@ -68,13 +73,24 @@ const LoadedGridList = (props) => {
                     <img src={data[id].thumbnail} alt="" />
                     <GridListTileBar
                         className={classes.tileBar}
-                        title={data[id].name}
+                        // title={data[id].name}
                         subtitle={
                             <span>
                                 {data[id].name}
                             </span>
                         }
                     />
+                    {/*{*/}
+                    {/*    data[id].tags ? data[id].tags.map((item,index) =>{*/}
+                    {/*        return (*/}
+                    {/*            <Chip key={index}>*/}
+                    {/*                {*/}
+                    {/*                    item*/}
+                    {/*                }*/}
+                    {/*            </Chip>*/}
+                    {/*            )*/}
+                    {/*    }) : null*/}
+                    {/*}*/}
                 </GridListTile>
             ))}
         </MuiGridList>

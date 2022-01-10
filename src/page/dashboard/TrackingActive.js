@@ -57,7 +57,7 @@ const TrackingActive = () => {
 
     return (
         <CardWithIcon
-            to="/employees-revenue"
+            to="/events"
             icon={Timeline}
             title={translate('pos.dashboard.timeline')}
             subtitle={nb}
@@ -84,7 +84,7 @@ const TrackingActive = () => {
                                 )}
                             </ListItemAvatar>
                             <ListItemText
-                                primary={ `${record.author["fullName"]} ${convertCodeToString(record.action)} ${record.resourceName} ` }
+                                primary={ `${record.author ? record.author["fullName"]: ""} ${convertCodeToString(record.action)} ${record.resourceName} ` }
                                 secondary={
                                     <>
                                         {new Date(record.actionDate).toLocaleString()}
